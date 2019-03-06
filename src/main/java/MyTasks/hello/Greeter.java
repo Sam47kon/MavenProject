@@ -1,4 +1,4 @@
-package hello;
+package MyTasks.hello;
 
 public class Greeter {
     public String sayHello() {

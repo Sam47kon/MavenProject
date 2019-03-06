@@ -1,4 +1,4 @@
-package hello;
+package MyTasks.hello;
 
 import org.joda.time.LocalTime;
 
