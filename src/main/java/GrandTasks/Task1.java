@@ -10,10 +10,10 @@ public class Task1 {
         int number = reader.nextInt(); // ввод с консоли в новую переменную
 
         System.out.println("Your square: " + Square(number));
-        System.out.println(": " + number);
+        System.out.println("Yor number: " + number);
     }
 
-    static int Square(int number) { //возведение в квадрат, без записи в переменную
+    private static int Square(int number) { //возведение в квадрат, без записи в переменную
         return number * number;
     }
 }
