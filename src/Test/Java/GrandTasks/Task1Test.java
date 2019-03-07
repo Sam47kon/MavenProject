@@ -7,9 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class Task1Test extends Task1 {
 
     @Test
-    public void testSquare() {
+    public void squareTest() {
         int a = 5;
-        assertEquals(Square(a), a * a);
+        assertEquals(a * a, Square(a));
 
     }
 }

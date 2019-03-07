@@ -10,6 +10,6 @@ class Task3Test extends Task3 {
     void sumTest() {
         int a = 5;
         int b = 10;
-        assertEquals(Sum(a, b), a + b);
+        assertEquals(a + b, Sum(a, b));
     }
 }
