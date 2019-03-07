@@ -2,25 +2,29 @@ package GrandTasks;
 
 import java.util.Scanner;
 
-// Среднее арифметическое введеных 5 чисел
+// Среднее арифметическое введеных нескольких чисел через метод
 public class Task4v2 {
     public static void main(String[] args) {
         Scanner reader = new Scanner(System.in);
-
-        int[] numbers = new int[5];
-        double sum = 0;
+        System.out.println("Введите колличество чисел для вывода среднего значения: ");
+        int quantity = reader.nextInt();
+        int[] numbers = new int[quantity];
         for (int i = 0; i < numbers.length; i++) {
             System.out.println("Enter " + ++i + " number");
             i--;
             numbers[i] = reader.nextInt();
-            sum += numbers[i];
         }
-        double average = sum / numbers.length;
-        System.out.println("Среднее арифметическое чисел: "+average);
+        System.out.println("Среднее арифметическое чисел: " + Average(numbers));
 
     }
 
-    public static int Sum(int a, int b) {
-        return a + b;
+    public static double Average(int a[]) {
+        double average;
+        double sum = 0;
+        for (int i = 0; i < a.length; i++) {
+            sum += a[i];
+        }
+        average = sum / a.length;
+        return average;
     }
 }
