@@ -1,10 +1,19 @@
 package GrandTasks;
-// Выво pi
+
+import java.util.Scanner;
+
+// Возведение числа в квадрат
 public class Task1 {
     public static void main(String[] args) {
-        System.out.println(Task1.getPi());
+        Scanner reader = new Scanner(System.in); //подключение ввода с консоли
+        System.out.println("Enter number");
+        int number = reader.nextInt(); // ввод с консоли в новую переменную
+
+        System.out.println("Your square: " + Square(number));
+        System.out.println(": " + number);
     }
-    public static String getPi(){
-        return "3.14";
+    static int Square(int number){ //возведение в квадрат, без записи в переменную
+        return number*number;
     }
+
 }
