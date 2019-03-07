@@ -12,8 +12,8 @@ public class Task1 {
         System.out.println("Your square: " + Square(number));
         System.out.println(": " + number);
     }
-    static int Square(int number){ //возведение в квадрат, без записи в переменную
-        return number*number;
-    }
 
+    static int Square(int number) { //возведение в квадрат, без записи в переменную
+        return number * number;
+    }
 }
