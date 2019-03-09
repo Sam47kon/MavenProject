@@ -1,15 +1,14 @@
 package GrandTasks;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+class Task1Test {
 
-class Task1Test extends Task1 {
 
     @Test
     public void squareTest() {
-        int a = 5;
-        assertEquals(a * a, Square(a));
-
+        int value = 5;
+        Assertions.assertEquals(value * value, new Task1().getSquare(value));
     }
 }

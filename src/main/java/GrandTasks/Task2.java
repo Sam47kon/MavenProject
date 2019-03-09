@@ -7,13 +7,15 @@ public class Task2 {
     public static void main(String[] args) {
         Scanner reader = new Scanner(System.in);
         System.out.println("Enter number");
-        int a = reader.nextInt();
 
-        System.out.println("Модуль числа: " + Modal(a));
-        System.out.println("Yor number: " + a);
+        int modal = new Task2().getModal(reader.nextInt());
+        System.out.println("Модуль числа: " + modal);
     }
 
-    static int Modal(int number) {
-        return Math.abs(number);
+    public int getModal(int number) {
+        if (number < 0) {
+            number *= (-1);
+        }
+        return number;
     }
 }

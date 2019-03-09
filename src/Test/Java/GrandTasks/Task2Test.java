@@ -1,14 +1,14 @@
 package GrandTasks;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+class Task2Test {
 
-class Task2Test extends Task2 {
 
     @Test
     void modalTest() {
-        int a = -60;
-        assertEquals(60, Modal(a));
+        int number = -60;
+        Assertions.assertEquals(60, new Task2().getModal(number));
     }
 }

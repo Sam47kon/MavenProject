@@ -1,29 +1,50 @@
 package GrandTasks;
 
+import java.util.Objects;
 import java.util.Scanner;
+import java.util.Set;
 
-// еще не сделал
 public class Task5 {
     public static void main(String[] args) {
         Scanner reader = new Scanner(System.in);
         System.out.println("Введите первое число: ");
-        int a = reader.nextInt();
+        int number1 = reader.nextInt();
+
         System.out.println("Введите второе число: ");
-        int b = reader.nextInt();
-        int c = 0;
+        int number2 = reader.nextInt();
+        int result = 0;
+
         System.out.println("Сложить '+', вычесть '-', умножить '*', поделить '/' ");
         String sign = reader.next();
-      //  while (sign == "p" || sign == "-" || sign == "*" || sign == "/") {
-            if (sign == "p") {
-                c = a + b;
-            } else if (sign == "-") {
-                c = a - b;
-            } else if (sign == "*") {
-                c = a * b;
-            } else if (sign == "/") {
-                c = a / b;
-         //   } else System.out.println("Попробуй еще раз.");
+
+        Set<String> signs = Set.of("+", "-", "*", "/", "^"); // подключение контейнера
+        int getC = new Task5().getC(number1, number2, sign);
+        if (signs.contains(sign)) {
+            result = getC;
         }
-        System.out.println(c + sign);
+        //System.out.println("Попробуй еще раз.");
+        System.out.println(result);
+    }
+
+    private int getC(int number1, int number2, String sign) {
+        if (Objects.equals(sign, "+")) {
+            return number1 + number2;
+        }
+
+        if (Objects.equals(sign, "-")) {
+            return number1 - number2;
+        }
+
+        if (Objects.equals(sign, "*")) {
+            return number1 * number2;
+        }
+
+        if (Objects.equals(sign, "/")) {
+            return number1 / number2;
+        }
+        if (Objects.equals(sign, "^")) {
+            return (int) Math.pow(number1, number2);
+        }
+        throw new IllegalArgumentException("Неверный знак");
     }
 }

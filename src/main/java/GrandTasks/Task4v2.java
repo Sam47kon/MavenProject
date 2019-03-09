@@ -14,11 +14,11 @@ public class Task4v2 {
             i--;
             numbers[i] = reader.nextInt();
         }
-        System.out.println("Среднее арифметическое чисел: " + Average(numbers));
+        System.out.println("Среднее арифметическое чисел: " + getAverage(numbers));
 
     }
 
-    public static double Average(int a[]) {
+    public static double getAverage(int a[]) {
         double average;
         double sum = 0;
         for (int i = 0; i < a.length; i++) {

@@ -4,17 +4,16 @@ import java.util.Scanner;
 
 // Сумма двух чисел
 public class Task3 {
+
     public static void main(String[] args) {
         Scanner reader = new Scanner(System.in);
-        System.out.println("Enter 1 number");
-        int a = reader.nextInt();
-        System.out.println("Enter 2 number");
-        int b = reader.nextInt();
+        System.out.println("Введите 2 числа: ");
+        int a = new Task3().getSum(reader.nextInt(),reader.nextInt());
 
-        System.out.println("Your Sum: " + Sum(a, b));
+        System.out.println("Сумма чисел: " + a);
     }
 
-    public static int Sum(int a, int b) { //возведение в квадрат, без записи в переменную
+    public int getSum(int a, int b) {
         return a + b;
     }
 }
