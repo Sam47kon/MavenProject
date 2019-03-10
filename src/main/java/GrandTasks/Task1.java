@@ -17,7 +17,7 @@ public class Task1 {
         System.out.println(value + " " + square); // value отобразиться некоректно
     }
 
-    public int getSquare(int number) { //возведение в квадрат, без записи в переменную
-        return number * number;
+    public int getSquare(int number11) { //возведение в квадрат, без записи в переменную
+        return number11 * number11;
     }
 }
