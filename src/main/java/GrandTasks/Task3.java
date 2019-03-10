@@ -8,9 +8,8 @@ public class Task3 {
     public static void main(String[] args) {
         Scanner reader = new Scanner(System.in);
         System.out.println("Введите 2 числа: ");
-        int a = new Task3().getSum(reader.nextInt(),reader.nextInt());
-
-        System.out.println("Сумма чисел: " + a);
+        int sum = new Task3().getSum(reader.nextInt(), reader.nextInt());
+        System.out.println("Сумма чисел: " + sum);
     }
 
     public int getSum(int a, int b) {
