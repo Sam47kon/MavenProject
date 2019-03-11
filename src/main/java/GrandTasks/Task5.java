@@ -6,6 +6,9 @@ import java.util.Set;
 
 // Программа принимает из консоли 2 числа и операцию (+ - / * ^ ), выводит результат
 public class Task5 {
+    //enum Signs {
+    //}
+
     public static void main(String[] args) {
         Scanner reader = new Scanner(System.in);
         System.out.println("Введите первое число: ");
@@ -17,32 +20,30 @@ public class Task5 {
 
         System.out.println("Сложить '+', вычесть '-', умножить '*', поделить '/', возвести в степень '^' ");
         String sign = reader.next();
+        //Signs signs1 = Signs.valueOf(reader.next());
 
         Set<String> signs = Set.of("+", "-", "*", "/", "^"); // подключение контейнера
-        double getC = new Task5().getC(number1, number2, sign);
+        double decision = new Task5().useCalculator(number1, number2, sign);
         if (signs.contains(sign)) {
-            result = getC;
+            result = decision;
         }
         //System.out.println("Попробуй еще раз.");
         System.out.println(result);
     }
 
-    public double getC(double number1, double number2, String sign) {
+    public double useCalculator(double number1, double number2, String sign) {
         if (Objects.equals(sign, "+")) {
             System.out.print("Сумма чисел: " + number1 + " и " + number2 + " = ");
             return number1 + number2;
         }
-
         if (Objects.equals(sign, "-")) {
             System.out.print("Разность чисел: " + number1 + " и " + number2 + " = ");
             return number1 - number2;
         }
-
         if (Objects.equals(sign, "*")) {
             System.out.print("Произведение чисел: " + number1 + " и " + number2 + " = ");
             return number1 * number2;
         }
-
         if (Objects.equals(sign, "/")) {
             System.out.print("Частное чисел: " + number1 + " и " + number2 + " = ");
             return number1 / number2;
