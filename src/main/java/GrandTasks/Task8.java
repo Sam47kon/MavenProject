@@ -10,32 +10,30 @@ public class Task8 {
         System.out.print("Введите порядковый номер элемента чисел фибоначчи, который хотите увидеть: ");
         int length = reader.nextInt();
 
-        new Task8().getFibonacciNumber(length);
+        long value = new Task8().getFibonacciNumb(length);
+        System.out.print("Ваше число: " + value);
     }
 
-    public void getFibonacciNumber(int length) {
-        while (true) {
-            if (length > 93) {
-                System.out.println("К сожалению такое большое число трудно расчитать, поэтому покажем последнее 93-ое, которое можем расчитать: ");
-                length = 93;
-            }
-            long[] fibonacci = new long[length];
-            if (length == 0) {
-                System.out.println("Без чисел нам не справиться!");
-                break;
-            }
-            fibonacci[0] = 0;
-            if (length == 1) {
-                System.out.println("Первое число фибоначчи это 0");
-                break;
-            }
-            fibonacci[1] = 1;
-            for (int i = 2; i < fibonacci.length; i++) {
-                fibonacci[i] = fibonacci[i - 1] + fibonacci[i - 2];
-            }
-            //System.out.println("Последовательность фибоначи:  " + Arrays.toString(fibonacci)); // метод вывода массива в строке
-            System.out.print("Ваше число: " + fibonacci[length - 1]);
-            break;
+    public long getFibonacciNumb(int length) {
+        long[] fib1 = new long[93];
+        fib1[0] = 0;
+        fib1[1] = 1;
+        for (int i = 2; i < fib1.length; i++) {
+            fib1[i] = fib1[i - 1] + fib1[i - 2];
         }
+        if (length > 93) {
+            length = 93;
+            long[] fib2 = fib1;
+            System.out.println("больше 93 не вычисляется");
+            return fib2[length - 1];
+        }
+        if (length == 0) {
+            System.out.println("невозможно");
+            return fib1[0];
+        }
+        if (length == 1) {
+            return fib1[0];
+        }
+        return fib1[length];
     }
 }
