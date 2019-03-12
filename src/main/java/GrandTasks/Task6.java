@@ -2,6 +2,7 @@ package GrandTasks;
 
 import java.util.Scanner;
 
+//Программа принимает два числа, выводит их greatest common divisor
 public class Task6 {
 
     public static void main(String[] args) {
