@@ -27,7 +27,11 @@ public class Stepik2_1 {
         System.out.println("tttt " + booleanExpression(true, true, true, true));
         */
         //endregion
-        System.out.println();
+        //region №4
+        /*int value = 137;
+        int bitIndex = 45;
+        System.out.println(flipBit(value,bitIndex)); // 4233*/
+        //endregion
     }
 
     // №1 Реализуйте метод, возвращающий true, если среди четырех его аргументов ровно два истинны (любые). Во всех остальных случаях метод должен возвращать false.
@@ -70,5 +74,4 @@ public class Stepik2_1 {
     public static int flipBit(int value, int bitIndex) {
         return value ^ (1 << (bitIndex - 1)); // put your implementation here
     }
-
 }
