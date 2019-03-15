@@ -6,87 +6,54 @@ import java.util.Set;
 
 // Программа принимает из консоли 2 числа и операцию (+ - / * ^ ), выводит результат
 public class Task5 {
-    //enum Signs {
-    //}
 
-    //private Scanner reader; // если я ввожу данные через метод, то сканер можно объявить в классе
+    private Scanner reader = new Scanner(System.in); // если я ввожу данные через метод, то сканер можно объявить в классе
+    private Set<String> signs = Set.of("+", "-", "*", "/", "^");
+    private boolean ifInputErr = true;
 
     public static void main(String[] args) {
-        Scanner reader = new Scanner(System.in);
-        String sign = "k";
-        boolean ifSignInputErr = true;
-        Set<String> signs = Set.of("+", "-", "*", "/", "^");    // подключение контейнера для проверки нужного знака (1 вариант)
-        //String[] signs1 = {"+", "-", "*", "/", "^"};    // для 2 варианта проверки
-
         double number1 = new Task5().getNumber();
         double number2 = new Task5().getNumber();
-
-        boolean ifNumberInputErr = true;
-        while (ifNumberInputErr) {
-            System.out.println("Введите второе число: ");
-            if (reader.hasNextDouble()) {
-                number2 = reader.nextDouble();
-            } else {
-                System.out.println("Нужно ввести число, а не текст!!!");
-                reader.next();
-                continue;
-            }
-            ifNumberInputErr = false;
-        }
-
-        //boolean contains = Arrays.stream(signs1).anyMatch(sign::equals);    // 2 вариант проверки выдает true если sing является одним из значений массива
-        System.out.print("Что сделать с числами? Сложить '+', вычесть '-', умножить '*', поделить '/', возвести в степень '^' ");
-
-        // цикл заставляет вводить только НУЖНЫЙ знак, не выводя ошибку IllegalArgumentException
-        while (ifSignInputErr) {
-            if (reader.hasNext()) {    // никогда не будет ошибки IllegalArgumentException
-                sign = reader.next();   // хотел попробовать через char, но у сканера нет метода ввода char :(
-                // 1 вариант проверки нужного знака
-                if (signs.contains(sign)) { // если входит в состав контейнера
-                    break;
-                } else {
-                    System.out.println("Нужно ввести знак!");
-                    continue;
-                }
-                /*// 2 вариант проверки нужного знака
-                contains = Arrays.stream(signs1).anyMatch(sign::equals);
-                if (contains) {
-                    break;
-                } else {
-                    System.out.println("Нужно ввести знак!");
-                    continue;
-                }*/
-            }
-            ifSignInputErr = false;
-        }
-
-
-        //Signs signs1 = Signs.valueOf(reader.next()); // это для enum
-
+        String sign = new Task5().getSign();
 
         double decision = new Task5().useCalculator(number1, number2, sign);
         System.out.println(decision);
     }
 
-    public double getNumber() { // метод ввода только числа
+    private String getSign() {
+        String sign = "k";
+        System.out.print("Что сделать с числами? Сложить '+', вычесть '-', умножить '*', поделить '/', возвести в степень '^' ");
+        while (ifInputErr) {    // цикл заставляет вводить только НУЖНЫЙ знак, не выводя ошибку IllegalArgumentException
+            if (reader.hasNext()) {    // никогда не будет ошибки IllegalArgumentException
+                sign = reader.next();   // хотел попробовать через char, но у сканера нет метода ввода char :(
+                // 1 вариант проверки нужного знака
+                if (signs.contains(sign)) {    // если входит в состав контейнера
+                    break;
+                } else {
+                    System.out.println("Нужно ввести знак!");
+                    continue;
+                }
+            }
+            ifInputErr = false;
+        }
+        return sign;
+    }
+
+    private double getNumber() { // метод ввода только числа
         double number = 0;
-        Scanner reader = new Scanner(System.in);
-        boolean ifNumberInputErr = true;
-        // цикл заставляет вводить только числа, не выводя ошибку InputMismatchException
-        while (ifNumberInputErr) {
-            System.out.println("Введите первое число: ");
-            if (reader.hasNextDouble()) { // has имеет булевское значение
+        while (ifInputErr) {    // цикл заставляет вводить только числа, не выводя ошибку InputMismatchException
+            System.out.println("Введите число: ");
+            if (reader.hasNextDouble()) {    // has имеет булевское значение
                 number = reader.nextDouble();
             } else {
                 System.out.println("Нужно ввести число, а не текст!");
                 reader.next();
                 continue;
             }
-            ifNumberInputErr = false;
+            ifInputErr = false;
         }
         return number;
     }
-
 
     public double useCalculator(double number1, double number2, String sign) {
         if (Objects.equals(sign, "+")) {
