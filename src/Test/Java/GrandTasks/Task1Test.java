@@ -7,7 +7,7 @@ class Task1Test {
 
 
     @Test
-    public void squareTest() {
+    public void getSquareTest() {
         int value = 5;
         Assertions.assertEquals(value * value, new Task1().getSquare(value));
     }

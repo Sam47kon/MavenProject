@@ -7,7 +7,7 @@ import java.util.Set;
 // Программа принимает из консоли 2 числа и операцию (+ - / * ^ ), выводит результат
 public class Task5 {
 
-    private Scanner reader = new Scanner(System.in); // если я ввожу данные через метод, то сканер можно объявить в классе
+    public Scanner reader = new Scanner(System.in); // если я ввожу данные через метод, то сканер можно объявить в классе
     private Set<String> signs = Set.of("+", "-", "*", "/", "^");
     private boolean ifInputErr = true;
 
@@ -39,7 +39,7 @@ public class Task5 {
         return sign;
     }
 
-    private double getNumber() { // метод ввода только числа
+    public double getNumber() { // метод ввода только числа
         double number = 0;
         while (ifInputErr) {    // цикл заставляет вводить только числа, не выводя ошибку InputMismatchException
             System.out.println("Введите число: ");

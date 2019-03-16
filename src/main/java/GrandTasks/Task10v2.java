@@ -15,36 +15,39 @@ public class Task10v2 {
     public static void main(String[] args) {
         System.out.println("Введите любой текст:");
         String inputText = new Scanner(System.in).nextLine();
-        long consonantsCount = 0;
-        long vowelsCount = 0;
-        long otherCount = 0;
 
-        for (int i = 0; i < inputText.length(); i++) {    // пробегаемся по всей длине введенного текста
-            char ch = inputText.charAt(i);    // перезаписываем каждый символ по порядку в переменную c
-            if (new Task10v2().isVowel(ch)) {    // проверяем через метод входит ли значение переменной c в список гласных
-                vowelsCount++;
-            } else if (new Task10v2().isConsonants(ch)) { // проверяем через метод входит ли значение переменной c в список согласных
-                consonantsCount++;
-            } else {
-                otherCount++;
-            }
-        }
-        // то же самое
-//        for (char c : inputText.toCharArray()) {
-//            if (isVowel(c)) {
+        //region decision v1
+        //        long consonantsCount = 0;
+//        long vowelsCount = 0;
+//        long otherCount = 0;
+//        for (int i = 0; i < inputText.length(); i++) {    // пробегаемся по всей длине введенного текста
+//            char ch = inputText.charAt(i);    // перезаписываем каждый символ по порядку в переменную c
+//            if (new Task10v2().isVowel(ch)) {    // проверяем через метод входит ли значение переменной c в список гласных
 //                vowelsCount++;
-//            } else if (isConsonants(c)) {
+//            } else if (new Task10v2().isConsonants(ch)) { // проверяем через метод входит ли значение переменной c в список согласных
 //                consonantsCount++;
+//            } else {
+//                otherCount++;
 //            }
 //        }
-        System.out.println("Количество согласных = " + consonantsCount);
-        System.out.println("Количество гласных = " + vowelsCount);
-        System.out.println("Количество других символов = " + otherCount);
-        System.out.println("Всего символов = " + inputText.length());
+//        System.out.println("Количество согласных = " + consonantsCount);
+//        System.out.println("Количество гласных = " + vowelsCount);
+//        System.out.println("Количество других символов = " + otherCount);
+//        System.out.println("Всего символов = " + inputText.length());
+        //endregion
 
+        long vowelsCount1 = new Task10v2().getVowelsCount(inputText);
+        long consonantsCount1 = new Task10v2().getConsonantsCount(inputText);
+        System.out.println("Количество гласных = " + vowelsCount1);
+        System.out.println("Количество согласных = " + consonantsCount1);
+    }
 
-//        vowelsCount = inputText.chars().filter(ch -> isVowel((char) ch)).count();
-//        consonantsCount = inputText.chars().filter(ch -> isConsonants((char) ch)).count();
+    public long getConsonantsCount(String inputText) {
+        return inputText.chars().filter(ch -> new Task10v2().isConsonants((char) ch)).count();
+    }
+
+    public long getVowelsCount(String inputText) {
+        return inputText.chars().filter(ch -> new Task10v2().isVowel((char) ch)).count();
     }
 
 

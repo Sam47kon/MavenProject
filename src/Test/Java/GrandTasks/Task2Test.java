@@ -7,7 +7,7 @@ class Task2Test {
 
 
     @Test
-    void modalTest() {
+    void getModalTest() {
         int number = -60;
         Assertions.assertEquals(60, new Task2().getModal(number));
     }

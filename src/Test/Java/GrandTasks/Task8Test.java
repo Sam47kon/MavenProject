@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 class Task8Test {
 
     @Test
-    void fibonacci() {
+    void getFibonacciNumbTest() {
         int number0 = 0;
         int number1 = 1;
         int number2 = 2;

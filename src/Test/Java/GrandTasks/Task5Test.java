@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 class Task5Test {
 
     @Test
-    void result() {    // TODO
+    void useCalculatorTest() {
         int value1 = 5;
         int value2 = -2;
         String sign1 = "+";
