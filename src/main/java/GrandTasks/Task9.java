@@ -11,7 +11,7 @@ public class Task9 {
         String textBackwards = new StringBuilder(text).reverse().toString();    // сделает то же самое, что мой метод
         System.out.println(textBackwards);
 
-        textBackwards = new Task9().printLineBackwards(text);    // вывод обратного текста без записи в переменную
+        textBackwards = new Task9().printLineBackwards(text);    // вывод обратного текста
         System.out.println(textBackwards);
     }
 
