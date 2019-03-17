@@ -4,7 +4,7 @@ package GrandTasks;
 public class Task11 {
 
     public static void main(String[] args) {
-        int inputNum = (int) new Task5().getNumber();
+        int inputNum = (int) new Task5().getNumber("Введите число: ");
         new Task11().isNumberPowerOfTwo1(inputNum);    // 1 вариант
         new Task11().isNumberPowerOfTwo2(inputNum);    // 2 вариант
     }

@@ -12,8 +12,8 @@ public class Task5 {
     private boolean ifInputErr = true;
 
     public static void main(String[] args) {
-        double number1 = new Task5().getNumber();
-        double number2 = new Task5().getNumber();
+        double number1 = new Task5().getNumber("Введите 1 число: ");
+        double number2 = new Task5().getNumber("Введите 2 число: ");
         String sign = new Task5().getSign();
 
         double decision = new Task5().useCalculator(number1, number2, sign);
@@ -39,14 +39,14 @@ public class Task5 {
         return sign;
     }
 
-    public double getNumber() { // метод ввода только числа
+    public double getNumber(String text) { // метод ввода только числа
         double number = 0;
+        System.out.println(text);
         while (ifInputErr) {    // цикл заставляет вводить только числа, не выводя ошибку InputMismatchException
-            System.out.println("Введите число: ");
             if (reader.hasNextDouble()) {    // has имеет булевское значение
                 number = reader.nextDouble();
             } else {
-                System.out.println("Нужно ввести число, а не текст!");
+                System.out.println("Нужно ввести число, а не текст!" + text);
                 reader.next();
                 continue;
             }
