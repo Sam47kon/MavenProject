@@ -1,4 +1,4 @@
-package GrandTasks;
+package GrandTasks.Week2;
 
 import java.util.Objects;
 import java.util.Scanner;

@@ -1,4 +1,4 @@
-package GrandTasks;
+package GrandTasks.Week2;
 
 import java.util.Objects;
 import java.util.Scanner;
@@ -46,7 +46,7 @@ public class Task5 {
             if (reader.hasNextDouble()) {    // has имеет булевское значение
                 number = reader.nextDouble();
             } else {
-                System.out.println("Нужно ввести число, а не текст!" + text);
+                System.out.println("Нужно ввести число, а не текст! " + text);
                 reader.next();
                 continue;
             }

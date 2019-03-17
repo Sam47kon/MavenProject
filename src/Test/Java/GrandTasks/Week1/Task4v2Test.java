@@ -1,5 +1,6 @@
-package GrandTasks;
+package GrandTasks.Week1;
 
+import GrandTasks.Week1.Task4v2;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

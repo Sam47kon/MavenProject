@@ -1,4 +1,4 @@
-package GrandTasks;
+package GrandTasks.Week2;
 
 // Программа принимает с клавиатуры число, и определяет, является ли это число степенью двойки
 public class Task11 {
