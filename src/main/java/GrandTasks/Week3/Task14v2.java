@@ -7,8 +7,6 @@ public class Task14v2 {
 
 
     public static void main(String[] args) {
-        Runtime runtime = Runtime.getRuntime();
-        runtime.gc();
         double[] inputNumbers = new double[5];
         for (int i = 0; i < inputNumbers.length; ) {
             inputNumbers[i] = new Task5().getNumber("Insert the " + ++i + " number");
