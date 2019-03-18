@@ -11,7 +11,7 @@ public class Task4 {
 
     public double getArithmeticMeanOfSeveralNumbers() {
         Scanner reader = new Scanner(System.in);
-        System.out.printf("Введите количество чисел:");
+        System.out.println("Введите количество чисел:");
         int[] numbers = new int[reader.nextInt()];
         double sum = 0;
         for (int i = 0; i < numbers.length; i++) {
@@ -20,7 +20,6 @@ public class Task4 {
             numbers[i] = reader.nextInt();
             sum += numbers[i];
         }
-        double average = sum / numbers.length;
-        return average;
+        return sum / numbers.length;
     }
 }
