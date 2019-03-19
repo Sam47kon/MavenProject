@@ -5,7 +5,7 @@ public class Task13extraV2 {
     public static void main(String[] args) {
         double[] inputNumbers = new double[10];
         for (int i = 0; i < inputNumbers.length; ) {
-            inputNumbers[i] = new Task5().getNumber("Введите " + ++i + " число");
+            inputNumbers[i] = new Task5().getDoubleFromInput("Введите " + ++i + " число");
         }
         double[] sortNumbers = new Task13extraV2().selectionSort(inputNumbers);    // 2 вариант сортировки
         for (int i = 0; i < sortNumbers.length; ) {

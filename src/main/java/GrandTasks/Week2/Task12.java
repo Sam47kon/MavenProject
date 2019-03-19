@@ -10,9 +10,9 @@ public class Task12 {
         System.out.println("Хотите решить квадратное уравнение типа: ax\u00B2+bx+c=0 ?");
         String exit = "restart";
         while (Objects.equals(exit, "restart")) {
-            double a = new Task5().getNumber("Введите а: ");
-            double b = new Task5().getNumber("Введите b: ");
-            double c = new Task5().getNumber("Введите c: ");
+            double a = new Task5().getDoubleFromInput("Введите а: ");
+            double b = new Task5().getDoubleFromInput("Введите b: ");
+            double c = new Task5().getDoubleFromInput("Введите c: ");
             System.out.println("Ваше уравнение имеет вид: " + a + " * x\u00B2 + " + b + " * x + " + c + " = 0");
 
             double discriminant;
@@ -87,6 +87,6 @@ public class Task12 {
             System.out.println("Нет корней. дискриминант меньше нуля");
         }
 
-        throw new IllegalArgumentException("Корней нет");   // TODO ?
+        throw new IllegalArgumentException("Корней нет");
     }
 }

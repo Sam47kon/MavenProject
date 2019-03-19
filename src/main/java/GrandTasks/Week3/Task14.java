@@ -8,9 +8,9 @@ public class Task14 {
     public static void main(String[] args) {
         double[] inputNumbers = new double[5];
         for (int i = 0; i < inputNumbers.length; ) {
-            inputNumbers[i] = new Task5().getNumber("Insert the " + ++i + " number");
+            inputNumbers[i] = new Task5().getDoubleFromInput("Insert the " + ++i + " number");
         }
-        double desiredNumber = new Task5().getNumber("Введите любое число, и я вам скажу есть ли оно среди тех чисел");
+        double desiredNumber = new Task5().getDoubleFromInput("Введите любое число, и я вам скажу есть ли оно среди тех чисел");
         boolean doesItExist = new Task14().findOutThatItExists(inputNumbers, desiredNumber);
         if (doesItExist) {
             System.out.println("1");

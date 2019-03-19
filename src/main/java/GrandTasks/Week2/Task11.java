@@ -4,7 +4,7 @@ package GrandTasks.Week2;
 public class Task11 {
 
     public static void main(String[] args) {
-        int inputNum = (int) new Task5().getNumber("Введите число: ");
+        int inputNum = (int) new Task5().getDoubleFromInput("Введите число: ");
         new Task11().isNumberPowerOfTwo1(inputNum);    // 1 вариант
         new Task11().isNumberPowerOfTwo2(inputNum);    // 2 вариант
     }
@@ -33,7 +33,7 @@ public class Task11 {
 
     //region Для меня, для расчетов
 //    public void printUsefulInfo() {
-//        int inputNum = (int) new Task5().getNumber();
+//        int inputNum = (int) new Task5().getDoubleFromInput();
 //        System.out.println("наше число " + inputNum);
 //        System.out.println(("наше число противоположное: " + ~(inputNum - 1)));    // эквивалентно -inputNumber
 //        System.out.println("двоичное число " + Integer.toBinaryString(inputNum));
