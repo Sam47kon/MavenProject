@@ -27,7 +27,5 @@ class Task12Test {
         b = 5;
         c = 4;
         Assertions.assertEquals(-0.8, new Task12().deriveRootValue(a, b, c, true));
-
-
     }
 }

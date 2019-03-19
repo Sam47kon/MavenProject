@@ -18,7 +18,5 @@ class Task14v3TrueTest {
         numbTest = 0;
         Assertions.assertEquals(5, new Task14v3True().findOutThatItExists(arr2, numbTest));
         Assertions.assertEquals(-1, new Task14v3True().findOutThatItExists(arr1, numbTest));
-
-
     }
 }

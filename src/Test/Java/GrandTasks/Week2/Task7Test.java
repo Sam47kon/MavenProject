@@ -7,7 +7,6 @@ import java.math.BigInteger;
 
 class Task7Test {
 
-
     @Test
     void getFactorialTest() { // TODO как протестить?
         int number = 7;
