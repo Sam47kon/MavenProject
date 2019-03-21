@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 class Task12Test {
 
     @Test
-    void getRootsOfEquation() {
+    void testGetRootsOfEquation() {
         double a, b, c;
         a = 4;
         b = -7;

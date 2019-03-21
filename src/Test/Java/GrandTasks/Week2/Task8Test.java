@@ -8,7 +8,7 @@ import java.math.BigInteger;
 class Task8Test {
 
     @Test
-    void getFibonacciNumbTest() {
+    void testGetFibonacciNumb() {
 
         int test0 = 0;
         int test1 = 1;

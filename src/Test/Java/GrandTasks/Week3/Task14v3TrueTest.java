@@ -3,12 +3,10 @@ package GrandTasks.Week3;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class Task14v3TrueTest {
 
     @Test
-    void findOutThatItExistsTest() {
+    void testFindOutThatItExists() {
         double[] arr1 = {1, 3, 5, 7, 9};
         double numbTest = 3; // index 2
         Assertions.assertEquals(2, new Task14v3True().findOutThatItExists(arr1, numbTest));

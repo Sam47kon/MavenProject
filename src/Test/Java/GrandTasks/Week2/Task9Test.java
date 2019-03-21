@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 class Task9Test {
 
     @Test
-    void getLineBackwards() {
+    void testGetLineBackwards() {
         String text1 = "123456789qwertyu";
         String text2 = "erkgnr  & &* ^9 2 4 0 9";
         Assertions.assertEquals("uytrewq987654321", new Task9().printLineBackwards(text1));

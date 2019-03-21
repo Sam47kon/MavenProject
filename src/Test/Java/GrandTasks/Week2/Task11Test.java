@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 class Task11Test {
 
     @Test
-    void isNumberPowerOfTwoTest() {
+    void testIsNumberPowerOfTwo() {
         int value1 = 0;
         int value2 = 1;
         int value3 = 8;
