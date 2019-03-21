@@ -7,7 +7,7 @@ public class Task14v3True {
 
 
     public static void main(String[] args) {
-        double[] inputNumbers = new double[5];
+        double[] inputNumbers = new double[10];
         for (int i = 0; i < inputNumbers.length; ) {
             inputNumbers[i] = new Task5().getDoubleFromInput("Insert the " + ++i + " number");
         }
