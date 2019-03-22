@@ -46,7 +46,7 @@ public class Task12 {
     }
 
 
-    public double deriveRootValue(double a, double b, double c, boolean isFirstRoot) {      //получить значение корня
+    double deriveRootValue(double a, double b, double c, boolean isFirstRoot) {      //получить значение корня
         if (a == 0) {       // для теста
             return -c / b;
         }

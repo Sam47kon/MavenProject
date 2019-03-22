@@ -9,7 +9,7 @@ public class Task11 {
         new Task11().isNumberPowerOfTwo2(inputNum);    // 2 вариант
     }
 
-    public boolean isNumberPowerOfTwo1(int inputNum) {
+    boolean isNumberPowerOfTwo1(int inputNum) {
         while (((inputNum % 2) == 0) && inputNum > 0) {
             inputNum /= 2;
         }
@@ -21,7 +21,7 @@ public class Task11 {
         return false;
     }
 
-    public boolean isNumberPowerOfTwo2(int inputNum) {
+    boolean isNumberPowerOfTwo2(int inputNum) {
         if ((inputNum & (-inputNum)) == inputNum && inputNum != 0) {
             System.out.println("Ваше число " + inputNum + " является степенью двойки");
             return true;

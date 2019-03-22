@@ -31,7 +31,7 @@ public class Task4v2 {
     }
 
     // метод нахождение среднего
-    public double getAverage(int[] mass) {
+    double getAverage(int[] mass) {
         double average;
         double sum = 0;
         for (int i : mass) {

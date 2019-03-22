@@ -16,7 +16,7 @@ public class Task14v2 {
         System.out.println(doesItExist);
     }
 
-    public String findOutThatItExists(double[] inputNumbers, double desiredNumber) {
+    private String findOutThatItExists(double[] inputNumbers, double desiredNumber) {
         for (int i = 0; i < inputNumbers.length; i++) {
             if (inputNumbers[i] == desiredNumber) {
 

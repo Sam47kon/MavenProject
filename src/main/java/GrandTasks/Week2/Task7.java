@@ -17,7 +17,7 @@ public class Task7 {
         }
     }
 
-    public BigInteger getFactorial(int inputNumber) {
+    BigInteger getFactorial(int inputNumber) {
         BigInteger factor = BigInteger.valueOf(1); // факториал 0 будет 1, как и должно быть
         BigInteger j;
         for (int i = 1; i <= inputNumber; i++) {

@@ -6,9 +6,9 @@ import java.util.Set;
 // Программа принимает с клавиатуры строку, выводит сколько там гласных, а сколько согласных
 public class Task10v2 {
 
-    public static final Set<Character> VOWELS = Set.of('a', 'e', 'y', 'u', 'i', 'o', 'о', 'и', 'е', 'а', 'ё', 'э', 'ы',
+    private static final Set<Character> VOWELS = Set.of('a', 'e', 'y', 'u', 'i', 'o', 'о', 'и', 'е', 'а', 'ё', 'э', 'ы',
             'у', 'ю', 'я');
-    public static final Set<Character> CONSONANTS = Set.of('b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p',
+    private static final Set<Character> CONSONANTS = Set.of('b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p',
             'q', 'r', 's', 't', 'v', 'w', 'x', 'z', 'б', 'в', 'г', 'д', 'ж', 'з', 'й', 'к', 'л', 'м', 'н', 'п', 'р',
             'с', 'т', 'ф', 'х', 'ц', 'ч', 'ш', 'щ');
 
@@ -42,20 +42,20 @@ public class Task10v2 {
         System.out.println("Количество согласных = " + consonantsCount1);
     }
 
-    public long getConsonantsCount(String inputText) {
+    long getConsonantsCount(String inputText) {
         return inputText.chars().filter(ch -> new Task10v2().isConsonants((char) ch)).count();
     }
 
-    public long getVowelsCount(String inputText) {
+    long getVowelsCount(String inputText) {
         return inputText.chars().filter(ch -> new Task10v2().isVowel((char) ch)).count();
     }
 
 
-    public boolean isConsonants(char ch) {
+    private boolean isConsonants(char ch) {
         return CONSONANTS.contains(Character.toLowerCase(ch));    // возвращает булекское значение метода contains объекта (поступающего знака переведенного в верхний регистр)
     }
 
-    public boolean isVowel(char ch) {
+    private boolean isVowel(char ch) {
         return VOWELS.contains(Character.toLowerCase(ch));    // возвращает булекское значение метода contains объекта (поступающего знака переведенного в верхний регистр)
     }
 

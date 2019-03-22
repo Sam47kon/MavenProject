@@ -12,7 +12,7 @@ public class Task2 {
         System.out.println("Модуль числа: " + modal);
     }
 
-    public int getModal(int number) {
+    int getModal(int number) {
         if (number < 0) {
             number *= (-1);
         }

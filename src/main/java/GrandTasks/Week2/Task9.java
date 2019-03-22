@@ -15,7 +15,7 @@ public class Task9 {
         System.out.println(textBackwards);
     }
 
-    public String printLineBackwards(String text) {
+    String printLineBackwards(String text) {
         String textBackwards = "";
         for (int i = text.length() - 1; i >= 0; i--) {
             textBackwards += text.charAt(i);

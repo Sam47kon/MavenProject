@@ -1,7 +1,7 @@
 package MyTasks.hello;
 
-public class Greeter {
-    public String sayHello() {
+class Greeter {
+    String sayHello() {
         return "Hello world!";
     }
 }

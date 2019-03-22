@@ -19,7 +19,7 @@ public class Task14 {
         }
     }
 
-    public boolean findOutThatItExists(double[] inputNumbers, double desiredNumber) {
+    private boolean findOutThatItExists(double[] inputNumbers, double desiredNumber) {
         for (int i = 0; i < inputNumbers.length; i++) {
             if (inputNumbers[i] == desiredNumber) {
                 System.out.println("Ваше число " + desiredNumber + " стоит на " + (i + 1) + " месте");

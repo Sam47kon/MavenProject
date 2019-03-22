@@ -16,7 +16,7 @@ public class Task14v3True {
         System.out.println(indexNumber);
     }
 
-    public int findOutThatItExists(double[] inputNumbers, double desiredNumber) {    // узнать, существует ли это
+    int findOutThatItExists(double[] inputNumbers, double desiredNumber) {    // узнать, существует ли это
         for (int i = 0; i < inputNumbers.length; i++) {
             if (inputNumbers[i] == desiredNumber) {
                 return i + 1;

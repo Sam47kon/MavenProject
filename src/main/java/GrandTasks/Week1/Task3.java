@@ -12,7 +12,7 @@ public class Task3 {
         System.out.println("Сумма чисел: " + sum);
     }
 
-    public int getSum(int a, int b) {
+    int getSum(int a, int b) {
         return a + b;
     }
 }

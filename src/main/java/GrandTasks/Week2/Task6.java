@@ -16,7 +16,7 @@ public class Task6 {
         System.out.println(gcd);
     }
 
-    public int getGcd(int a, int b) {
+    int getGcd(int a, int b) {
         int value;
         if (b > a) {
             value = a;

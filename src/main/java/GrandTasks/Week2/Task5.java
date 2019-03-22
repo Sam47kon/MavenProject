@@ -55,7 +55,7 @@ public class Task5 {
         return number;
     }
 
-    public double useCalculator(double number1, double number2, String sign) {
+    double useCalculator(double number1, double number2, String sign) {
         if (Objects.equals(sign, "+")) {
             System.out.print("Сумма чисел: " + number1 + " и " + number2 + " = ");
             return number1 + number2;

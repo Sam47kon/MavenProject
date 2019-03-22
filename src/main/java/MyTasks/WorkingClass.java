@@ -1,25 +1,21 @@
+
+package MyTasks;
+
 /**
- * Программы для вывода
+ * Программа для вывода
  *
  * @author Sam47kon
  * @version 1.0
  */
-package MyTasks;
-
 public class WorkingClass {
-
-/**
-     * Программа
+    /**
+     * Программа для вывода
      *
      * @param args команды линейных аргументов
-  */
+     */
 
     public static void main(String[] args) {
-
         System.out.println("HalloWorld");
-
-
-        //System.exit(-1); завершает программу
-
+        //System.exit(-1); // завершает программу
     }
 }

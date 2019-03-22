@@ -9,7 +9,7 @@ public class Task4 {
         System.out.println("Среднее арифметическое чисел: " + average);
     }
 
-    public double getArithmeticMeanOfSeveralNumbers() {
+    private double getArithmeticMeanOfSeveralNumbers() {
         Scanner reader = new Scanner(System.in);
         System.out.println("Введите количество чисел:");
         int[] numbers = new int[reader.nextInt()];
