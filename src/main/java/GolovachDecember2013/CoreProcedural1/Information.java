@@ -8,8 +8,8 @@ public class Information {
 //        double d = 0 / 0;
 //        System.out.println(d);   // Exception in thread "main" java.lang.ArithmeticException: / by zero
         System.out.println("0.0 / 0 = " + 0.0 / 0);   // NaN, не число (not a number)
-        System.out.println("-1.0 / 0 = " + -1.0 / 0); // -Infinity (- бесконечность)
-        System.out.println("+1.0 / 0 = " + -1.0 / 0); // +Infinity (+ бесконечность)
+        System.out.println("-1.0 / 0 = " + -1. / 0); // -Infinity (- бесконечность)
+        System.out.println("+1.0 / 0 = " + -1. / 0); // +Infinity (+ бесконечность)
 
 
         String str = "NaN";

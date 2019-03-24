@@ -16,10 +16,10 @@ public class Task9 {
     }
 
     String printLineBackwards(String text) {
-        String textBackwards = "";
+        StringBuilder textBackwards = new StringBuilder();
         for (int i = text.length() - 1; i >= 0; i--) {
-            textBackwards += text.charAt(i);
+            textBackwards.append(text.charAt(i));
         }
-        return textBackwards;
+        return textBackwards.toString();
     }
 }

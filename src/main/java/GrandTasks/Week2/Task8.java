@@ -8,7 +8,7 @@ import java.util.Scanner;
 //Программа принимает число n с клавиатуры, выводит Fn (n-ое число фибоначи. О числах фибоначи можно прочесть в википедии)
 public class Task8 {
 
-    public static void main(String[] args) { // TODO  разобраться зесь с Гришей
+    public static void main(String[] args) { // TODO  массив на 2 числа
 
         System.gc();
         Runtime runtime = Runtime.getRuntime();
@@ -31,23 +31,23 @@ public class Task8 {
     }
 
     @Benchmark
-    public BigInteger getFibonacciNumb(int length) {
-        if (length == 0) {
-            throw new ArrayIndexOutOfBoundsException("Index 0 out of bounds for length 0");
+    public BigInteger getFibonacciNumb(int index) {
+        if (index == 0) {
+            throw new ArrayIndexOutOfBoundsException("Index 0 out of bounds for index 0");
         }
-        if (length < 0) {
+        if (index < 0) {
             throw new NegativeArraySizeException("Порядковый номер не может быть отрицательным");
         }
-        if (length == 1) {
+        if (index == 1) {
             return BigInteger.valueOf(0);
         }
-        BigInteger[] numbersOfFibonacci = new BigInteger[length];
+        BigInteger[] numbersOfFibonacci = new BigInteger[2];
         numbersOfFibonacci[0] = BigInteger.ZERO;
         numbersOfFibonacci[1] = BigInteger.ONE;
-        for (int i = 2; i < numbersOfFibonacci.length; i++) {
+        for (int i = 0; i < numbersOfFibonacci.length; i++) {
             numbersOfFibonacci[i] = numbersOfFibonacci[i - 1].add(numbersOfFibonacci[i - 2]);
         }
-        return numbersOfFibonacci[length - 1];
+        return numbersOfFibonacci[index - 1];
     }
 
 

@@ -35,7 +35,6 @@ class Task22 {
         return (x % 5 == 0 && y % 5 != 0 && z % 5 != 0) ||
                 (x % 5 != 0 && y % 5 == 0 && z % 5 != 0) ||
                 (x % 5 != 0 && y % 5 != 0 && z % 5 == 0);
-//        return (x % 5 == 0) ^ (y % 5 == 0) ^ (z % 5 == 0);    // TODO спросить почему так не работает
     }
 
     boolean isOneOfTheNumbersIsOverAHundred(int x, int y, int z) {
