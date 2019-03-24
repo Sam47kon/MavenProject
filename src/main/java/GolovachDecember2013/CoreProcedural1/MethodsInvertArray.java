@@ -67,4 +67,15 @@ public class MethodsInvertArray {
         invertArray2(arr);
         System.out.println(Arrays.toString(arr));
     }
+
+
+    String invertText(String inputText) {    //
+        char[] data = inputText.toCharArray();    // записываем строку в масив символов
+        for (int i = 0; i < data.length / 2; i++) {
+            char tmp = data[i];
+            data[i] = data[data.length - 1 - i];
+            data[data.length - 1 - i] = tmp;
+        }
+        return new String(data);
+    }
 }
