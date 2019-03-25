@@ -18,6 +18,6 @@ public class Task1 {
     }
 
     int getSquare(int num) { //возведение в квадрат, без записи в переменную
-        return 1 << num;
+        return num * num;
     }
 }
