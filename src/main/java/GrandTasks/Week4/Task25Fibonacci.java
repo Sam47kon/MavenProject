@@ -1,8 +1,5 @@
 package GrandTasks.Week4;
 
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-
 import java.math.BigInteger;
 import java.util.Scanner;
 
@@ -13,17 +10,15 @@ public class Task25Fibonacci {
 
     public static void main(String[] args) {
         //while (true) {    // для того чтобы не запускать каждый раз
-            System.out.print("Введите порядковый номер элемента чисел Фибоначчи, который хотите увидеть: ");
-            int inputNum = new Scanner(System.in).nextInt();
-            BigInteger[][] indexFibonacci1 = new Task25Fibonacci().getFibonacciNumb(P, inputNum);
-            System.out.println("Ваше " + inputNum + " число Фибоначчи: " + indexFibonacci1[0][0]);
+        System.out.print("Введите порядковый номер элемента чисел Фибоначчи, который хотите увидеть: ");
+        int inputNum = new Scanner(System.in).nextInt();
+        BigInteger[][] indexFibonacci1 = new Task25Fibonacci().getFibonacciNumb(P, inputNum);
+        System.out.println("Ваше " + inputNum + " число Фибоначчи: " + indexFibonacci1[0][0]);
         //}
     }
 
 
-    @NotNull  // TODO спросить у Гриши зачем это?
-    @Contract("_, _ -> new")
-    private BigInteger[][] multiplication(@NotNull BigInteger[][] a, @NotNull BigInteger[][] b) {     // умножение матриц 2х2
+    private BigInteger[][] multiplication(BigInteger[][] a, BigInteger[][] b) {     // умножение матриц 2х2
         return new BigInteger[][]{
                 {a[0][0].multiply(b[0][0]).add(a[0][1].multiply(b[1][0])), a[0][0].multiply(b[0][1]).add(a[0][1].multiply(b[1][1]))},
                 {a[1][0].multiply(b[0][0]).add(a[1][1].multiply(b[1][0])), a[1][0].multiply(b[0][1]).add(a[1][1].multiply(b[1][1]))}
