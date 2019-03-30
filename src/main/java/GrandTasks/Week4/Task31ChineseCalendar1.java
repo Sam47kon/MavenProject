@@ -9,35 +9,27 @@ import java.util.Scanner;
 // Кроме того, в названии года фигурируют цвета животных, которые связаны с пятью элементами природы —
 // Деревом (зеленый), Огнем (красный), Землей (желтый), Металлом (белый) и Водой (черный).
 // В результате каждое животное (и его год) имеет символический цвет, причем цвет этот часто совершенно не совпадает с его "естественной" окраской —
-// Тигр может быть черным, Свинья — красной, а Лошадь — зеленой. Каждый цвет в цикле (начиная с зеленого)
-// "действует" два года, поэтому через каждые 60 лет имя года (животное и его цвет) повторяется.
-// Составить программу, которая по заданному номеру года нашей эры n печатает его название по описанному календарю в виде: "Крыса, Зеленый".
-class Task31ChineseCalendar {
-
-//    enum AnimalsYear {
-//        RAT,        // Крыса 1
-//        COW,        // Корова 2
-//        TIGER,      // Тигр 3
-//        HARE,       // Заяц 4
-//        DRAGON,     // Дракон 5
-//        SNAKE,      // Змея 6
-//        HORSE,     // Лошадь 7
-//        SHEEP,      // Оцва 8
-//        MONKEY,     // Обезьяна 9
-//        ROOSTER,    // Петух 10
-//        DOG,        // Собака 11
-//        PIG         // Свинья 12
-//    }
+// Тигр может быть черным, Свинья — красной, а Лошадь — зеленой. Например, 1984 год — год начала очередного цикла —
+// назывался годом Зеленой Крысы. Каждый цвет в цикле (начиная с зеленого) "действует" два года, поэтому через каждые 60 лет имя года (животное и его цвет) повторяется.
+// Составить программу, которая по заданному номеру года нашей эры n печатает его название по описанному календарю в виде: "Крыса, Зеленый". Рассмотреть два случая:
+//а) значение n 1984;
+//б) значение n может быть любым натуральным числом
+class Task31ChineseCalendar1 {
 
     public static void main(String[] args) {
         while (true) {
             System.out.println("Введите год:");
             int year = new Scanner(System.in).nextInt();
-            System.out.println(new Task31ChineseCalendar().getNameOfTheYearInTheChineseCalendar(year));
+            //  if (year < 1984) {
+            //    System.out.println("Календарь начинается с 1984 года!");
+            // } else {
+            System.out.println(new Task31ChineseCalendar1().getNameOfTheYearInTheChineseCalendar(year));
+            //  }
         }
     }
 
     String getYearOfTheAnimal(int dataYear) {
+        dataYear -= 1983;
         switch (dataYear) {
             case 1:
                 return "Rat";
@@ -69,6 +61,7 @@ class Task31ChineseCalendar {
     }
 
     String getYearOfTheElementOfNature(int dataYear) {
+        dataYear -= 1983;
         switch (dataYear) {
             case 1:
             case 2:
@@ -92,7 +85,10 @@ class Task31ChineseCalendar {
     }
 
     String getNameOfTheYearInTheChineseCalendar(int dataYear) {
-        return dataYear + " год - это год: " + getYearOfTheAnimal(dataYear) + ", " + getYearOfTheElementOfNature(dataYear) + " по китайскому календарю.";
-
+        try {
+            return dataYear + " год - это год: " + getYearOfTheAnimal(dataYear) + ", " + getYearOfTheElementOfNature(dataYear) + " по китайскому календарю.";
+        } catch (StackOverflowError err) {
+            throw new StackOverflowError("Календарь начинается с 1984 года!");
+        }
     }
 }
