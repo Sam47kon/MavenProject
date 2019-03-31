@@ -7,7 +7,9 @@ public class Task13extraV2 {
         for (int i = 0; i < inputNumbers.length; ) {
             inputNumbers[i] = new Task5().getDoubleFromInput("Введите " + ++i + " число");
         }
+        double time = System.nanoTime();
         double[] sortNumbers = new Task13extraV2().selectionSort(inputNumbers);    // 2 вариант сортировки
+        System.out.println("Time " + (System.nanoTime() - time));
         for (int i = 0; i < sortNumbers.length; ) {
             System.out.print(sortNumbers[i++] + "  ");
         }

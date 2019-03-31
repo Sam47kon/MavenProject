@@ -9,7 +9,9 @@ public class Task8Old {
     public static void main(String[] args) {
         System.out.print("Введите порядковый номер элемента чисел Фибоначчи, который хотите увидеть: ");
         int inputNum = new Scanner(System.in).nextInt();
+        long startTime = System.nanoTime();
         BigInteger indexFibonacci = new Task8Old().getFibonacciNumb(inputNum);
+        System.out.println("Время: " + (System.nanoTime() - startTime) / 1000000 + "ms");
         System.out.println("Ваше " + inputNum + " число Фибоначчи: " + indexFibonacci);
     }
 

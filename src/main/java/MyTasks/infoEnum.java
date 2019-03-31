@@ -1,6 +1,6 @@
 package MyTasks;
 
-public class Enum {
+public class infoEnum {
 
     public static void main(String[] args) {
 

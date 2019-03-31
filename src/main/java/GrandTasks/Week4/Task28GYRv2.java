@@ -22,6 +22,7 @@ class Task28GYRv2 {
         }
         if (time > 1) {
             return "YELLOW";
-        } else return "GREEN";
+        }
+        return "GREEN";
     }
 }

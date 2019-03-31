@@ -12,6 +12,7 @@ class Task28GYR {
         }
         if (dataTime == 2) {
             return "Yellow";
-        } else return "Red";
+        }
+        return "Red";
     }
 }

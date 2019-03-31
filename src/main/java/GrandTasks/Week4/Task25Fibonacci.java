@@ -9,12 +9,14 @@ public class Task25Fibonacci {
     static final BigInteger[][] P = {{BigInteger.ZERO, BigInteger.ONE}, {BigInteger.ONE, BigInteger.ONE}};    // первые 3 числа фибоначчи, которые нам нужны и только
 
     public static void main(String[] args) {
-        //while (true) {    // для того чтобы не запускать каждый раз
+        while (true) {    // для того чтобы не запускать каждый раз
         System.out.print("Введите порядковый номер элемента чисел Фибоначчи, который хотите увидеть: ");
         int inputNum = new Scanner(System.in).nextInt();
+        long startTime = System.nanoTime();
         BigInteger[][] indexFibonacci1 = new Task25Fibonacci().getFibonacciNumb(P, inputNum);
+        System.out.println("Время: " + (System.nanoTime() - startTime) / 1000000 + "ms");
         System.out.println("Ваше " + inputNum + " число Фибоначчи: " + indexFibonacci1[0][0]);
-        //}
+        }
     }
 
 
