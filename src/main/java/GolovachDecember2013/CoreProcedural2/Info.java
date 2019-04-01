@@ -62,5 +62,11 @@ public class Info {
             System.out.println();
         }
 
+        int low = 0;
+        int high = 100;
+        int mid1 = (low + high) / 2;
+        int mid2 = (low + high) >>> 1;   // mid1==mid2
+        int mid3 = low + (high - low) / 2;
+        System.out.println("mid1=(low+high)/2= " + mid1 + " == " + mid2 + " = mid2=(low+high)>>>1" + " == " + mid3 + " =mid3=low+(high-low)/2)");
     }
 }

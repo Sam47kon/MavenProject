@@ -1,8 +1,10 @@
 package GolovachDecember2013.CoreProcedural2.Sortings;
 
+import java.util.Random;
+
 class SelectionSortings {      // сортировки выборками
 
-    static void selectionsSort(int[] dataArr) {
+    static void selectionSort1(int[] dataArr) {
         for (int barrier = 0; barrier < dataArr.length - 1; barrier++) {
             for (int index = barrier + 1; index < dataArr.length; index++) {
                 if (dataArr[barrier] > dataArr[index]) {
@@ -14,7 +16,36 @@ class SelectionSortings {      // сортировки выборками
         }
     }
 
-    static void selectionSortInt(int[] arr) {
+    static int[] selectiveSorting(int[] dataArray, int leftBarrier, int rightBarrier) {   // выборочная сортировка (определенного отрезка)
+        int i = leftBarrier;
+        int j = rightBarrier;
+        Random random = new Random();
+        int x = dataArray[leftBarrier + random.nextInt(rightBarrier - leftBarrier + 1)];
+        while (i <= j) {    // сравнивания, compare
+            while (dataArray[i] < x) {
+                i++;
+            }
+            while (dataArray[j] > x) {
+                j--;
+            }
+            if (i <= j) {    //  перемены элементов местами, swap
+                int temp = dataArray[i];
+                dataArray[i] = dataArray[j];
+                dataArray[j] = temp;
+                i++;
+                j--;
+            }
+        }
+        if (leftBarrier < j) {
+            selectiveSorting(dataArray, leftBarrier, j);
+        }
+        if (i < rightBarrier) {
+            selectiveSorting(dataArray, i, rightBarrier);
+        }
+        return dataArray;
+    }
+
+    static void selectionSort2(int[] arr) {
         for (int i = 0; i < arr.length; i++) {
             double min = arr[i];
             int min_i = i;
