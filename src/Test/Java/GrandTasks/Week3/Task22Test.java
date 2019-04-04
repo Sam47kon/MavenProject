@@ -3,7 +3,7 @@ package GrandTasks.Week3;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class Task22Test { // TODO попробовать в этом классе прописать переменные в теле класса и параметры get set
+class Task22Test {
 
     @Test
     void testItIsEvenNumber() {

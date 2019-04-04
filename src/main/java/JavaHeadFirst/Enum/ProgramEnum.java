@@ -1,6 +1,6 @@
-package MyTasks;
+package JavaHeadFirst.Enum;
 
-public class infoEnum {
+public class ProgramEnum {
 
     public static void main(String[] args) {
 

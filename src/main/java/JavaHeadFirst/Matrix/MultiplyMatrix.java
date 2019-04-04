@@ -1,4 +1,4 @@
-package MyTasks;
+package JavaHeadFirst.Matrix;
 
 import java.util.Objects;
 

@@ -1,5 +1,5 @@
 
-package MyTasks;
+package JavaHeadFirst;
 
 /**
  * Программа для вывода

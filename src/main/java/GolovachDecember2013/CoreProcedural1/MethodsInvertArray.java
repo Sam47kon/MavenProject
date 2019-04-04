@@ -51,8 +51,6 @@ public class MethodsInvertArray {
         System.out.println(Arrays.toString(arr));
     }
 
-
-    // TODO Гриша посмотри сюда
     int[] invertArray2(int[] data) {    // цикл будет идти не от 0 к середине, а от середины к 0 (лабораторная работа головача)
         for (int i = data.length / 2, j = 0; i > 0; i--, j++) {    // сравниваю с 0 мпетод работает быстрее
             int tmp = data[j];
