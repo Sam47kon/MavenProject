@@ -1,65 +1,65 @@
-package JavaHeadFirst.OOP;
+package JavaHeadFirstAndOther.OOP;
 
-abstract class Animals {
-    int countPlaySongs = 0;
+public class Abstract { // абстракция
+    static abstract class Animals {
+        int countPlaySongs = 0;
 
-    final int legs = 4;
+        final int legs = 4;
 
-    abstract int getLegs();
+        abstract int getLegs();
 
-    int weight;
+        int weight;
 
-    abstract void setWeight(int weight);
+        abstract void setWeight(int weight);
 
-    abstract int getWeight();
+        abstract int getWeight();
 
-    String name;
+        String name;
 
-    abstract void setName(String name);
+        abstract void setName(String name);
 
-    abstract String getName();
+        abstract String getName();
 
 
-    abstract void playVoice();
-}
-
-class Cat extends Animals {
-
-    int getCountPlaySongs() {
-        return countPlaySongs;
+        abstract void playVoice();
     }
 
-    int getLegs() {
-        return legs;
+    static class Cat extends Animals {
+
+        int getCountPlaySongs() {
+            return countPlaySongs;
+        }
+
+        int getLegs() {
+            return legs;
+        }
+
+
+        void setWeight(int dataWeight) {
+            this.weight = dataWeight;
+        }
+
+        int getWeight() {
+            return weight;
+        }
+
+
+        void setName(String dataName) {
+            this.name = dataName;
+        }
+
+        String getName() {
+            return name;
+        }
+
+
+        void playVoice() {
+            System.out.println("Meow");
+            countPlaySongs++;
+        }
     }
 
 
-    void setWeight(int dataWeight) {
-        this.weight = dataWeight;
-    }
-
-    int getWeight() {
-        return weight;
-    }
-
-
-    void setName(String dataName) {
-        this.name = dataName;
-    }
-
-    String getName() {
-        return name;
-    }
-
-
-    void playVoice() {
-        System.out.println("Meow");
-        countPlaySongs++;
-    }
-}
-
-
-public class AnimalCatAbstract {
     public static void main(String[] args) {
         Animals cat1 = new Cat();
         cat1.setName("Vega");
@@ -87,6 +87,5 @@ public class AnimalCatAbstract {
 
         System.out.println(((Cat) cat1).getCountPlaySongs());
         System.out.println(((Cat) cat2).getCountPlaySongs());
-
     }
 }

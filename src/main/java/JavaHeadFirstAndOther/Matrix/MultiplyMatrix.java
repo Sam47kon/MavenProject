@@ -1,4 +1,4 @@
-package JavaHeadFirst.Matrix;
+package JavaHeadFirstAndOther.Matrix;
 
 import java.util.Objects;
 

@@ -1,57 +1,54 @@
-package JavaHeadFirst.OOP;
+package JavaHeadFirstAndOther.OOP;
 
+public class Interface { // интерфейс
+    interface Animals1 {
+        int legs = 4;
 
-interface Animals1 {
-    int legs = 4;
+        int getLegs();
 
-    int getLegs();
+        void setWeight(int weight);
 
-    void setWeight(int weight);
+        int getWeight();
 
-    int getWeight();
+        void setName(String name);
 
-    void setName(String name);
+        String getName();
 
-    String getName();
-
-    void playVoice();
-}
-
-class Cat1 implements Animals1 {
-
-
-    public int getLegs() {
-        return legs;
+        void playVoice();
     }
 
-    private int weight;
+    static class Cat1 implements Animals1 {
 
-    public void setWeight(int dataWeight) {
-        this.weight = dataWeight;
+        public int getLegs() {
+            return legs;
+        }
+
+        private int weight;
+
+        public void setWeight(int dataWeight) {
+            this.weight = dataWeight;
+        }
+
+        public int getWeight() {
+            return weight;
+        }
+
+        private String name;
+
+        public void setName(String dataName) {
+            this.name = dataName;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void playVoice() {
+            System.out.println("Meow");
+        }
     }
 
-    public int getWeight() {
-        return weight;
-    }
 
-    private String name;
-
-    public void setName(String dataName) {
-        this.name = dataName;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-
-    public void playVoice() {
-        System.out.println("Meow");
-    }
-}
-
-
-public class AnimalCatInterface {
     public static void main(String[] args) {
         Animals1 cat1 = new Cat1();
         cat1.setName("Vega");

@@ -1,6 +1,6 @@
-package JavaHeadFirst.Exception;
+package JavaHeadFirstAndOther.Exception;
 
-public class Exceptions {
+public class InfoExceptions {
     public static void main(String[] args) {
         int[] arr = new int[5];
         try {  // пробовать

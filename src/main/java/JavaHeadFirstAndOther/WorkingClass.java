@@ -1,5 +1,5 @@
 
-package JavaHeadFirst;
+package JavaHeadFirstAndOther;
 
 /**
  * Программа для вывода

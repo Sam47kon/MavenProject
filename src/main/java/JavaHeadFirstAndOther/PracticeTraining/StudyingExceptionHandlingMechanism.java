@@ -1,4 +1,4 @@
-package JavaHeadFirst.PracticeTraining;
+package JavaHeadFirstAndOther.PracticeTraining;
 
 public class StudyingExceptionHandlingMechanism {
 

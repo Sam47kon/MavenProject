@@ -1,4 +1,4 @@
-package JavaHeadFirst.Enum;
+package JavaHeadFirstAndOther.Enum;
 
 public class ProgramEnum2 {
 
