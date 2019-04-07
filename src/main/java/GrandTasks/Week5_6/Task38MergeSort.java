@@ -2,38 +2,51 @@ package GrandTasks.Week5_6;
 
 import java.util.Arrays;
 
-public class Task38MergeSort {    // сортировка слиянием
+public class Task38MergeSort {    // сортировка слиянием используя рекурсию
     public static void main(String[] args) {
-        int[] arr1 = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        int[] arr2 = new int[]{1, 2, 3, 9, 10, 11, 12, 13, 14, 15};
+        int[] arr1 = new int[]{99, -999, 34, 60, 60, 75, 118, 9645, -10};
+        int[] sortArr1;
         double startTime;
         double stopTime;
-        int[] mergerArr1Arr2;
 
         startTime = System.nanoTime();
-        mergerArr1Arr2 = mergeArrays(arr1, arr2);
+        sortArr1 = changeMergeSort(arr1);
         stopTime = System.nanoTime();
-        System.out.println(Arrays.toString(mergerArr1Arr2));
-        System.out.println("Time mergeArrays = " + (stopTime - startTime) / 1000 + " ms");
+        System.out.println("Time mergeSort = " + (stopTime - startTime) / 1000 + " ms");
+        System.out.println(Arrays.toString(sortArr1));
+        System.out.println(Arrays.toString(arr1));
     }
 
-    private static int[] mergeArrays(int[] arr1, int[] arr2) {
-        int[] result = new int[arr1.length + arr2.length];
-        int aIndex = 0;
-        int bIndex = 0;
-        int index = 0;
-        while (index < result.length) {
-            result[index] = arr1[aIndex] < arr2[bIndex] ? arr1[aIndex++] : arr2[bIndex++];
-            if (aIndex == arr1.length) {       // если индекс вылетел за пределы
-                System.arraycopy(arr2, bIndex, result, ++index, arr2.length - bIndex);    // копирую оставшиеся элементы другого массива
-                break;
-            }
-            if (bIndex == arr2.length) {
-                System.arraycopy(arr1, aIndex, result, ++index, arr1.length - aIndex);
-                break;
-            }
-            index++;
+    private static int[] changeMergeSort(int[] array1) {
+        int[] arr = Arrays.copyOf(array1, array1.length);
+        int[] buffer = new int[array1.length];
+        return mergeSort(arr, buffer, 0, array1.length);
+    }
+
+    private static int[] mergeSort(int[] arr, int[] buffer, int startIndex, int endIndex) {
+        if (startIndex >= endIndex - 1) {
+            return arr;
+        }
+        // уже отсортирован.
+        int middle = startIndex + (endIndex - startIndex) / 2;
+        int[] sorted1 = mergeSort(arr, buffer, startIndex, middle);
+        int[] sorted2 = mergeSort(arr, buffer, middle, endIndex);
+        // Слияние
+        int index1 = startIndex;
+        int index2 = middle;
+        int destIndex = startIndex;
+        int[] result = sorted1 == arr ? buffer : arr;
+        while (index1 < middle && index2 < endIndex) {
+            result[destIndex++] = sorted1[index1] < sorted2[index2]
+                    ? sorted1[index1++] : sorted2[index2++];
+        }
+        while (index1 < middle) {
+            result[destIndex++] = sorted1[index1++];
+        }
+        while (index2 < endIndex) {
+            result[destIndex++] = sorted2[index2++];
         }
         return result;
     }
+
 }

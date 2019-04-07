@@ -46,36 +46,35 @@ public class MergeSorting {
         stopTime = System.nanoTime();
         System.out.println("Time sortUnsorted for ARR3 = " + (stopTime - startTime) / 1000 + " ms");
         System.out.println(Arrays.toString(ARR3));
-
     }
 
     private static int[] changeMergeSort(int[] array1) {
-        int[] buffer1 = Arrays.copyOf(array1, array1.length);
-        int[] buffer2 = new int[array1.length];
-        return mergeSort(buffer1, buffer2, 0, array1.length);
+        int[] arr = Arrays.copyOf(array1, array1.length);
+        int[] buffer = new int[array1.length];
+        return mergeSort(arr, buffer, 0, array1.length);
     }
 
     /**
-     * @param buffer1    Массив для сортировки.
-     * @param buffer2    Буфер. Размер должен быть равен размеру buffer1.
+     * @param arr    Массив для сортировки.
+     * @param buffer    Буфер. Размер должен быть равен размеру buffer1.
      * @param startIndex Начальный индекс в buffer1 для сортировки.
      * @param endIndex   Конечный индекс в buffer1 для сортировки.
      */
-    private static int[] mergeSort(int[] buffer1, int[] buffer2, int startIndex, int endIndex) {
+    private static int[] mergeSort(int[] arr, int[] buffer, int startIndex, int endIndex) {
         if (startIndex >= endIndex - 1) {
-            return buffer1;
+            return arr;
         }
 
         // уже отсортирован.
         int middle = startIndex + (endIndex - startIndex) / 2;
-        int[] sorted1 = mergeSort(buffer1, buffer2, startIndex, middle);
-        int[] sorted2 = mergeSort(buffer1, buffer2, middle, endIndex);
+        int[] sorted1 = mergeSort(arr, buffer, startIndex, middle);
+        int[] sorted2 = mergeSort(arr, buffer, middle, endIndex);
 
         // Слияние
         int index1 = startIndex;
         int index2 = middle;
         int destIndex = startIndex;
-        int[] result = sorted1 == buffer1 ? buffer2 : buffer1;
+        int[] result = sorted1 == arr ? buffer : arr;
         while (index1 < middle && index2 < endIndex) {
             result[destIndex++] = sorted1[index1] < sorted2[index2]
                     ? sorted1[index1++] : sorted2[index2++];
@@ -96,8 +95,6 @@ public class MergeSorting {
      * @param lastPos  - позиция последнего элемента в массиве (для первой итерации = a.length — 1)
      */
     private static void sortUnsorted(int[] arr, int firstPos, int lastPos) {  // сортировка слиянием TODO доработать
-
-
         if (lastPos <= firstPos)
             return;
         int mid = firstPos + (lastPos - firstPos) / 2;
@@ -109,7 +106,8 @@ public class MergeSorting {
         for (int k = firstPos; k <= lastPos; k++)
             buf[k] = arr[k];
 
-        int i = firstPos, j = mid + 1;
+        int i = firstPos;
+        int j = mid + 1;
         for (int k = firstPos; k <= lastPos; k++) {
 
             if (i > mid) {
