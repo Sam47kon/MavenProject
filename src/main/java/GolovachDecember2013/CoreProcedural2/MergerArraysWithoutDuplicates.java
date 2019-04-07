@@ -1,8 +1,8 @@
-package GolovachDecember2013.CoreProcedural2.Sortings;
+package GolovachDecember2013.CoreProcedural2;
 
 import java.util.Arrays;
 
-public class MergerWithoutDuplicates {
+public class MergerArraysWithoutDuplicates {
 
     public static void main(String[] args) {
         int[] a = {1, 2, 3, 4};
