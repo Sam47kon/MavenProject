@@ -7,10 +7,10 @@ import static GolovachDecember2013.CoreProcedural2.Sortings.InsertionSort.insert
 import static GolovachDecember2013.CoreProcedural2.Sortings.SelectionSortings.*;
 
 public class RuntimeSortings {
-    public static final int[] ARR0 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    static final int[] ARR0 = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     static final int[] ARR1 = new int[20];
     static final int[] ARR2 = new int[500];
-    static final int[] ARR3 = new int[5000];
+    public static final int[] ARR3 = new int[5000];
     private static final double[] DOUBLE_ARR1 = new double[20];
     private static final double[] DOUBLE_ARR2 = new double[500];
 

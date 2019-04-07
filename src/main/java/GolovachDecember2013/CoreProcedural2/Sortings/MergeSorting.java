@@ -8,68 +8,53 @@ public class MergeSorting {
 
     public static void main(String[] args) {
         int[] result;
+        int[] testArr = Arrays.copyOf(ARR3, ARR3.length);
         double startTime;
         double stopTime;
         System.out.println("до: ");
-        System.out.println(Arrays.toString(ARR0));
-        System.out.println(Arrays.toString(ARR1));
-        System.out.println(Arrays.toString(ARR2));
-        System.out.println(Arrays.toString(ARR3));
-        System.out.println("после: ");
+        System.out.println("ARR3 = " + Arrays.toString(ARR3));
+
 
         startTime = System.nanoTime();
-        result = changeMergeSort(ARR0);
+        result = mergeSort1Recursive(testArr);
         stopTime = System.nanoTime();
-        System.out.println("Time mergeSort for ARR0 = " + (stopTime - startTime) / 1000 + " ms");
-        System.out.println(Arrays.toString(result));
+        System.out.println("Time mergeSort1Recursive for ARR3 = " + (stopTime - startTime) / 1000 + " ms");
+        System.out.println("result = " + Arrays.toString(result));
+
 
         startTime = System.nanoTime();
-        result = changeMergeSort(ARR1);
+        mergeSort3(testArr, 0, testArr.length - 1);
         stopTime = System.nanoTime();
-        System.out.println("Time mergeSort for ARR1 = " + (stopTime - startTime) / 1000 + " ms");
-        System.out.println(Arrays.toString(result));
+        System.out.println("Time mergeSort3 for ARR3 = " + (stopTime - startTime) / 1000 + " ms");
+        System.out.println("после mergeSort3 " + Arrays.toString(testArr));
+        testArr = Arrays.copyOf(ARR3, ARR3.length);
+
 
         startTime = System.nanoTime();
-        result = changeMergeSort(ARR2);
+        mergeSort2Iterative(testArr);
         stopTime = System.nanoTime();
-        System.out.println("Time mergeSort for ARR2 = " + (stopTime - startTime) / 1000 + " ms");
-        System.out.println(Arrays.toString(result));
+        System.out.println("Time mergeSort2Iterative for ARR3 = " + (stopTime - startTime) / 1000 + " ms");
+        System.out.println(Arrays.toString(testArr));
+        testArr = Arrays.copyOf(ARR3, ARR3.length);
 
-        startTime = System.nanoTime();
-        result = changeMergeSort(ARR3);
-        stopTime = System.nanoTime();
-        System.out.println("Time mergeSort for ARR3 = " + (stopTime - startTime) / 1000 + " ms");
-        System.out.println(Arrays.toString(result));
-
-        startTime = System.nanoTime();
-        sortUnsorted(ARR3, 0, ARR3.length - 1);
-        stopTime = System.nanoTime();
-        System.out.println("Time sortUnsorted for ARR3 = " + (stopTime - startTime) / 1000 + " ms");
-        System.out.println(Arrays.toString(ARR3));
-    }
-
-    private static int[] changeMergeSort(int[] array1) {
-        int[] arr = Arrays.copyOf(array1, array1.length);
-        int[] buffer = new int[array1.length];
-        return mergeSort(arr, buffer, 0, array1.length);
     }
 
     /**
-     * @param arr    Массив для сортировки.
-     * @param buffer    Буфер. Размер должен быть равен размеру buffer1.
+     * сортировка слиянием рекурсивно
+     *
+     * @param arr        Массив для сортировки.
+     * @param buffer     Буфер. Размер должен быть равен размеру buffer1.
      * @param startIndex Начальный индекс в buffer1 для сортировки.
      * @param endIndex   Конечный индекс в buffer1 для сортировки.
      */
-    private static int[] mergeSort(int[] arr, int[] buffer, int startIndex, int endIndex) {
+    private static int[] mergeSort1RecursiveInner(int[] arr, int[] buffer, int startIndex, int endIndex) { // сортировка слиянием рекурсивно
         if (startIndex >= endIndex - 1) {
             return arr;
         }
-
         // уже отсортирован.
         int middle = startIndex + (endIndex - startIndex) / 2;
-        int[] sorted1 = mergeSort(arr, buffer, startIndex, middle);
-        int[] sorted2 = mergeSort(arr, buffer, middle, endIndex);
-
+        int[] sorted1 = mergeSort1RecursiveInner(arr, buffer, startIndex, middle);
+        int[] sorted2 = mergeSort1RecursiveInner(arr, buffer, middle, endIndex);
         // Слияние
         int index1 = startIndex;
         int index2 = middle;
@@ -88,28 +73,85 @@ public class MergeSorting {
         return result;
     }
 
+    private static int[] mergeSort1Recursive(int[] array1) {
+        int[] arr = Arrays.copyOf(array1, array1.length);
+        int[] buffer = new int[array1.length];
+        return mergeSort1RecursiveInner(arr, buffer, 0, array1.length);
+    }
+
 
     /**
+     * сортировка слиянием итеративно
+     *
+     * @param arr        Массив для сортировки.
+     */
+
+    private static void mergeSort2Iterative(int[] arr) {
+        if (arr == null) {
+            return;
+        }
+        if (arr.length > 1) {
+            int mid = arr.length / 2;
+            // Split left part
+            int[] left = new int[mid];
+            for (int i = 0; i < mid; i++) {
+                left[i] = arr[i];
+            }
+            // Split right part
+            int[] right = new int[arr.length - mid];
+            for (int i = mid; i < arr.length; i++) {
+                right[i - mid] = arr[i];
+            }
+            mergeSort2Iterative(left);
+            mergeSort2Iterative(right);
+            int i = 0;
+            int j = 0;
+            int k = 0;
+            // Merge left and right arrays
+            while (i < left.length && j < right.length) {
+                if (left[i] < right[j]) {
+                    arr[k] = left[i];
+                    i++;
+                } else {
+                    arr[k] = right[j];
+                    j++;
+                }
+                k++;
+            }
+            // Collect remaining elements
+            while (i < left.length) {
+                arr[k] = left[i];
+                i++;
+                k++;
+            }
+            while (j < right.length) {
+                arr[k] = right[j];
+                j++;
+                k++;
+            }
+        }
+    }
+
+
+    /**
+     * сортировка слиянием рекурсивно, выбранного промежутка
+     *
      * @param arr      - массив
      * @param firstPos - позиция первого элемента в массиве (для первой итерации = 0)
      * @param lastPos  - позиция последнего элемента в массиве (для первой итерации = a.length — 1)
      */
-    private static void sortUnsorted(int[] arr, int firstPos, int lastPos) {  // сортировка слиянием TODO доработать
+    private static void mergeSort3(int[] arr, int firstPos, int lastPos) {  // сортировка слиянием рекурсивно, выбранного промежутка
         if (lastPos <= firstPos)
             return;
         int mid = firstPos + (lastPos - firstPos) / 2;
-        sortUnsorted(arr, firstPos, mid);
-        sortUnsorted(arr, mid + 1, lastPos);
-
+        mergeSort3(arr, firstPos, mid);
+        mergeSort3(arr, mid + 1, lastPos);
         int[] buf = Arrays.copyOf(arr, arr.length);
-
         for (int k = firstPos; k <= lastPos; k++)
             buf[k] = arr[k];
-
         int i = firstPos;
         int j = mid + 1;
         for (int k = firstPos; k <= lastPos; k++) {
-
             if (i > mid) {
                 arr[k] = buf[j];
                 j++;
