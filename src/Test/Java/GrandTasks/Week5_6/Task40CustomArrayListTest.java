@@ -1,97 +1,90 @@
 package GrandTasks.Week5_6;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 class Task40CustomArrayListTest {
     //  add, isEmpty, size, set, get, remove,  addAll, containsAll
-    private List<String> list = new ArrayList<>();
+    private List<String> testList = new ArrayList<>();
+    private List<String> testAddList = new ArrayList<>();
+
+
+    @BeforeEach
+    void beforeEachFunctions() {
+        testList.add("value1 i0");           // 0
+        testList.add("oldValue i1");         // 1
+        testList.add("value3 i2");           // 2
+        testList.add("value4 i3 remove");    // 3
+        testList.add("value5 i4 remove");    // 4
+
+        testAddList.add("value1");
+        testAddList.add("value2");
+        testAddList.add("value3");
+    }
+
+    @AfterEach
+    void afterEachFunctions() {
+        System.out.println(testList);
+        System.out.println(testAddList);
+    }
+
 
     @Test
     void testAdd() {
-        Assertions.assertTrue(list.add("1"));
-        Assertions.assertTrue(list.add("2"));
+        Assertions.assertTrue(testList.add("value6 i5"));
+        Assertions.assertTrue(testList.add("value7 i6"));
     }
 
     @Test
     void testIsEmpty() {
-        Assertions.assertTrue(list.isEmpty());
-        list.add("1");
-        Assertions.assertFalse(list.isEmpty());
-        list.get(0);
+        Assertions.assertFalse(testList.isEmpty());
     }
 
     @Test
     void testSize() {
-        Assertions.assertEquals(0, list.size());
-        list.add("1");
-        list.add("2");
-        Assertions.assertEquals(2, list.size());
-        list.add("3");
-        Assertions.assertEquals(3, list.size());
+        Assertions.assertEquals(5, testList.size());
     }
 
     @Test
     void testSet() {
-        list.add("1");
-        list.add("oldValue");
-        Assertions.assertEquals("oldValue", list.set(1, "newValue1"));
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> list.set(2, "newValue2"));
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> list.set(-2, "newValue2"));
+        Assertions.assertEquals("oldValue i1", testList.set(1, "newValue1"));
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> testList.set(5, "unable to replace non-existent object"));
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> testList.set(-2, "index can not be negative"));
     }
 
     @Test
     void testGet() {
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> list.get(1));
-        list.add("value1 index0");
-        Assertions.assertEquals("value1 index0", list.get(0));
-        list.add("value2 index1");
-        Assertions.assertEquals("value1 index0", list.get(1));
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> testList.get(5));
+        Assertions.assertEquals("value1 i0", testList.get(0));
+        Assertions.assertEquals("value3 i2", testList.get(2));
     }
 
     @Test
     void testRemove() {
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> list.remove(1));
-        list.add("value1 index0 delete");
-        list.add("value2 index1 delete");
-        list.add("value3 index2");
-        list.add("value4 index3");
-        Assertions.assertEquals("value1 index0 delete", list.remove(0));
-        Assertions.assertTrue(list.remove("value2 index1 delete"));
-    }
-
-    @Test
-    void testAddAll() {
-        List<String> testList = new ArrayList<>();
-        testList.add("value1");
-        testList.add("value2");
-        testList.add("value3");
-        Assertions.assertTrue(list.addAll(testList));
-        Assertions.assertTrue(list.addAll(0, testList));
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> testList.remove(5));
+        Assertions.assertEquals("value4 i3 remove", testList.remove(3));
+        Assertions.assertTrue(testList.remove("value5 i4 remove"));
     }
 
     @Test
     void testContains() {
-        list.add("value1");
-        list.add("value2");
-        list.add("value3");
-        list.add("value4");
-        Assertions.assertTrue(list.contains("value1"));
-        Assertions.assertTrue(list.contains("value4"));
-        Assertions.assertFalse(list.contains("value5"));
+        Assertions.assertTrue(testList.contains("value1 i0"));
+        Assertions.assertTrue(testList.contains("oldValue i1"));
+        Assertions.assertFalse(testList.contains("value does not exist"));
     }
 
     @Test
     void testContainsAll() {
-        List<String> testList = new ArrayList<>();
-        testList.add("value1");
-        testList.add("value2");
-        testList.add("value3");
-        Assertions.assertFalse(list.containsAll(testList));
-        list.addAll(testList);
-        Assertions.assertTrue(list.containsAll(testList));
+        Assertions.assertFalse(testList.containsAll(testAddList));
+        testList.addAll(testAddList);
+        Assertions.assertTrue(testList.containsAll(testAddList));
+    }
+
+    @Test
+    void testAddAll() {
+        Assertions.assertTrue(testList.addAll(testAddList));
+        Assertions.assertTrue(testList.addAll(0, testAddList));
     }
 }

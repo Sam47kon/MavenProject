@@ -2,49 +2,61 @@ package GrandTasks.Week5_6;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
-public class Task40CustomArrayList implements List {
+public class Task40CustomArrayList<E> implements List {
     private int size;
+    private Object[] elementData;
 
+    // Возвращает размер CustomArrayList
     @Override
-    public int size() {
+    public int size() {     // готово
         return this.size;
     }
 
-    @Override
+    // Возвращает true, если CustomArrayList (далее этот список) пустой
+    @Override       // готово
     public boolean isEmpty() {
         return size == 0;
     }
 
-    @Override
+    // Возвращает, true если этот список содержит указанный элемент.
+    @Override       // готово
     public boolean contains(Object o) {
         return indexOf(o) >= 0;
     }
 
+    // Возвращает итератор для элементов в этом списке в правильной последовательности.
     @NotNull
-    @Override
+    @Override       // ??? TODO
     public Iterator iterator() {
         return null;
     }
 
+    // Возвращает массив, содержащий все элементы в этом списке в правильной последовательности (от первого до последнего элемента).
     @NotNull
     @Override
-    public Object[] toArray() {
-        return new Object[0];
+    public Object[] toArray() {    // Готово
+        return Arrays.copyOf(elementData, size);
     }
 
+    // Добавляет указанный элемент в конец этого списка и возвращает true
     @Override
-    public boolean add(Object o) {
-        return false;
+    public boolean add(Object e) {      // TODO хз правильно ли?
+        elementData[size] = e;
+        size++;
+        return true;
     }
 
+    // Удаляет первое вхождение указанного элемента из этого списка, если он присутствует.
     @Override
     public boolean remove(Object o) {
-        return false;
+        for (int i = 0; i < size; i++) {
+            if (elementData.equals(o)) {
+                elementData[i] = null;  //  TODO оставлять null или смещять весь список?
+            }
+        }
+        return true;
     }
 
     @Override
@@ -82,9 +94,28 @@ public class Task40CustomArrayList implements List {
         return null;
     }
 
+    // Возвращает индекс последнего вхождения указанного элемента в этом списке или -1, если этот список не содержит элемент.
     @Override
-    public int indexOf(Object o) {
-        return 0;
+    public int indexOf(Object o) {      // разобрать если не пойму, переделать как пойму
+        return indexOfRange(o, 0, size);
+    }
+
+    private int indexOfRange(Object o, int start, int end) {    // разобрать если не пойму, переделать как пойму
+        Object[] es = elementData;
+        if (o == null) {
+            for (int i = start; i < end; i++) {
+                if (es[i] == null) {
+                    return i;
+                }
+            }
+        } else {
+            for (int i = start; i < end; i++) {
+                if (o.equals(es[i])) {
+                    return i;
+                }
+            }
+        }
+        return -1;
     }
 
     @Override
