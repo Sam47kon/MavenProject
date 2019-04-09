@@ -4,12 +4,24 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public class Task40CustomArrayList<E> implements List {
+public class Task40CustomArrayListCopy<E> implements List<E> {
     private int size;
     private Object[] elementData;
     private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {};
     private static final int DEFAULT_CAPACITY = 10;
     private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
+
+
+    // unchecked - отключение предупреждений, связанных с непроверенными операциями
+    @SuppressWarnings("unchecked")
+    E elementData(int index) {    // приведение типов
+        return (E) elementData[index];
+    }
+
+    @SuppressWarnings("unchecked")
+    static <E> E elementAt(Object[] es, int index) {
+        return (E) es[index];
+    }
 
 
     // Возвращает размер CustomArrayList
@@ -46,8 +58,8 @@ public class Task40CustomArrayList<E> implements List {
 
     // Добавляет указанный элемент в конец этого списка и возвращает true
     @Override
-    public boolean add(Object e) {      // TODO UPD вот на реализации этого метода я понял, что нужно парометизировать (или правильнее типизировать) класс и интерфейс, которому он принадлежит
-        //   add(e, elementData, size);
+    public boolean add(E e) {      // TODO хз правильно ли?
+        add(e, elementData, size);
         return true;
     }
 
@@ -58,18 +70,19 @@ public class Task40CustomArrayList<E> implements List {
         size = s + 1;
     }
 
-    // Удаляет первое вхождение указанного элемента из этого списка, если он присутствует.
-//    @Override
-//    public boolean remove(Object o) {
-//        for (int i = 0; i < size; i++) {
-//            if (elementData.equals(o)) {
-//                elementData[i] = null;  //  TODO оставлять null или смещять весь список?
-//            }
-//        }
-//        return true;
-//    }
+    // Удаляет элемент в указанной позиции в этом списке
     @Override
-    public boolean remove(Object o) {   // готово
+    public E remove(int index) {    // Готово, но надо проверить на работоспособность обязательно
+//        Objects.checkIndex(index, size);
+        rangeCheckForAdd(index);
+        E oldElement = elementData(index);
+        fastRemove(elementData, index);
+        return oldElement;
+    }
+
+    // Удаляет первое вхождение указанного элемента из этого списка, если он присутствует.
+    @Override
+    public boolean remove(Object o) {   // TODO не совсем понял что здесь делается, что за конструкци AnyName:{... break AnyName}
         final Object[] es = elementData;
         final int size = this.size;
         int i = 0;
@@ -147,11 +160,10 @@ public class Task40CustomArrayList<E> implements List {
                 : MAX_ARRAY_SIZE;
     }
 
-    // Вставляет все элементы из указанной коллекции в этот список, начиная с указанной позиции
+    // Вставляет все элементы из указанной коллекции в этот список, начиная с указанной позиции. либо false если колекция пустая
     @Override
     public boolean addAll(int index, @NotNull Collection c) {   // готово
         rangeCheckForAdd(index);
-
         Object[] a = c.toArray();
         int numNew = a.length;
         if (numNew == 0)
@@ -197,23 +209,23 @@ public class Task40CustomArrayList<E> implements List {
 
     // Возвращает элемент в указанной позиции в этом списке
     @Override
-    public Object get(int index) {  // Готово
+    public E get(int index) {  // Готово
         rangeCheckForAdd(index);
-        return elementData[index];
+        return elementData(index);
     }
 
     // Заменяет элемент в указанной позиции в этом списке на указанный элемент, возвращает старый элемент
     @Override
-    public Object set(int index, Object element) {  // Готово
+    public E set(int index, E element) {  // Готово
         rangeCheckForAdd(index);
-        Object oldElement = elementData[index];
+        E oldElement = elementData(index);
         elementData[index] = element;
         return oldElement;
     }
 
     // Вставляет указанный элемент в указанную позицию в этом списке.
     @Override
-    public void add(int index, Object element) {    // Готово
+    public void add(int index, E element) {    // Готово
         rangeCheckForAdd(index);
         final int s;
         Object[] elementData;
@@ -224,10 +236,6 @@ public class Task40CustomArrayList<E> implements List {
         size = s + 1;
     }
 
-    @Override
-    public Object remove(int index) {
-        return null;
-    }
 
     // Возвращает индекс последнего вхождения указанного элемента в этом списке или -1, если этот список не содержит элемент.
     @Override
@@ -254,7 +262,7 @@ public class Task40CustomArrayList<E> implements List {
     }
 
     @Override
-    public int lastIndexOf(Object o) {
+    public int lastIndexOf(Object o) {  // TODO остановился здесь
         return 0;
     }
 
