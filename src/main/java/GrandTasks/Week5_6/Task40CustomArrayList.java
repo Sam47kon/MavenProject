@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class Task40CustomArrayList<E> implements List {
+
     private int size;
     private Object[] elementData;
     private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {};
@@ -204,24 +205,15 @@ public class Task40CustomArrayList<E> implements List {
 
     // Заменяет элемент в указанной позиции в этом списке на указанный элемент, возвращает старый элемент
     @Override
-    public Object set(int index, Object element) {  // Готово
-        rangeCheckForAdd(index);
+    public Object set(int index, Object element) {  //
         Object oldElement = elementData[index];
-        elementData[index] = element;
         return oldElement;
     }
 
     // Вставляет указанный элемент в указанную позицию в этом списке.
     @Override
-    public void add(int index, Object element) {    // Готово
-        rangeCheckForAdd(index);
-        final int s;
-        Object[] elementData;
-        if ((s = size) == (elementData = this.elementData).length)
-            elementData = grow();
-        System.arraycopy(elementData, index, elementData, index + 1, s - index);
-        elementData[index] = element;
-        size = s + 1;
+    public void add(int index, Object element) {
+
     }
 
     @Override
@@ -231,25 +223,12 @@ public class Task40CustomArrayList<E> implements List {
 
     // Возвращает индекс последнего вхождения указанного элемента в этом списке или -1, если этот список не содержит элемент.
     @Override
-    public int indexOf(Object o) {      // разобрать если не пойму, переделать как пойму
-        return indexOfRange(o, 0, size);
+    public int indexOf(Object o) {
+        return 0;
     }
 
-    private int indexOfRange(Object o, int start, int end) {    // разобрать если не пойму, переделать как пойму
-        Object[] es = elementData;
-        if (o == null) {
-            for (int i = start; i < end; i++) {
-                if (es[i] == null) {
-                    return i;
-                }
-            }
-        } else {
-            for (int i = start; i < end; i++) {
-                if (o.equals(es[i])) {
-                    return i;
-                }
-            }
-        }
+    private int indexOfRange(Object o, int start, int end) {    //
+
         return -1;
     }
 
