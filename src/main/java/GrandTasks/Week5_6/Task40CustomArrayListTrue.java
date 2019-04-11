@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Task40CustomArrayListTrue implements List {
 
-    private Object[] dataElements;
+    private Object[] dataElements = {};
     private int size = 0;
 
 
@@ -59,7 +59,7 @@ public class Task40CustomArrayListTrue implements List {
     @NotNull
     @Override
     public Object[] toArray() {
-        return Arrays.copyOf(dataElements, size - 1);
+        return Arrays.copyOf(dataElements, size);
     }
 
 
@@ -71,9 +71,9 @@ public class Task40CustomArrayListTrue implements List {
     @Override
     public boolean add(Object newDataElement) {//
         if (newDataElement == null) {
-            throw new UnsupportedOperationException();
+            throw new NullPointerException("Исключение нулевого указателя");
         }
-        size++;
+        dataElements = Arrays.copyOf(dataElements, ++size);
         dataElements[size - 1] = newDataElement;
         return true;
     }
@@ -134,13 +134,14 @@ public class Task40CustomArrayListTrue implements List {
      * @return - true, если коллекция не пустая
      */
     @Override
-    public boolean addAll(@NotNull Collection addedCollection) {
+    public boolean addAll(@NotNull Collection addedCollection) {    // TODO не работает
         Object[] addedElements = addedCollection.toArray();
         if (addedElements.length == 0) {
             return false;
         }
         size = addedElements.length + size;
-        System.arraycopy(dataElements, dataElements.length, addedElements, 0, addedElements.length + 1);
+        dataElements = Arrays.copyOf(dataElements, size);
+        System.arraycopy(dataElements, dataElements.length - addedElements.length, addedElements, 0, addedElements.length);
         return true;
     }
 
@@ -162,6 +163,7 @@ public class Task40CustomArrayListTrue implements List {
         size = 0;
     }
 
+
     /**
      * Возвращает элемент в указанной позиции в этом списке
      *
@@ -173,6 +175,7 @@ public class Task40CustomArrayListTrue implements List {
         checkIndexExistence(index);
         return dataElements[index];
     }
+
 
     /**
      * Заменяет элемент в указанной позиции в этом списке на указанный элемент, возвращает старый элемент
@@ -205,6 +208,7 @@ public class Task40CustomArrayListTrue implements List {
         }
         return -1;
     }
+
 
     /**
      * Возвращает индекс последнего вхождения указанного элемента в этом списке или -1, если этот список не содержит элемент.
@@ -249,25 +253,68 @@ public class Task40CustomArrayListTrue implements List {
 
     /**
      * Удаляет из этого списка все его элементы, которые содержатся в указанной коллекции.
+     *
+     * @param inputCollection - указанная коллекция
+     * @return false, если коллекция пустая
      */
     @Override
     public boolean removeAll(@NotNull Collection inputCollection) {
-        Object[] addedElements = inputCollection.toArray();
-
-        return false;
+        Object[] deletedElements = inputCollection.toArray();
+        if (deletedElements.length == 0) {
+            return false;
+        }
+        for (int index = 0; index < size; index++) {
+            if (deletedElements.equals(dataElements[index])) {
+                dataElements[index] = null;
+            }
+        }
+        size = size - deletedElements.length;
+        return true;
     }
 
-    // Возвращает, true если этот список содержит все элементы указанной коллекции.
+
+    /**
+     * Возвращает, true если этот список содержит все элементы указанной коллекции.
+     *
+     * @param specifiedCollection - указанная коллекция
+     * @return true, если этот список содержит все элементы указанной коллекции
+     */
     @Override
-    public boolean containsAll(@NotNull Collection c) { //
-        return false;
+    public boolean containsAll(@NotNull Collection specifiedCollection) {
+        Object[] elementsOfTheCollection = specifiedCollection.toArray();
+        if (elementsOfTheCollection.length == 0) {
+            return false;
+        }
+        int amountOfElements = 0;
+        for (Object element : elementsOfTheCollection) {
+            if (dataElements.equals(element)) {
+                amountOfElements++;
+            }
+        }
+        return amountOfElements == elementsOfTheCollection.length;
     }
 
-    // Возвращает массив, содержащий все элементы в этом списке в правильной последовательности (от первого до последнего элемента); тип времени выполнения возвращаемого массива является типом указанного массива.
+
+    /**
+     * Возвращает массив, содержащий все элементы в этом списке в правильной последовательности (от первого до последнего элемента);
+     * тип времени выполнения возвращаемого массива является типом указанного массива.
+     */
     @NotNull
     @Override
-    public Object[] toArray(@NotNull Object[] a) { //
-        return new Object[0];
+    public Object[] toArray(@NotNull Object[] arr) {
+        if (arr.length < size) {
+            return Arrays.copyOf(dataElements, size);
+        }
+        System.arraycopy(dataElements, 0, arr, 0, arr.length);
+        return dataElements;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Task40CustomArrayListTrue{" +
+                "dataElements=" + Arrays.toString(dataElements) +
+                '}';
     }
 
     /**
@@ -280,7 +327,17 @@ public class Task40CustomArrayListTrue implements List {
             throw new IndexOutOfBoundsException("Index: " + index + " not contained in this List with Size: " + size);
         }
     }
-}
+
+
+    public static void main(String[] args) {
+        Task40CustomArrayListTrue myCustomList = new Task40CustomArrayListTrue();
+        myCustomList.add(1);
+        System.out.println(myCustomList.get(0));
+        myCustomList.add(2);
+        System.out.println(myCustomList.get(1));
+        myCustomList.add(3);
+        System.out.println(myCustomList.get(2));
+    }
 
 // В аргументах arraycopy() передаётся 1 исходный массив,
 // 2 начальная позиция копирования в исходном массиве,
@@ -288,3 +345,5 @@ public class Task40CustomArrayListTrue implements List {
 // 4 начальная позиция копирования в приёмном массиве,
 // 5 количество копируемых элементов.
 // Любое нарушение границ массива приведёт к исключению.
+
+}
