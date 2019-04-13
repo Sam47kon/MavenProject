@@ -4,14 +4,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public class Task40CustomArrayListTrue implements List {
+public class CustomArrayList implements List {
 
-    private Object[] dataElements = {};
+    private Object[] dataElements = new Object[10];
     private int size = 0;
 
 
     /**
-     * Возвращает размер CustomArrayList (далее этот список)
+     * Возвращает размер AndreyArrayList (далее этот список)
      */
     @Override
     public int size() {
@@ -73,8 +73,8 @@ public class Task40CustomArrayListTrue implements List {
         if (newDataElement == null) {
             throw new NullPointerException("Исключение нулевого указателя");
         }
-        dataElements = Arrays.copyOf(dataElements, ++size);
-        dataElements[size - 1] = newDataElement;
+        increaseDataElementsLength();
+        dataElements[size++] = newDataElement;
         return true;
     }
 
@@ -88,8 +88,8 @@ public class Task40CustomArrayListTrue implements List {
     @Override
     public void add(int index, Object newDataElement) {
         checkIndexExistence(index);
-        size++;
-        System.arraycopy(dataElements, index + 1, dataElements, index + 1, dataElements.length - index);
+        increaseDataElementsLength();
+        System.arraycopy(dataElements, index, dataElements, index + 1, size++ - index);
         dataElements[index] = newDataElement;
     }
 
@@ -102,9 +102,12 @@ public class Task40CustomArrayListTrue implements List {
      */
     @Override
     public boolean remove(Object soughtObject) {
-        for (int index = 0; index < size; index++) {
+        decreaseDataElementsLength();
+        int oldSize = size;
+        for (int index = 0; index < oldSize; index++) {
             if (Objects.equals(soughtObject, dataElements[index])) {
-                dataElements[index] = null;
+                System.arraycopy(dataElements, index + 1, dataElements, index, oldSize - index);
+                size--;
                 return true;
             }
         }
@@ -122,7 +125,11 @@ public class Task40CustomArrayListTrue implements List {
     public Object remove(int index) {
         checkIndexExistence(index);
         Object oldElement = dataElements[index];
-        dataElements[index] = null;
+        decreaseDataElementsLength();
+        for (int i = index; i < size; i++) {
+            dataElements[i] = dataElements[i + 1];
+        }
+        size--;
         return oldElement;
     }
 
@@ -134,21 +141,32 @@ public class Task40CustomArrayListTrue implements List {
      * @return - true, если коллекция не пустая
      */
     @Override
-    public boolean addAll(@NotNull Collection addedCollection) {    // TODO не работает
+    public boolean addAll(@NotNull Collection addedCollection) {
         Object[] addedElements = addedCollection.toArray();
         if (addedElements.length == 0) {
             return false;
         }
         size = addedElements.length + size;
         dataElements = Arrays.copyOf(dataElements, size);
-        System.arraycopy(dataElements, dataElements.length - addedElements.length, addedElements, 0, addedElements.length);
+        System.arraycopy(addedElements, 0, dataElements, dataElements.length - addedElements.length, addedElements.length);
         return true;
     }
 
-    //** Вставляет все элементы из указанной коллекции в этот список, начиная с указанной позиции. либо false если колекция пустая*/
+    /**
+     * Вставляет все элементы из указанной коллекции в этот список, начиная с указанной позиции. либо false если колекция пустая
+     */
     @Override
-    public boolean addAll(int index, @NotNull Collection c) {// опционально
-        return false;
+    public boolean addAll(int index, @NotNull Collection addedCollection) {
+        Object[] addedElements = addedCollection.toArray();
+        if (addedElements.length == 0) {
+            return false;
+        }
+        int oldSize = size;
+        size = addedElements.length + size;
+        dataElements = Arrays.copyOf(dataElements, size);
+        System.arraycopy(dataElements, index, dataElements, addedElements.length + index, oldSize - index);
+        System.arraycopy(addedElements, 0, dataElements, index, addedElements.length);
+        return true;
     }
 
 
@@ -255,7 +273,7 @@ public class Task40CustomArrayListTrue implements List {
      * Удаляет из этого списка все его элементы, которые содержатся в указанной коллекции.
      *
      * @param inputCollection - указанная коллекция
-     * @return false, если коллекция пустая
+     * @return false, если нечего удалять (пустая или ни однин объект не одинаковый)
      */
     @Override
     public boolean removeAll(@NotNull Collection inputCollection) {
@@ -263,12 +281,22 @@ public class Task40CustomArrayListTrue implements List {
         if (deletedElements.length == 0) {
             return false;
         }
-        for (int index = 0; index < size; index++) {
-            if (deletedElements.equals(dataElements[index])) {
-                dataElements[index] = null;
+
+        for (int index = 0; index < deletedElements.length; index++) {  // не уверен
+            if (!contains(dataElements[index])) {
+                return false;
             }
         }
-        size = size - deletedElements.length;
+
+        int oldSize = size;
+
+        for (int iElement = 0; iElement < deletedElements.length; iElement++) {
+            for (int index = 0; index < oldSize - 1; index++) {
+                if (Objects.equals(deletedElements[iElement], deletedElements[index])) {
+                    remove(deletedElements[iElement]);
+                }
+            }
+        }
         return true;
     }
 
@@ -286,9 +314,11 @@ public class Task40CustomArrayListTrue implements List {
             return false;
         }
         int amountOfElements = 0;
-        for (Object element : elementsOfTheCollection) {
-            if (dataElements.equals(element)) {
-                amountOfElements++;
+        for (int i = 0; i < size; i++) {
+            for (Object element : elementsOfTheCollection) {
+                if (Objects.equals(dataElements[i], element)) {
+                    amountOfElements++;
+                }
             }
         }
         return amountOfElements == elementsOfTheCollection.length;
@@ -305,16 +335,34 @@ public class Task40CustomArrayListTrue implements List {
         if (arr.length < size) {
             return Arrays.copyOf(dataElements, size);
         }
-        System.arraycopy(dataElements, 0, arr, 0, arr.length);
+        System.arraycopy(dataElements, 0, arr, 0, size);
         return dataElements;
     }
 
 
     @Override
     public String toString() {
-        return "Task40CustomArrayListTrue{" +
-                "dataElements=" + Arrays.toString(dataElements) +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        if (size < 1) {
+            return sb.append("]").toString();
+        }
+        if (size < 2) {
+            return sb.append(dataElements[0]).append("]").toString();
+        }
+        for (int i = 0; i < size - 1; i++) {
+            sb.append(dataElements[i]).append(", ");
+        }
+        sb.append(dataElements[size - 1]).append("]");
+        return sb.toString();
+    }
+
+    void toStringMy() {
+        System.out.print("[");
+        for (int i = 0; i < dataElements.length; i++) {
+            System.out.print(dataElements[i] + ", ");
+        }
+        System.out.println("]");
     }
 
     /**
@@ -323,26 +371,46 @@ public class Task40CustomArrayListTrue implements List {
      * @param index - поступающий индекс
      */
     private void checkIndexExistence(int index) {
-        if (index > size || index < 0) {
+        if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException("Index: " + index + " not contained in this List with Size: " + size);
+        }
+    }
+
+    /**
+     * Увеличиваем длину массива объектов в 1.5 раз
+     */
+    private void increaseDataElementsLength() {
+        if (dataElements.length == size) {
+            dataElements = Arrays.copyOf(dataElements, (int) (dataElements.length * 1.5));
+        }
+    }
+
+    /**
+     * Уменьшаем длину массива объектов в 1.5 раз
+     */
+    private void decreaseDataElementsLength() {
+        if (dataElements.length > size * 1.5) {
+            dataElements = Arrays.copyOf(dataElements, (int) (dataElements.length / 1.5) + 1);
         }
     }
 
 
     public static void main(String[] args) {
-        Task40CustomArrayListTrue myCustomList = new Task40CustomArrayListTrue();
+        CustomArrayList myCustomList = new CustomArrayList();
         myCustomList.add(1);
         System.out.println(myCustomList.get(0));
         myCustomList.add(2);
         System.out.println(myCustomList.get(1));
         myCustomList.add(3);
         System.out.println(myCustomList.get(2));
+        System.out.println(myCustomList.toString());
+
     }
 
-// В аргументах arraycopy() передаётся 1 исходный массив,
-// 2 начальная позиция копирования в исходном массиве,
-// 3 приёмный массив,
-// 4 начальная позиция копирования в приёмном массиве,
+// В аргументах arraycopy() передаётся 1 откуда массив,
+// 2 начальная позиция копирования откуда массиве,
+// 3 куда массив,
+// 4 начальная позиция копирования  куда массиве,
 // 5 количество копируемых элементов.
 // Любое нарушение границ массива приведёт к исключению.
 
