@@ -115,7 +115,7 @@ class CustomArrayListTest {
     void testClear() {
         myList.clear();
         Assertions.assertEquals(0, myList.size());
-        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> myList.set(0, "unable to replace non-existent object"));
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> myList.get(0));
     }
 
     @Test
