@@ -19,7 +19,7 @@ public class Permutation {
             System.out.println(Arrays.toString(dataArr));
         } else {
             for (int i = 0; i < size; i++) {
-                swap(dataArr, i, dataArr.length-1);
+                swap(dataArr, i, size - 1);
                 findAllCombinationsOfArrayPermutations1(dataArr, size - 1);
             }
         }
@@ -27,12 +27,9 @@ public class Permutation {
 
 
     private void swap(int[] dataArr, int firstIndex, int lastIndex) {
-        while (firstIndex < dataArr.length) {
             int tmp = dataArr[firstIndex];
             dataArr[firstIndex] = dataArr[lastIndex];
             dataArr[lastIndex] = tmp;
-            firstIndex++;
-        }
     }
 
     public static void main(String[] args) {

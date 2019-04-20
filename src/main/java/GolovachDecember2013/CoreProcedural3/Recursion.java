@@ -24,7 +24,7 @@ public class Recursion {
         System.out.println(fib3(5)); // 3 2 5 2 4 3 2 и пятое число фибоначчи 8
     }
 
-    private static void invertArr(int arr[]) {
+    private static void invertArr(int[] arr) {
         for (int i = 0; i < arr.length / 2; i++) {
             int tmp = arr[arr.length - i - 1];
             arr[arr.length - i - 1] = arr[i];
@@ -32,7 +32,7 @@ public class Recursion {
         }
     }
 
-    private static void invertArrRecursive(int arr[], int firstIndex) {
+    private static void invertArrRecursive(int[] arr, int firstIndex) {
         if (firstIndex < arr.length / 2) {
             int tmp = arr[arr.length - firstIndex - 1];
             arr[arr.length - firstIndex - 1] = arr[firstIndex];

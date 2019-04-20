@@ -16,7 +16,7 @@ public class CopyArr {
         testArrayCopyLong(arr);
 
 
-        int[] array = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 0, 0, 0, 0};   // TODO вообще не понял зачем  и что должно делать
+        int[] array = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 0, 0, 0, 0};
         System.out.println(Arrays.toString(array));
         int[] insert = {7, 9, 53, 156};
         int size = 10;
