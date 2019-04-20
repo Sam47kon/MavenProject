@@ -86,8 +86,8 @@ public class Eval {
         System.out.println(evalGolovach("2*3"));
         System.out.println(evalGolovach("2*3+(1*3)"));
         System.out.println(evalGolovach("1+(5-2*(13/6))"));  // 2
-//        System.out.println(evalGolovach("1+(5*2+(13/6))"));  // 12 но решает как 21, т.к. не учитывает приоритет
-//        System.out.println(evalGolovach("3*2+(3+1)+2/2-(99-99)")); // не компилируется
+////        System.out.println(evalGolovach("1+(5*2+(13/6))"));  // 12 но решает как 21, т.к. не учитывает приоритет
+////        System.out.println(evalGolovach("3*2+(3+1)+2/2-(99-99)")); // не компилируется
 
 
         System.out.println("My:");
@@ -96,8 +96,6 @@ public class Eval {
         System.out.println(evalMy("2*3+(1*3)"));
         System.out.println(evalMy("1+(5-2*(13/6))"));  // 2
 
-        System.out.println(evalMy("3*2+(3+1)+2/2"));
-
-
+        System.out.println(evalMy("(1+2*3/4"));
     }
 }
