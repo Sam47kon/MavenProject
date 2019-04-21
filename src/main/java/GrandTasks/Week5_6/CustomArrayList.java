@@ -11,7 +11,7 @@ public class CustomArrayList implements List {
 
 
     /**
-     * Возвращает размер AndreyArrayList (далее этот список)
+     * Возвращает размер CustomArrayList (далее этот список)
      */
     @Override
     public int size() {

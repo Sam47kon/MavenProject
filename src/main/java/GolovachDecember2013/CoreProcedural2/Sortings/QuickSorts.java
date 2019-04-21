@@ -26,4 +26,45 @@ public class QuickSorts {
         quickSort1(dataArr, start, cur);
         quickSort1(dataArr, cur + 1, end);
     }
+
+
+    private static void quickSort2(int[] array, int start, int end) {
+        if (array.length == 0) {   //завершить выполнение если длина массива равна 0
+            return;
+        }
+        if (start >= end) {    //завершить выполнение если уже нечего делить
+            return;
+        }
+        // выбрать опорный элемент - середину
+        int middle = start + (end - start) / 2;
+        int prop = array[middle];    // опора
+
+        // разделить на подмассивы, который больше и меньше опорного элемента
+        int left = start;
+        int right = end;
+        while (left <= right) {
+            while (array[left] < prop) {
+                left++;
+            }
+
+            while (array[right] > prop) {
+                right--;
+            }
+
+            if (left <= right) {     //меняем местами
+                int temp = array[left];
+                array[left] = array[right];
+                array[right] = temp;
+                left++;
+                right--;
+            }
+        }
+
+        if (start < right) {     // рекурсия сортировки для левой части
+            quickSort2(array, start, right);
+        }
+        if (end > left) {      // рекурсия сортировки для правой части
+            quickSort2(array, left, end);
+        }
+    }
 }

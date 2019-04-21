@@ -18,11 +18,24 @@ public class MyMethods {
         array[snd] = tmp;
     }
 
-    public static void fillArray(int[] array) {
+    public static void fillIntArray(int[] array) {
         for (int i = 0; i < array.length; i++) {
             array[i] = new Random().nextInt(array.length * 10);
         }
     }
+
+    public static void fillIntegerArray(Integer[] array) {
+        for (int i = 0; i < array.length; i++) {
+            array[i] = new Random().nextInt(array.length * 10);
+        }
+    }
+
+    public static void fillStringArray(String[] array) {
+        for (int i = 0; i < array.length; i++) {
+            array[i] = Integer.toString(new Random().nextInt(array.length * 10));
+        }
+    }
+
 
     public static int[] createRandomArrayWithSize(int size) {
         int[] array = new int[size];
