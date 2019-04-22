@@ -6,35 +6,40 @@ import java.util.*;
 
 public class CustomLinkedList implements List {
 
+    /**
+     * @param <E> тип
+     */
     private static class MyNode<E> {
         private E element;
         private MyNode next;
         private MyNode prev;
 
-//        private MyNode() {
-//        }
-
-        private MyNode(MyNode prevint, E element, MyNode next) {
+        private MyNode(MyNode<E> prev, E element, MyNode<E> next) {
             this.element = element;
             this.next = next;
             this.prev = prev;
         }
 
-        private MyNode genIter(E... values) {     // генерировать итеративно
-            MyNode head = null;
-            for (int i = values.length - 1; i >= 0; i--) {
-                head = new MyNode(head, values[i], head.prev);
-            }
-            return head;
-        }
+//        private MyNode genIter(E... values) {     // генерировать итеративно
+//            MyNode head = null;
+//            for (int i = values.length - 1; i >= 0; i--) {
+//                head = new MyNode(head, values[i], head.prev);
+//            }
+//            return head;
+//        }
     }
 
 
-    private Object[] dataElements = new Object[10];
+    /**
+     * @param size      - размер списка
+     * @param first     - ссылка на первый элемент
+     * @param last      - ссылка на последний элемент
+     */
+    private Object[] dataElements = new Object[10]; // TODO удалить когда все переделаю
 
     private int size = 0;
-    MyNode first;
-    MyNode last;
+    private MyNode first;
+    private MyNode last;
 
 
     /**
@@ -57,13 +62,12 @@ public class CustomLinkedList implements List {
 
     /**
      * Возвращает, true если этот список содержит указанный элемент.
+     *
+     * @param soughtObject - искомый объект
      */
     @Override
-    public boolean contains(Object comparableObject) {      // TODO
-        if (comparableObject == null) {
-            return false;
-        }
-        return false;
+    public boolean contains(Object soughtObject) {
+        return indexOf(soughtObject) >= 0;
     }
 
 
@@ -80,23 +84,34 @@ public class CustomLinkedList implements List {
      */
     @NotNull
     @Override
-    public Object[] toArray() { // TODO
-        return Arrays.copyOf(dataElements, size);
+    public Object[] toArray() {
+        Object[] result = new Object[size];
+        int index = 0;
+        for (MyNode toArr = first; toArr != null; toArr = toArr.next) {   // идем по всем ссылкам сначала до конца
+            result[index++] = toArr.element;
+        }
+        return result;
     }
 
 
     /**
      * Добавляет указанный элемент в конец этого списка и возвращает true
      *
-     * @param newDataElement - указанный элемент
+     * @param newElement - указанный элемент
      */
     @Override
-    public boolean add(Object newDataElement) {//
-        if (newDataElement == null) {
+    public boolean add(Object newElement) {
+        if (newElement == null) {
             throw new NullPointerException("Исключение нулевого указателя");
         }
-        increaseDataElementsLength();
-        dataElements[size++] = newDataElement;
+        MyNode lastLast = last;     // запоминаем старый последний узел
+        last = new MyNode(last, newElement, null);
+        if (lastLast == null) {
+            first = last;
+        } else {
+            lastLast.next = last;
+        }
+        size++;
         return true;
     }
 
@@ -104,15 +119,45 @@ public class CustomLinkedList implements List {
     /**
      * Вставляет указанный элемент в указанную позицию в этом списке.
      *
-     * @param index          - указанная позиция
-     * @param newDataElement - указанный элемент
+     * @param index      - указанная позиция
+     * @param newElement - указанный элемент
      */
     @Override
-    public void add(int index, Object newDataElement) {
-        checkIndexExistence(index);
-        increaseDataElementsLength();
-        System.arraycopy(dataElements, index, dataElements, index + 1, size++ - index);
-        dataElements[index] = newDataElement;
+    public void add(int index, Object newElement) {
+        // есди index послений, то не будем занимать много памяти и добавим в конец
+        if (index == size) {
+            add(newElement);
+        } else {
+            checkIndexExistence(index);
+            MyNode tmp;
+            if (index < (size << 1)) {  // index <= size/2
+                tmp = first;
+                for (int i = 0; i < index; i++) {
+                    tmp = tmp.next;
+                }
+                insertElement(newElement, tmp);
+            } else {
+                tmp = last;
+                for (int i = index - 1; i > 0; i--) {
+                    tmp = tmp.prev;
+                }
+                insertElement(newElement, tmp);
+            }
+        }
+    }
+
+    public Object getFirstElement() {
+        if (first == null) {
+            throw new NoSuchElementException();
+        }
+        return first.element;
+    }
+
+    public Object getLastElement() {
+        if (last == null) {
+            throw new NoSuchElementException();
+        }
+        return last.element;
     }
 
 
@@ -123,7 +168,7 @@ public class CustomLinkedList implements List {
      * @return true, если объект есть
      */
     @Override
-    public boolean remove(Object soughtObject) {
+    public boolean remove(Object soughtObject) {    // TODO остановился здесь
         decreaseDataElementsLength();
         int oldSize = size;
         for (int index = 0; index < oldSize; index++) {
@@ -144,7 +189,7 @@ public class CustomLinkedList implements List {
      * @return - этот удаленный элемент
      */
     @Override
-    public Object remove(int index) {
+    public Object remove(int index) { // TODO переделать
         checkIndexExistence(index);
         Object oldElement = dataElements[index];
         decreaseDataElementsLength();
@@ -163,7 +208,7 @@ public class CustomLinkedList implements List {
      * @return - true, если коллекция не пустая
      */
     @Override
-    public boolean addAll(@NotNull Collection addedCollection) {
+    public boolean addAll(@NotNull Collection addedCollection) {  // TODO переделать
         Object[] addedElements = addedCollection.toArray();
         if (addedElements.length == 0) {
             return false;
@@ -178,7 +223,7 @@ public class CustomLinkedList implements List {
      * Вставляет все элементы из указанной коллекции в этот список, начиная с указанной позиции. либо false если колекция пустая
      */
     @Override
-    public boolean addAll(int index, @NotNull Collection addedCollection) {
+    public boolean addAll(int index, @NotNull Collection addedCollection) {  // TODO переделать
         Object[] addedElements = addedCollection.toArray();
         if (addedElements.length == 0) {
             return false;
@@ -196,7 +241,7 @@ public class CustomLinkedList implements List {
      * Удаляет все элементы из этого списка.
      */
     @Override
-    public void clear() {
+    public void clear() {    // TODO переделать
         for (int index = size; index-- > 0; ) {    // сравнение с 0 быстрее, чем с числом :)
             dataElements[index] = null;
         }
@@ -211,7 +256,7 @@ public class CustomLinkedList implements List {
      * @return элемент
      */
     @Override
-    public Object get(int index) {
+    public Object get(int index) {      // TODO переделать
         checkIndexExistence(index);
         return dataElements[index];
     }
@@ -225,7 +270,7 @@ public class CustomLinkedList implements List {
      * @return старый элемент в указанной позиции
      */
     @Override
-    public Object set(int index, Object newElement) {
+    public Object set(int index, Object newElement) {      // TODO переделать
         checkIndexExistence(index);
         Object oldElement = dataElements[index];
         dataElements[index] = newElement;
@@ -240,7 +285,7 @@ public class CustomLinkedList implements List {
      * @return -1, если список не содержит элемент
      */
     @Override
-    public int indexOf(Object soughtObject) {
+    public int indexOf(Object soughtObject) {   // TODO переделать
         for (int index = 0; index < size; index++) {
             if (Objects.equals(soughtObject, dataElements[index])) {
                 return index;
@@ -257,7 +302,7 @@ public class CustomLinkedList implements List {
      * @return -1, если список не содержит элемент
      */
     @Override
-    public int lastIndexOf(Object soughtObject) {
+    public int lastIndexOf(Object soughtObject) {     // TODO переделать
         for (int index = size; index-- > 0; ) {
             if (Objects.equals(soughtObject, dataElements[index])) {
                 return index;
@@ -298,7 +343,7 @@ public class CustomLinkedList implements List {
      * @return false, если нечего удалять (пустая или ни однин объект не одинаковый)
      */
     @Override
-    public boolean removeAll(@NotNull Collection inputCollection) {
+    public boolean removeAll(@NotNull Collection inputCollection) {     // TODO переделать
         Object[] deletedElements = inputCollection.toArray();
         if (deletedElements.length == 0) {
             return false;
@@ -330,7 +375,7 @@ public class CustomLinkedList implements List {
      * @return true, если этот список содержит все элементы указанной коллекции
      */
     @Override
-    public boolean containsAll(@NotNull Collection specifiedCollection) {
+    public boolean containsAll(@NotNull Collection specifiedCollection) {    // TODO переделать
         Object[] elementsOfTheCollection = specifiedCollection.toArray();
         if (elementsOfTheCollection.length == 0) {
             return false;
@@ -353,7 +398,7 @@ public class CustomLinkedList implements List {
      */
     @NotNull
     @Override
-    public Object[] toArray(@NotNull Object[] arr) {
+    public Object[] toArray(@NotNull Object[] arr) {   // TODO переделать
         if (arr.length < size) {
             return Arrays.copyOf(dataElements, size);
         }
@@ -363,7 +408,7 @@ public class CustomLinkedList implements List {
 
 
     @Override
-    public String toString() {
+    public String toString() {   // TODO переделать
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         if (size < 1) {
@@ -379,13 +424,42 @@ public class CustomLinkedList implements List {
         return sb.toString();
     }
 
-    void toStringMy() {
-        System.out.print("[");
-        for (int i = 0; i < dataElements.length; i++) {
-            System.out.print(dataElements[i] + ", ");
+    /**
+     * Уменьшаем длину массива объектов в 1.5 раз
+     */
+    private void decreaseDataElementsLength() {  // TODO удалить когда все переделаю
+        if (dataElements.length > size * 1.5) {
+            dataElements = Arrays.copyOf(dataElements, (int) (dataElements.length / 1.5) + 1);
         }
-        System.out.println("]");
     }
+
+
+    // -------------------------------------------------
+    // -------------------------------------------------
+
+    private void addToFirstNewNode(Object object) {  // TODO удалить когда все переделаю, если не понадобится
+        MyNode oldFirst = first;     // запоминаем старый первый узел
+        first = new MyNode(null, object, first);
+        if (oldFirst == null) {
+            last = first;
+        } else {
+            oldFirst.prev = first;
+        }
+        size++;
+    }
+
+    private void insertElement(Object newElement, MyNode node) {
+        MyNode oldNodePrev;
+        oldNodePrev = node.prev;
+        node.prev = new MyNode(node.prev, newElement, node);
+        if (oldNodePrev == null) {
+            first = node.prev;
+        } else {
+            oldNodePrev.next = node.prev;
+        }
+        size++;
+    }
+
 
     /**
      * Проверяем существование поступающего индекса
@@ -396,36 +470,5 @@ public class CustomLinkedList implements List {
         if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException("Index: " + index + " not contained in this List with Size: " + size);
         }
-    }
-
-    /**
-     * Увеличиваем длину массива объектов в 1.5 раз
-     */
-    private void increaseDataElementsLength() {
-        if (dataElements.length == size) {
-            dataElements = Arrays.copyOf(dataElements, (int) (dataElements.length * 1.5));
-        }
-    }
-
-    /**
-     * Уменьшаем длину массива объектов в 1.5 раз
-     */
-    private void decreaseDataElementsLength() {
-        if (dataElements.length > size * 1.5) {
-            dataElements = Arrays.copyOf(dataElements, (int) (dataElements.length / 1.5) + 1);
-        }
-    }
-
-
-    public static void main(String[] args) {
-        CustomLinkedList myCustomList = new CustomLinkedList();
-        myCustomList.add(1);
-        System.out.println(myCustomList.get(0));
-        myCustomList.add(2);
-        System.out.println(myCustomList.get(1));
-        myCustomList.add(3);
-        System.out.println(myCustomList.get(2));
-        System.out.println(myCustomList.toString());
-
     }
 }

@@ -16,7 +16,7 @@ public class Task10v2 {
         System.out.println("Введите любой текст:");
         String inputText = new Scanner(System.in).nextLine();
 
-        //region decision v1
+        //region decision insertElement1
         //        long consonantsCount = 0;
 //        long vowelsCount = 0;
 //        long otherCount = 0;

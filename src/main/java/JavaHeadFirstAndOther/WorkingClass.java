@@ -1,6 +1,10 @@
 
 package JavaHeadFirstAndOther;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Программа для вывода
  *
@@ -15,31 +19,26 @@ public class WorkingClass {
      */
 
     public static void main(String[] args) {
-        int N = 77777777;
-        long t;
+        List<Integer> list = new LinkedList<>();
+        list.add(11);
+        list.add(22);
+        list.add(33);
+        list.add(44);
 
-        {
-            StringBuffer sb = new StringBuffer();
-            t = System.currentTimeMillis();
-            for (int i = N; i --> 0 ;) {
-                sb.append("");
-            }
-            System.out.println(System.currentTimeMillis() - t);
-        }
 
-        {
-            StringBuilder sb = new StringBuilder();
-            t = System.currentTimeMillis();
-            for (int i = N; i --> 0;) {
-                sb.append("");
-            }
-            System.out.println(System.currentTimeMillis() - t);
-        }
+        LinkedList<Integer> myList = new LinkedList<>();
+        myList.add(1);
+        myList.add(2);
+        myList.add(3);
+        myList.add(4);
+
+        myList.addAll(list);
+        System.out.println(myList.toString());
+        System.out.println(myList.getFirst());
+        System.out.println(myList.getLast());
+        System.out.println(myList.get(5));
+        System.out.println(myList.isEmpty());
+        System.out.println(myList.contains(4));
+        System.out.println(Arrays.toString(myList.toArray()));
     }
-
-
-//    public static void main(String[] args) {
-//        System.out.println("HalloWorld");
-//        //System.exit(-1); // завершает программу
-//    }
 }
