@@ -32,14 +32,14 @@ public class CustomLinkedList implements List {
 
     /**
      * @param size      - размер списка
-     * @param first     - ссылка на первый элемент
-     * @param last      - ссылка на последний элемент
+     * @param head     - ссылка на первый элемент (голова)
+     * @param tail      - ссылка на последний элемент (хвост)
      */
     private Object[] dataElements = new Object[10]; // TODO удалить когда все переделаю
 
     private int size = 0;
-    private MyNode first;
-    private MyNode last;
+    private MyNode head;
+    private MyNode tail;
 
 
     /**
@@ -71,14 +71,6 @@ public class CustomLinkedList implements List {
     }
 
 
-    // Возвращает итератор для элементов в этом списке в правильной последовательности.
-    @NotNull
-    @Override
-    public Iterator iterator() {
-        throw new UnsupportedOperationException();
-    }
-
-
     /**
      * Возвращает массив, содержащий все элементы в этом списке в правильной последовательности (от первого до последнего элемента).
      */
@@ -87,7 +79,7 @@ public class CustomLinkedList implements List {
     public Object[] toArray() {
         Object[] result = new Object[size];
         int index = 0;
-        for (MyNode toArr = first; toArr != null; toArr = toArr.next) {   // идем по всем ссылкам сначала до конца
+        for (MyNode toArr = head; toArr != null; toArr = toArr.next) {   // идем по всем ссылкам сначала до конца
             result[index++] = toArr.element;
         }
         return result;
@@ -104,12 +96,12 @@ public class CustomLinkedList implements List {
         if (newElement == null) {
             throw new NullPointerException("Исключение нулевого указателя");
         }
-        MyNode lastLast = last;     // запоминаем старый последний узел
-        last = new MyNode(last, newElement, null);
-        if (lastLast == null) {
-            first = last;
+        MyNode oldTail = tail;     // запоминаем старый последний узел
+        tail = new MyNode(tail, newElement, null);
+        if (size == 0) {
+            head = tail;
         } else {
-            lastLast.next = last;
+            oldTail.next = tail;
         }
         size++;
         return true;
@@ -130,53 +122,54 @@ public class CustomLinkedList implements List {
         } else {
             checkIndexExistence(index);
             MyNode tmp;
+            // чтобы не бежать по всем ссылкам, разделим на пополам
             if (index < (size << 1)) {  // index <= size/2
-                tmp = first;
+                tmp = head;
                 for (int i = 0; i < index; i++) {
                     tmp = tmp.next;
                 }
-                insertElement(newElement, tmp);
+                insertElement(newElement, head);
             } else {
-                tmp = last;
+                tmp = tail;
                 for (int i = index - 1; i > 0; i--) {
                     tmp = tmp.prev;
                 }
-                insertElement(newElement, tmp);
+                insertElement(newElement, tail);
             }
         }
     }
-
-    public Object getFirstElement() {
-        if (first == null) {
-            throw new NoSuchElementException();
-        }
-        return first.element;
-    }
-
-    public Object getLastElement() {
-        if (last == null) {
-            throw new NoSuchElementException();
-        }
-        return last.element;
-    }
-
 
     /**
      * Удаляет первое вхождение указанного элемента из этого списка, если он присутствует.
      *
-     * @param soughtObject - указанный объект (искомый)
+     * @param removeElement - указанный объект (искомый)
      * @return true, если объект есть
      */
     @Override
-    public boolean remove(Object soughtObject) {    // TODO остановился здесь
-        decreaseDataElementsLength();
-        int oldSize = size;
-        for (int index = 0; index < oldSize; index++) {
-            if (Objects.equals(soughtObject, dataElements[index])) {
-                System.arraycopy(dataElements, index + 1, dataElements, index, oldSize - index);
-                size--;
+    public boolean remove(Object removeElement) {
+        MyNode prev = null; // предыдущий
+        MyNode current = head;  // текущий, идем сначала списка
+
+        while (current != null) {
+            if (Objects.equals(current.element, removeElement)) {   // если нашли элемент
+                if (prev != null) {    // если он не вначале
+                    prev.next = current.next;   // перемещаемся
+                    if (current.next == null) {  // если элемент в конце
+                        tail = prev;
+                    } else {
+                        // удаляем средний узел
+                        current.next.prev = prev;
+                    }
+                    size--;
+                } else {
+                    // а если в начале, удаляем первый элемент
+                    removeFirst();
+                }
                 return true;
             }
+            // смещаемся вперед
+            prev = current;
+            current = current.next;
         }
         return false;
     }
@@ -189,17 +182,20 @@ public class CustomLinkedList implements List {
      * @return - этот удаленный элемент
      */
     @Override
-    public Object remove(int index) { // TODO переделать
-        checkIndexExistence(index);
-        Object oldElement = dataElements[index];
-        decreaseDataElementsLength();
-        for (int i = index; i < size; i++) {
-            dataElements[i] = dataElements[i + 1];
-        }
-        size--;
-        return oldElement;
+    public Object remove(int index) {
+        return deleteNode(getNode(index));
     }
 
+
+    /**
+     * Удаляет все элементы из этого списка.
+     */
+    @Override
+    public void clear() {
+        head = null;
+        tail = null;
+        size = 0;
+    }
 
     /**
      * Добавляет все элементы в указанной коллекции в конец этого списка
@@ -208,7 +204,7 @@ public class CustomLinkedList implements List {
      * @return - true, если коллекция не пустая
      */
     @Override
-    public boolean addAll(@NotNull Collection addedCollection) {  // TODO переделать
+    public boolean addAll(@NotNull Collection addedCollection) {  // TODO остановился здесь
         Object[] addedElements = addedCollection.toArray();
         if (addedElements.length == 0) {
             return false;
@@ -238,18 +234,6 @@ public class CustomLinkedList implements List {
 
 
     /**
-     * Удаляет все элементы из этого списка.
-     */
-    @Override
-    public void clear() {    // TODO переделать
-        for (int index = size; index-- > 0; ) {    // сравнение с 0 быстрее, чем с числом :)
-            dataElements[index] = null;
-        }
-        size = 0;
-    }
-
-
-    /**
      * Возвращает элемент в указанной позиции в этом списке
      *
      * @param index - указанная позиция
@@ -258,7 +242,20 @@ public class CustomLinkedList implements List {
     @Override
     public Object get(int index) {      // TODO переделать
         checkIndexExistence(index);
-        return dataElements[index];
+        MyNode tmp;
+
+        if (index < (size << 1)) {  // index <= size/2
+            tmp = head;
+            for (int i = 0; i < index; i++) {
+                tmp = tmp.next;
+            }
+        } else {
+            tmp = tail;
+            for (int i = index - 1; i > 0; i--) {
+                tmp = tmp.prev;
+            }
+        }
+        return tmp.element;
     }
 
 
@@ -309,30 +306,6 @@ public class CustomLinkedList implements List {
             }
         }
         return -1;
-    }
-
-    @NotNull
-    @Override
-    public ListIterator listIterator() {
-        throw new UnsupportedOperationException();
-
-    }
-
-    @NotNull
-    @Override
-    public ListIterator listIterator(int index) {
-        throw new UnsupportedOperationException();
-    }
-
-    @NotNull
-    @Override
-    public List subList(int fromIndex, int toIndex) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean retainAll(@NotNull Collection c) {
-        throw new UnsupportedOperationException();
     }
 
 
@@ -408,58 +381,171 @@ public class CustomLinkedList implements List {
 
 
     @Override
-    public String toString() {   // TODO переделать
+    public String toString() {   // готово
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         if (size < 1) {
             return sb.append("]").toString();
         }
         if (size < 2) {
-            return sb.append(dataElements[0]).append("]").toString();
+            return sb.append(head.element).append("]").toString();
         }
-        for (int i = 0; i < size - 1; i++) {
-            sb.append(dataElements[i]).append(", ");
+        for (MyNode node = head; node != tail; node = node.next) {
+            sb.append(node.element).append(", ");
         }
-        sb.append(dataElements[size - 1]).append("]");
+        sb.append(tail.element).append("]");
         return sb.toString();
     }
 
+
+    // Возвращает итератор для элементов в этом списке в правильной последовательности.
+    @NotNull
+    @Override
+    public Iterator iterator() {
+        throw new UnsupportedOperationException();
+    }
+
+    @NotNull
+    @Override
+    public ListIterator listIterator() {
+        throw new UnsupportedOperationException();
+    }
+
+    @NotNull
+    @Override
+    public ListIterator listIterator(int index) {
+        throw new UnsupportedOperationException();
+    }
+
+    @NotNull
+    @Override
+    public List subList(int fromIndex, int toIndex) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean retainAll(@NotNull Collection c) {
+        throw new UnsupportedOperationException();
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
+
+
+    public Object getFirstElement() {
+        if (head == null) {
+            throw new NoSuchElementException();
+        }
+        return head.element;
+    }
+
+    public Object getLastElement() {
+        if (tail == null) {
+            throw new NoSuchElementException();
+        }
+        return tail.element;
+    }
+
     /**
-     * Уменьшаем длину массива объектов в 1.5 раз
+     * Вставляет
+     *
+     * @param newElement - новый элемент
+     * @param node       - в какой узел вставить
      */
-    private void decreaseDataElementsLength() {  // TODO удалить когда все переделаю
-        if (dataElements.length > size * 1.5) {
-            dataElements = Arrays.copyOf(dataElements, (int) (dataElements.length / 1.5) + 1);
-        }
-    }
-
-
-    // -------------------------------------------------
-    // -------------------------------------------------
-
-    private void addToFirstNewNode(Object object) {  // TODO удалить когда все переделаю, если не понадобится
-        MyNode oldFirst = first;     // запоминаем старый первый узел
-        first = new MyNode(null, object, first);
-        if (oldFirst == null) {
-            last = first;
-        } else {
-            oldFirst.prev = first;
-        }
-        size++;
-    }
-
     private void insertElement(Object newElement, MyNode node) {
-        MyNode oldNodePrev;
-        oldNodePrev = node.prev;
+        MyNode oldNodePrev = node.prev;
         node.prev = new MyNode(node.prev, newElement, node);
         if (oldNodePrev == null) {
-            first = node.prev;
+            head = node.prev;
         } else {
             oldNodePrev.next = node.prev;
         }
         size++;
     }
 
+    /**
+     * удалить первый элемент списка
+     */
+    public void removeFirst() {
+        if (size == 0) {    // если список пустой то удалять нечего
+            return;
+        }
+        head = head.next;   // устанавливаем первую ссылку на следущую
+        size--;
+        if (size == 0) {    // если был один элемент, то хвоста больше нет
+            tail = null;
+        } else {        // иначе обнуляем предыдущую сыллку (уже новой головы)
+            head.prev = null;
+        }
+    }
+
+    public void removeLast() {
+        if (size <= 1) {
+            head = null;
+            tail = null;
+            size = 0;
+        } else {
+            tail.prev.next = null;
+            tail = tail.prev;
+            size--;
+        }
+    }
+
+    /**
+     * Возвращает узел по индексу
+     *
+     * @param index - индекс узла
+     * @return - нужный узел
+     */
+    private MyNode getNode(int index) {
+        checkIndexExistence(index);
+        MyNode node;
+        if (index < (size << 1)) {  // index <= size/2
+            node = head;
+            for (int i = 0; i < index; i++) {
+                node = node.next;
+            }
+        } else {
+            node = tail;
+            for (int i = index - 1; i > 0; i--) {
+                node = node.prev;
+            }
+        }
+        return node;
+    }
+
+    /**
+     * Удалить узел  вернуть его объект
+     *
+     * @param node - узел, который нужно удалить
+     * @return - element этого узла
+     */
+    private Object deleteNode(MyNode node) {
+        final Object element = node.element;
+        MyNode prev = node.prev;
+        MyNode next = node.next;
+
+        if (prev == null) {   //если prev ссылка  узла node указывает на null, то значит head
+            head = next;
+        } else {
+            prev.next = next;   // указываем что prev узел ссылается минуя node на его следущий узел
+        }
+
+        if (next == null) {
+            tail = prev;
+        } else {
+            next.prev = prev;  // указываем что next узел ссылается минуя node на его предыдущий узел
+        }
+
+        node.element = null;
+        size--;
+        return element;
+    }
 
     /**
      * Проверяем существование поступающего индекса

@@ -40,5 +40,6 @@ public class WorkingClass {
         System.out.println(myList.isEmpty());
         System.out.println(myList.contains(4));
         System.out.println(Arrays.toString(myList.toArray()));
+        myList.clear();
     }
 }
