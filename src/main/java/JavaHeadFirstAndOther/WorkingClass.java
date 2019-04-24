@@ -41,5 +41,8 @@ public class WorkingClass {
         System.out.println(myList.contains(4));
         System.out.println(Arrays.toString(myList.toArray()));
         myList.clear();
+        System.out.println(myList.toString());
+        myList.set(1, 2222);
+        myList.removeAll(myList);
     }
 }

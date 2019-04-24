@@ -88,9 +88,10 @@ class CustomLinkedListTest {
         Assertions.assertEquals(6, myList.size());
         Assertions.assertEquals("1", myList.remove(0));
         Assertions.assertEquals("2", myList.remove(0));
+        Assertions.assertTrue(myList.remove("6"));
         Assertions.assertTrue(myList.remove("3"));
         Assertions.assertTrue(myList.remove("5"));
-        Assertions.assertTrue(myList.remove("6"));
+        Assertions.assertFalse(myList.remove("5"));
         Assertions.assertEquals(1, myList.size());
 
         Assertions.assertThrows(IndexOutOfBoundsException.class, () -> myList.remove(7));
