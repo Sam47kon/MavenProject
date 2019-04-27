@@ -4,17 +4,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public class CustomLinkedList implements List {
+public class CustomLinkedListGeneric<T> implements List<T> {
 
     /**
-     * @param <E> тип
+     * @param <T> тип
      */
-    private static class MyNode<E> {
-        private E element;
-        private MyNode next;
-        private MyNode prev;
+    private static class MyNode<T> {
+        private T element;
+        private MyNode<T> next;
+        private MyNode<T> prev;
 
-        private MyNode(MyNode<E> prev, E element, MyNode<E> next) {
+        private MyNode(MyNode<T> prev, T element, MyNode<T> next) {
             this.element = element;
             this.next = next;
             this.prev = prev;
@@ -28,8 +28,8 @@ public class CustomLinkedList implements List {
      * @param tail      - ссылка на последний элемент (хвост)
      */
     private int size = 0;
-    private MyNode head;
-    private MyNode tail;
+    private MyNode<T> head;
+    private MyNode<T> tail;
 
 
     /**
@@ -69,8 +69,8 @@ public class CustomLinkedList implements List {
     public Object[] toArray() {
         Object[] result = new Object[size];
         int index = 0;
-        for (MyNode toArr = head; toArr != null; toArr = toArr.next) {   // идем по всем ссылкам сначала до конца
-            result[index++] = toArr.element;
+        for (MyNode<T> node = head; node != null; node = node.next, index++) {   // идем по всем ссылкам сначала до конца
+            result[index] = node.element;
         }
         return result;
     }
@@ -82,13 +82,12 @@ public class CustomLinkedList implements List {
      * @param newElement - указанный элемент
      */
     @Override
-    @SuppressWarnings("unchecked")
-    public boolean add(Object newElement) {
+    public boolean add(T newElement) {
         if (newElement == null) {
             throw new NullPointerException("Исключение нулевого указателя");
         }
-        MyNode oldTail = tail;     // запоминаем старый последний узел
-        tail = new MyNode(tail, newElement, null);
+        MyNode<T> oldTail = tail;     // запоминаем старый последний узел
+        tail = new MyNode<>(tail, newElement, null);
         if (size == 0) {
             head = tail;
         } else {
@@ -106,13 +105,13 @@ public class CustomLinkedList implements List {
      * @param newElement - указанный элемент
      */
     @Override
-    public void add(int index, Object newElement) {
+    public void add(int index, T newElement) {
         // есди index послений, то не будем занимать много памяти и добавим в конец
         if (index == size) {
             add(newElement);
         } else {
             checkIndexExistence(index);
-            MyNode tmp;
+            MyNode<T> tmp;
             // чтобы не бежать по всем ссылкам, разделим на пополам
             if (index < (size << 1)) {  // index <= size/2
                 tmp = head;
@@ -138,8 +137,8 @@ public class CustomLinkedList implements List {
      */
     @Override
     public boolean remove(Object removeElement) {
-        MyNode prev = null; // предыдущий
-        MyNode current = head;  // текущий, идем сначала списка
+        MyNode<T> prev = null; // предыдущий
+        MyNode<T> current = head;  // текущий, идем сначала списка
 
         while (current != null) {
             if (Objects.equals(current.element, removeElement)) {   // если нашли элемент
@@ -173,7 +172,7 @@ public class CustomLinkedList implements List {
      * @return - этот удаленный элемент
      */
     @Override
-    public Object remove(int index) {
+    public T remove(int index) {
         return deleteNode(getNode(index));
     }
 
@@ -195,7 +194,7 @@ public class CustomLinkedList implements List {
      * @return - true, если коллекция не пустая
      */
     @Override
-    public boolean addAll(@NotNull Collection addedCollection) {  // готово
+    public boolean addAll(@NotNull Collection<? extends T> addedCollection) {  // готово
         addAll(size, addedCollection);
         return true;
     }
@@ -204,7 +203,7 @@ public class CustomLinkedList implements List {
      * Вставляет все элементы из указанной коллекции в этот список, начиная с указанной позиции. либо false если колекция пустая
      */
     @Override
-    public boolean addAll(int index, @NotNull Collection addedCollection) {  // готово
+    public boolean addAll(int index, @NotNull Collection<? extends T> addedCollection) {  // готово
         if (size != 0 && size != index) {
             checkIndexExistence(index);
         }
@@ -212,8 +211,8 @@ public class CustomLinkedList implements List {
         if (addedElements.length == 0) {
             return false;
         }
-        MyNode prev;    // начнем записывать новые элементы с левой части списка
-        MyNode coupling;    // сцепка, сюда сохраним ссылку на правую часть списка
+        MyNode<T> prev;    // начнем записывать новые элементы с левой части списка
+        MyNode<T> coupling;    // сцепка, сюда сохраним ссылку на правую часть списка
         if (size == index) {   // если добавляем в конец списка
             prev = tail;
             coupling = null;
@@ -224,7 +223,8 @@ public class CustomLinkedList implements List {
         size = addedElements.length + size;
 
         for (Object addedElement : addedElements) {
-            @SuppressWarnings("unchecked") MyNode newNode = new MyNode(prev, addedElement, null);
+            @SuppressWarnings("unchecked")
+            MyNode<T> newNode = new MyNode<>(prev, (T) addedElement, null);
             if (prev == null) {
                 head = newNode;
             } else {
@@ -250,9 +250,9 @@ public class CustomLinkedList implements List {
      * @return элемент
      */
     @Override
-    public Object get(int index) {      // готово
+    public T get(int index) {      // готово
         checkIndexExistence(index);
-        MyNode tmp;
+        MyNode<T> tmp;
 
         if (index < (size << 1)) {  // index <= size/2
             tmp = head;
@@ -277,10 +277,10 @@ public class CustomLinkedList implements List {
      * @return старый элемент в указанной позиции
      */
     @Override
-    public Object set(int index, Object newElement) { // готово
+    public T set(int index, T newElement) { // готово
         checkIndexExistence(index);
-        MyNode tmp = getNode(index);
-        Object oldElement = tmp.element;
+        MyNode<T> tmp = getNode(index);
+        T oldElement = tmp.element;
         tmp.element = newElement;
         return oldElement;
     }
@@ -295,7 +295,7 @@ public class CustomLinkedList implements List {
     @Override
     public int indexOf(Object soughtObject) {   // готово
         int index = 0;
-        for (MyNode node = head; node != null; node = node.next, index++) {
+        for (MyNode<T> node = head; node != null; node = node.next, index++) {
             if (Objects.equals(soughtObject, node.element)) {
                 return index;
             }
@@ -313,7 +313,7 @@ public class CustomLinkedList implements List {
     @Override
     public int lastIndexOf(Object soughtObject) {     // готово
         int index = size - 1;
-        for (MyNode node = tail; node != null; node = node.prev, index--) {
+        for (MyNode<T> node = tail; node != null; node = node.prev, index--) {
             if (Objects.equals(soughtObject, node.element)) {
                 return index;
             }
@@ -329,7 +329,7 @@ public class CustomLinkedList implements List {
      * @return false, если нечего удалять (пустая или ни однин объект не одинаковый)
      */
     @Override
-    public boolean removeAll(@NotNull Collection inputCollection) {     // Готово
+    public boolean removeAll(@NotNull Collection<?> inputCollection) {     // Готово
         Object[] objectToDelete = inputCollection.toArray();
         if (objectToDelete.length == 0) {
             return false;
@@ -343,7 +343,7 @@ public class CustomLinkedList implements List {
             }
         }
 
-        for (MyNode node = head; node != null; node = node.next) {
+        for (MyNode<T> node = head; node != null; node = node.next) {
             for (int index = objectToDelete.length - 1; index >= 0; index--) {
                 if (Objects.equals(node.element, objectToDelete[index])) {
                     remove(objectToDelete[index]);
@@ -361,7 +361,7 @@ public class CustomLinkedList implements List {
      * @return true, если этот список содержит все элементы указанной коллекции
      */
     @Override
-    public boolean containsAll(@NotNull Collection specifiedCollection) {    // TODO переделать
+    public boolean containsAll(@NotNull Collection<?> specifiedCollection) {
         Object[] elementsOfTheCollection = specifiedCollection.toArray();
         if (elementsOfTheCollection.length == 0) {
             return false;
@@ -382,9 +382,11 @@ public class CustomLinkedList implements List {
      */
     @NotNull
     @Override
-    public Object[] toArray(@NotNull Object[] arr) {
+    @SuppressWarnings("unchecked")
+    public <E> E[] toArray(@NotNull E[] arr) {  // TODO ???
+
         if (arr.length < size) {
-            arr = new Object[size];
+            arr = (E[]) new Object[size];
         }
 
         if (arr.length > size) {
@@ -395,8 +397,8 @@ public class CustomLinkedList implements List {
         }
 
         int index = 0;
-        for (MyNode node = head; node != null; node = node.next, index++) {
-            arr[index] = node.element;
+        for (MyNode<T> node = head; node != null; node = node.next, index++) {
+            arr[index] = (E) node.element;
         }
         return arr;
     }
@@ -412,7 +414,7 @@ public class CustomLinkedList implements List {
         if (size < 2) {
             return sb.append(head.element).append("]").toString();
         }
-        for (MyNode node = head; node != tail; node = node.next) {
+        for (MyNode<T> node = head; node != tail; node = node.next) {
             sb.append(node.element).append(" <-> ");
         }
         sb.append(tail.element).append("]");
@@ -423,30 +425,30 @@ public class CustomLinkedList implements List {
     // Возвращает итератор для элементов в этом списке в правильной последовательности.
     @NotNull
     @Override
-    public Iterator iterator() {
+    public Iterator<T> iterator() {
         throw new UnsupportedOperationException();
     }
 
     @NotNull
     @Override
-    public ListIterator listIterator() {
+    public ListIterator<T> listIterator() {
         throw new UnsupportedOperationException();
     }
 
     @NotNull
     @Override
-    public ListIterator listIterator(int index) {
+    public ListIterator<T> listIterator(int index) {
         throw new UnsupportedOperationException();
     }
 
     @NotNull
     @Override
-    public List subList(int fromIndex, int toIndex) {
+    public List<T> subList(int fromIndex, int toIndex) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean retainAll(@NotNull Collection c) {
+    public boolean retainAll(@NotNull Collection<?> c) {
         throw new UnsupportedOperationException();
     }
 
@@ -457,7 +459,6 @@ public class CustomLinkedList implements List {
     // -----------------------------------------------------------------------------------------------------------------
     // -----------------------------------------------------------------------------------------------------------------
     // -----------------------------------------------------------------------------------------------------------------
-
 
     public Object getFirstElement() {
         if (head == null) {
@@ -473,30 +474,28 @@ public class CustomLinkedList implements List {
         return tail.element;
     }
 
+
     /**
      * Вставляет
      *
      * @param newElement - новый элемент
      * @param node       - в какой узел вставить
      */
-    @SuppressWarnings("unchecked")
-    private void insertElement(Object newElement, MyNode node) {
-        MyNode oldNodePrev = node.prev;
-        node.prev = new MyNode(node.prev, newElement, node);
-        if (oldNodePrev == null) {
-            head = node.prev;
-        } else {
-            oldNodePrev.next = node.prev;
-        }
-        size++;
-    }
-
-    @SuppressWarnings("unchecked")
-    private void insertElement1(Object newElement, MyNode node) {
+//    private void insertElement(Object newElement, MyNode node) {
+//        MyNode oldNodePrev = node.prev;
+//        node.prev = new MyNode(node.prev, newElement, node);
+//        if (oldNodePrev == null) {
+//            head = node.prev;
+//        } else {
+//            oldNodePrev.next = node.prev;
+//        }
+//        size++;
+//    }
+    private void insertElement1(T newElement, MyNode<T> node) {
         if (node == null) {
-            node = new MyNode(null, newElement, null);
+            node = new MyNode<>(null, newElement, null);
         }
-        MyNode newNode = new MyNode(node.prev, newElement, node);
+        MyNode<T> newNode = new MyNode<>(node.prev, newElement, node);
         if (node.prev == null) {
             head = newNode;
             newNode.next.prev = newNode;
@@ -542,9 +541,9 @@ public class CustomLinkedList implements List {
      * @param index - индекс узла
      * @return - нужный узел
      */
-    private MyNode getNode(int index) {
+    private MyNode<T> getNode(int index) {
         checkIndexExistence(index);
-        MyNode node;
+        MyNode<T> node;
         if (index < (size << 1)) {  // index <= size/2
             node = head;
             for (int i = 0; i < index; i++) {
@@ -565,10 +564,10 @@ public class CustomLinkedList implements List {
      * @param node - узел, который нужно удалить
      * @return - element этого узла
      */
-    private Object deleteNode(MyNode node) {
-        final Object element = node.element;
-        MyNode prev = node.prev;
-        MyNode next = node.next;
+    private T deleteNode(MyNode<T> node) {
+        final T element = node.element;
+        MyNode<T> prev = node.prev;
+        MyNode<T> next = node.next;
 
         if (prev == null) {   //если prev ссылка  узла node указывает на null, то значит head
             head = next;

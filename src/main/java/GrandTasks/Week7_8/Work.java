@@ -8,7 +8,7 @@ import java.util.Collection;
 public class Work {
 
     public static void main(String[] args) {
-        CustomLinkedList myCustomList = new CustomLinkedList();
+        CustomLinkedListGeneric myCustomList = new CustomLinkedListGeneric();
         Collection collection = new CustomArrayList();
         myCustomList.add(1);
         myCustomList.add(2);
