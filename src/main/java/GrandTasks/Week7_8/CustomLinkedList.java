@@ -19,14 +19,6 @@ public class CustomLinkedList implements List {
             this.next = next;
             this.prev = prev;
         }
-
-//        private MyNode genIter(E... values) {     // генерировать итеративно
-//            MyNode head = null;
-//            for (int i = values.length - 1; i >= 0; i--) {
-//                head = new MyNode(head, values[i], head.prev);
-//            }
-//            return head;
-//        }
     }
 
 
@@ -35,8 +27,6 @@ public class CustomLinkedList implements List {
      * @param head     - ссылка на первый элемент (голова)
      * @param tail      - ссылка на последний элемент (хвост)
      */
-    private Object[] dataElements = new Object[10]; // TODO удалить когда все переделаю
-
     private int size = 0;
     private MyNode head;
     private MyNode tail;
@@ -72,7 +62,7 @@ public class CustomLinkedList implements List {
 
 
     /**
-     * Возвращает массив, содержащий все элементы в этом списке в правильной последовательности (от первого до последнего элемента).
+     * Возвращает новый массив, содержащий все элементы в этом списке в правильной последовательности (от первого до последнего элемента).
      */
     @NotNull
     @Override
@@ -214,7 +204,7 @@ public class CustomLinkedList implements List {
      */
     @Override
     public boolean addAll(int index, @NotNull Collection addedCollection) {  // готово
-        if (size != 0) {
+        if (size != 0 && size != index) {
             checkIndexExistence(index);
         }
         Object[] addedElements = addedCollection.toArray();
@@ -224,16 +214,16 @@ public class CustomLinkedList implements List {
         MyNode prev;    // начнем записывать новые элементы с левой части списка
         MyNode coupling;    // сцепка, сюда сохраним ссылку на правую часть списка
         if (size == index) {   // если добавляем в конец списка
-            prev = null;
-            coupling = tail;
+            prev = tail;
+            coupling = null;
         } else {    // если добавляем внутрь списка
             coupling = getNode(index);  // находим нужный узел (правую часть списка) и сохраняем его
             prev = coupling.prev;
         }
         size = addedElements.length + size;
 
-        for (int i = 0; i < addedElements.length; i++) {
-            MyNode newNode = new MyNode(prev, addedElements[i], null);
+        for (Object addedElement : addedElements) {
+            MyNode newNode = new MyNode(prev, addedElement, null);
             if (prev == null) {
                 head = newNode;
             } else {
@@ -338,20 +328,24 @@ public class CustomLinkedList implements List {
      * @return false, если нечего удалять (пустая или ни однин объект не одинаковый)
      */
     @Override
-    public boolean removeAll(@NotNull Collection inputCollection) {     // TODO переделать
-        Object[] deletedElements = inputCollection.toArray();
-        if (deletedElements.length == 0) {
+    public boolean removeAll(@NotNull Collection inputCollection) {     // Готово
+        Object[] objectToDelete = inputCollection.toArray();
+        if (objectToDelete.length == 0) {
             return false;
         }
-//        for (int index = 0; index < deletedElements.length; index++) {  // не уверен
-//            if (!contains(dataElements[index])) {
-//                return false;
-//            }
-//        }
+
+        for (int index = objectToDelete.length - 1; index >= 0; index--) {  // проверяем на содержание хотя бы 1 объекта
+            if (contains(objectToDelete[index])) {  // выходим если нашли
+                break;
+            } else if (index == 0) {    // если дошли до конца и не нашли, возвращаем false
+                return false;
+            }
+        }
+
         for (MyNode node = head; node != null; node = node.next) {
-            for (int index = 0; index < deletedElements.length; index++) {
-                if (Objects.equals(node.element, deletedElements[index])) {
-                    size--;
+            for (int index = objectToDelete.length - 1; index >= 0; index--) {
+                if (Objects.equals(node.element, objectToDelete[index])) {
+                    remove(objectToDelete[index]);
                 }
             }
         }
@@ -372,11 +366,9 @@ public class CustomLinkedList implements List {
             return false;
         }
         int amountOfElements = 0;
-        for (int i = 0; i < size; i++) {
-            for (Object element : elementsOfTheCollection) {
-                if (Objects.equals(dataElements[i], element)) {
-                    amountOfElements++;
-                }
+        for (int index = elementsOfTheCollection.length - 1; index >= 0; index--) {
+            if (contains(elementsOfTheCollection[index])) {
+                amountOfElements++;
             }
         }
         return amountOfElements == elementsOfTheCollection.length;
@@ -389,12 +381,23 @@ public class CustomLinkedList implements List {
      */
     @NotNull
     @Override
-    public Object[] toArray(@NotNull Object[] arr) {   // TODO переделать
+    public Object[] toArray(@NotNull Object[] arr) {
         if (arr.length < size) {
-            return Arrays.copyOf(dataElements, size);
+            arr = new Object[size];
         }
-        System.arraycopy(dataElements, 0, arr, 0, size);
-        return dataElements;
+
+        if (arr.length > size) {
+            int interval = arr.length - size;
+            for (int i = arr.length - 1; i >= interval; i--) {
+                arr[i] = null;
+            }
+        }
+
+        int index = 0;
+        for (MyNode node = head; node != null; node = node.next, index++) {
+            arr[index] = node.element;
+        }
+        return arr;
     }
 
 

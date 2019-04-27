@@ -161,13 +161,17 @@ class CustomLinkedListTest {
         Assertions.assertFalse(myList.containsAll(addList));
         myList.addAll(addList);
         Assertions.assertTrue(myList.containsAll(addList));
+        Assertions.assertFalse(myList.containsAll(deletedList));
     }
 
     @Test
     void testToArray1() {
-        Object[] o = addList.toArray();
-        System.out.println(Arrays.toString(o));
-        System.out.println(Arrays.toString(myList.toArray(o)));
-    }
+        Object[] arr = addList.toArray();
+        System.out.println("первоначальный массив arr = " + Arrays.toString(arr) + ". myList = " + myList.toString());
+        System.out.println("myList.toArray(arr) " + Arrays.toString(myList.toArray(arr)));
 
+        arr = myList.toArray();
+        System.out.println("первоначальный массив arr = " + Arrays.toString(arr) + ". myList = " + addList.toString());
+        System.out.println("myList.toArray(arr) " + Arrays.toString(addList.toArray(arr)));
+    }
 }

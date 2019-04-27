@@ -1,6 +1,3 @@
-
-package JavaHeadFirstAndOther;
-
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,5 +41,6 @@ public class WorkingClass {
         System.out.println(myList.toString());
         myList.set(1, 2222);
         myList.removeAll(myList);
+        myList.toArray(myList.toArray());
     }
 }
