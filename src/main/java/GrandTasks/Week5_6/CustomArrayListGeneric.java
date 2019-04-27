@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public class CustomArrayList implements List {
+public class CustomArrayListGeneric<T> implements List<T> {
 
     private Object[] dataElements = new Object[10];
     private int size = 0;
@@ -48,7 +48,7 @@ public class CustomArrayList implements List {
     // Возвращает итератор для элементов в этом списке в правильной последовательности.
     @NotNull
     @Override
-    public Iterator iterator() {
+    public Iterator<T> iterator() {
         throw new UnsupportedOperationException();
     }
 
@@ -69,7 +69,7 @@ public class CustomArrayList implements List {
      * @param newDataElement - указанный элемент
      */
     @Override
-    public boolean add(Object newDataElement) {//
+    public boolean add(T newDataElement) {//
         if (newDataElement == null) {
             throw new NullPointerException("Исключение нулевого указателя");
         }
@@ -86,7 +86,7 @@ public class CustomArrayList implements List {
      * @param newDataElement - указанный элемент
      */
     @Override
-    public void add(int index, Object newDataElement) {
+    public void add(int index, T newDataElement) {
         checkIndexExistence(index);
         increaseDataElementsLength();
         System.arraycopy(dataElements, index, dataElements, index + 1, size++ - index);
@@ -122,9 +122,9 @@ public class CustomArrayList implements List {
      * @return - этот удаленный элемент
      */
     @Override
-    public Object remove(int index) {
+    public T remove(int index) {
         checkIndexExistence(index);
-        Object oldElement = dataElements[index];
+        T oldElement = (T) dataElements[index];
         decreaseDataElementsLength();
         for (int i = index; i < size; i++) {
             dataElements[i] = dataElements[i + 1];
@@ -141,7 +141,7 @@ public class CustomArrayList implements List {
      * @return - true, если коллекция не пустая
      */
     @Override
-    public boolean addAll(@NotNull Collection addedCollection) {
+    public boolean addAll(@NotNull Collection<? extends T> addedCollection) {
         Object[] addedElements = addedCollection.toArray();
         if (addedElements.length == 0) {
             return false;
@@ -156,7 +156,7 @@ public class CustomArrayList implements List {
      * Вставляет все элементы из указанной коллекции в этот список, начиная с указанной позиции. либо false если колекция пустая
      */
     @Override
-    public boolean addAll(int index, @NotNull Collection addedCollection) {
+    public boolean addAll(int index, @NotNull Collection<? extends T> addedCollection) {
         Object[] addedElements = addedCollection.toArray();
         if (addedElements.length == 0) {
             return false;
@@ -189,9 +189,9 @@ public class CustomArrayList implements List {
      * @return элемент
      */
     @Override
-    public Object get(int index) {
+    public T get(int index) {
         checkIndexExistence(index);
-        return dataElements[index];
+        return (T) dataElements[index];
     }
 
 
@@ -203,9 +203,9 @@ public class CustomArrayList implements List {
      * @return старый элемент в указанной позиции
      */
     @Override
-    public Object set(int index, Object newElement) {
+    public T set(int index, T newElement) {
         checkIndexExistence(index);
-        Object oldElement = dataElements[index];
+        T oldElement = (T) dataElements[index];
         dataElements[index] = newElement;
         return oldElement;
     }
@@ -246,20 +246,20 @@ public class CustomArrayList implements List {
 
     @NotNull
     @Override
-    public ListIterator listIterator() {
+    public ListIterator<T> listIterator() {
         throw new UnsupportedOperationException();
 
     }
 
     @NotNull
     @Override
-    public ListIterator listIterator(int index) {
+    public ListIterator<T> listIterator(int index) {
         throw new UnsupportedOperationException();
     }
 
     @NotNull
     @Override
-    public List subList(int fromIndex, int toIndex) {
+    public List<T> subList(int fromIndex, int toIndex) {
         throw new UnsupportedOperationException();
     }
 
@@ -308,7 +308,7 @@ public class CustomArrayList implements List {
      * @return true, если этот список содержит все элементы указанной коллекции
      */
     @Override
-    public boolean containsAll(@NotNull Collection specifiedCollection) {
+    public boolean containsAll(@NotNull Collection<?> specifiedCollection) {
         Object[] elementsOfTheCollection = specifiedCollection.toArray();
         if (elementsOfTheCollection.length == 0) {
             return false;
@@ -331,18 +331,19 @@ public class CustomArrayList implements List {
      */
     @NotNull
     @Override
-    public Object[] toArray(@NotNull Object[] arr) {
+    public <T1> T1[] toArray(@NotNull T1[] arr) {
         if (arr.length < size) {
-            return Arrays.copyOf(dataElements, size);
+            return (T1[]) Arrays.copyOf(dataElements, size, arr.getClass());
         }
         System.arraycopy(dataElements, 0, arr, 0, size);
+
         if (arr.length > size) {
             int interval = arr.length - size;
             for (int i = arr.length - 1; i >= interval; i--) {
                 arr[i] = null;
             }
         }
-        return dataElements;
+        return arr;
     }
 
 
@@ -363,13 +364,6 @@ public class CustomArrayList implements List {
         return sb.toString();
     }
 
-    void toStringMy() {
-        System.out.print("[");
-        for (int i = 0; i < dataElements.length; i++) {
-            System.out.print(dataElements[i] + ", ");
-        }
-        System.out.println("]");
-    }
 
     /**
      * Проверяем существование поступающего индекса
@@ -399,25 +393,4 @@ public class CustomArrayList implements List {
             dataElements = Arrays.copyOf(dataElements, (int) (dataElements.length / 1.5) + 1);
         }
     }
-
-
-    public static void main(String[] args) {
-        CustomArrayList myCustomList = new CustomArrayList();
-        myCustomList.add(1);
-        System.out.println(myCustomList.get(0));
-        myCustomList.add(2);
-        System.out.println(myCustomList.get(1));
-        myCustomList.add(3);
-        System.out.println(myCustomList.get(2));
-        System.out.println(myCustomList.toString());
-
-    }
-
-// В аргументах arraycopy() передаётся 1 откуда массив,
-// 2 начальная позиция копирования откуда массиве,
-// 3 куда массив,
-// 4 начальная позиция копирования  куда массиве,
-// 5 количество копируемых элементов.
-// Любое нарушение границ массива приведёт к исключению.
-
 }

@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-class CustomArrayListTest {
-    private CustomArrayList myList = new CustomArrayList();
-    private CustomArrayList addList = new CustomArrayList();
-    private CustomArrayList deletedList = new CustomArrayList();
+class CustomArrayListGenericTest {
+    private CustomArrayListGeneric myList = new CustomArrayListGeneric();
+    private CustomArrayListGeneric addList = new CustomArrayListGeneric();
+    private CustomArrayListGeneric deletedList = new CustomArrayListGeneric();
 
 
     @BeforeEach
@@ -171,5 +171,5 @@ class CustomArrayListTest {
         arr = myList.toArray();
         System.out.println("первоначальный массив arr = " + Arrays.toString(arr) + ". myList = " + addList.toString());
         System.out.println("myList.toArray(arr) " + Arrays.toString(addList.toArray(arr)));
-    }
+}
 }

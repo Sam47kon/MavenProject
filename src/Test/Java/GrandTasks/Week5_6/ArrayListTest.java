@@ -7,12 +7,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 class ArrayListTest {
-    private List myList = new ArrayList();
-    private List addList = new ArrayList();
-    private List deletedList = new ArrayList();
+    private ArrayList myList = new ArrayList();
+    private ArrayList addList = new ArrayList();
+    private ArrayList deletedList = new ArrayList();
 
 
     @BeforeEach
@@ -166,8 +165,12 @@ class ArrayListTest {
 
     @Test
     void testToArray1() {
-        Object[] o = addList.toArray();
-        System.out.println(Arrays.toString(o));
-        System.out.println(Arrays.toString(myList.toArray(o)));
+        Object[] arr = addList.toArray();
+        System.out.println("первоначальный массив arr = " + Arrays.toString(arr) + ". myList = " + myList.toString());
+        System.out.println("myList.toArray(arr) " + Arrays.toString(myList.toArray(arr)));
+
+        arr = myList.toArray();
+        System.out.println("первоначальный массив arr = " + Arrays.toString(arr) + ". myList = " + addList.toString());
+        System.out.println("myList.toArray(arr) " + Arrays.toString(addList.toArray(arr)));
     }
 }
