@@ -1,15 +1,13 @@
 package GrandTasks.Week7_8;
 
-import GrandTasks.Week5_6.CustomArrayList;
-
 import java.util.Arrays;
-import java.util.Collection;
 
 public class Work {
 
     public static void main(String[] args) {
-        CustomLinkedListGeneric myCustomList = new CustomLinkedListGeneric();
-        Collection collection = new CustomArrayList();
+
+        CustomLinkedListGeneric<Integer> myCustomList = new CustomLinkedListGeneric<>();
+        CustomLinkedListGeneric<Integer> collection = new CustomLinkedListGeneric<>();
         myCustomList.add(1);
         myCustomList.add(2);
         myCustomList.add(3);
