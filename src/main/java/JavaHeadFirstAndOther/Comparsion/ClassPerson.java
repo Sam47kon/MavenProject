@@ -26,12 +26,16 @@ public class ClassPerson {
 
         @Override
         public int hashCode() {
-            return super.hashCode();
+            int result = name.hashCode();
+            return age + result;
         }
 
         @Override
         public boolean equals(Object obj) {
-            if (obj == null){
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof Person)) {
                 return false;
             }
             Person person = (Person) obj;
@@ -64,5 +68,36 @@ public class ClassPerson {
 //            или
             return Integer.compare(p1.getAge(), p2.getAge());
         }
+    }
+
+    public static void main(String[] args) {
+        Person p1 = new Person("p", 18);
+        Person p2 = new Person("p", 18);
+        Person p3 = new Person("p3", 18);
+        Person p4 = new Person("p", 81);
+
+        System.out.println("p1:" + p1.hashCode());
+        System.out.println(p1.equals(p1));  // +
+        System.out.println(p1.equals(p2));  // +
+        System.out.println(p1.equals(p3));  // -
+        System.out.println(p1.equals(p4));  // -
+
+        System.out.println("p2:" + p2.hashCode());
+        System.out.println(p2.equals(p1));  // +
+        System.out.println(p2.equals(p2));  // +
+        System.out.println(p2.equals(p3));  // -
+        System.out.println(p2.equals(p4));  // -
+
+        System.out.println("p3: " + p3.hashCode());
+        System.out.println(p3.equals(p1));  // -
+        System.out.println(p3.equals(p2));  // -
+        System.out.println(p3.equals(p3));  // +
+        System.out.println(p3.equals(p4));  // -
+
+        System.out.println("p4: " + p4.hashCode());
+        System.out.println(p4.equals(p1));  // -
+        System.out.println(p4.equals(p2));  // -
+        System.out.println(p4.equals(p3));  // -
+        System.out.println(p4.equals(p4));  // +
     }
 }
