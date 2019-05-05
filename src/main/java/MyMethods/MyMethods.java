@@ -37,11 +37,9 @@ public class MyMethods {
     }
 
 
-    public static int[] createRandomArrayWithSize(int size) {
-        int[] array = new int[size];
-        for (int i = 0; i < array.length; i++) {
-            array[i] = new Random().nextInt(array.length * 10);
-        }
+    public static Integer[] createRandomArrayWithSize(int size) {
+        Integer[] array = new Integer[size];
+        fillIntegerArray(array);
         return Arrays.copyOf(array, size);
     }
 
