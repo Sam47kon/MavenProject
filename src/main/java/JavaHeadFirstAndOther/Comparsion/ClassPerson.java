@@ -26,8 +26,9 @@ public class ClassPerson {
 
         @Override
         public int hashCode() {
-            int result = name.hashCode();
-            return age + result;
+            int result = 37 * 17 + (name == null ? 0 : name.hashCode());
+            result = 37 * result + age;
+            return result;
         }
 
         @Override
