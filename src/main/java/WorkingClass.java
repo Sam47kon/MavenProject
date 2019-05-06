@@ -1,6 +1,7 @@
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import GrandTasks.Week5_6.CustomArrayListGeneric;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Программа для вывода
@@ -16,31 +17,65 @@ public class WorkingClass {
      */
 
     public static void main(String[] args) {
-        List<Integer> list = new LinkedList<>();
-        list.add(11);
-        list.add(22);
-        list.add(33);
-        list.add(44);
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        arrayList.add(11);
+        arrayList.add(22);
+        arrayList.add(33);
+        arrayList.add(44);
 
-
-        LinkedList<Integer> myList = new LinkedList<>();
+        CustomArrayListGeneric<Integer> myList = new CustomArrayListGeneric<>();
         myList.add(1);
         myList.add(2);
         myList.add(3);
         myList.add(4);
+        myList.addAll(arrayList);
+        arrayList.add(0, 4);
+        arrayList.add(0, 3);
+        arrayList.add(0, 2);
+        arrayList.add(0, 1);
+        Iterator<Integer> myItr = myList.iterator();
 
-        myList.addAll(list);
+
+        System.out.println("MyList: ");
+
+        for (Iterator<Integer> iterator = myList.iterator(); iterator.hasNext(); ) {
+            Integer integer = iterator.next();
+            System.out.print(integer + " ");
+        }
+        System.out.println();
+
+        myItr.next();
+        myItr.remove();
+        myItr.next();
+        myItr.remove();
+        myItr.next();
+        myItr.remove();
+        myItr.next();
+        myItr.remove();
+
         System.out.println(myList.toString());
-        System.out.println(myList.getFirst());
-        System.out.println(myList.getLast());
-        System.out.println(myList.get(5));
-        System.out.println(myList.isEmpty());
-        System.out.println(myList.contains(4));
-        System.out.println(Arrays.toString(myList.toArray()));
-        myList.clear();
-        System.out.println(myList.toString());
-        myList.set(1, 2222);
-        myList.removeAll(myList);
-        myList.toArray(myList.toArray());
+        System.out.println("ArrayList: ");
+
+
+        for (Iterator<Integer> iterator = arrayList.iterator(); iterator.hasNext(); ) {
+            Integer integer = iterator.next();
+            System.out.print(integer + " ");
+        }
+        System.out.println();
+        Iterator<Integer> arrayListItr = arrayList.iterator();
+
+        arrayListItr.next();
+        arrayListItr.remove();
+        arrayListItr.next();
+        arrayListItr.remove();
+        arrayListItr.next();
+        arrayListItr.remove();
+        arrayListItr.next();
+        arrayListItr.remove();
+
+        System.out.println(arrayList.toString());
+
+        System.out.println(arrayList.containsAll(myList));
+        System.out.println(myList.containsAll(arrayList));
     }
 }

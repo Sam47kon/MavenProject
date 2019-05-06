@@ -126,7 +126,7 @@ public class CustomArrayList implements List {
         checkIndexExistence(index);
         Object oldElement = dataElements[index];
         decreaseDataElementsLength();
-        for (int i = index; i < size; i++) {
+        for (int i = index; i < size - 1; i++) {
             dataElements[i] = dataElements[i + 1];
         }
         size--;

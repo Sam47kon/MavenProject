@@ -100,5 +100,14 @@ public class ClassPerson {
         System.out.println(p4.equals(p2));  // -
         System.out.println(p4.equals(p3));  // -
         System.out.println(p4.equals(p4));  // +
+
+        System.out.println();
+        String str1 = "Sout";
+        String str2 = "Sout";
+        System.out.println(str1 == "Sout");
+        System.out.println(str1 == str2);
+
+        System.out.println(str1 == str2.intern());
+        System.out.println(str1.intern() == str2.intern());
     }
 }

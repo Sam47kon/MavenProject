@@ -8,6 +8,7 @@ public class CustomArrayListGeneric<T> implements List<T> {
 
     private Object[] dataElements = new Object[10];
     private int size = 0;
+    private int iteratorPoint = 0;
 
 
     /**
@@ -18,7 +19,6 @@ public class CustomArrayListGeneric<T> implements List<T> {
         return size;
     }
 
-
     /**
      * Возвращает true, если далее этот список пустой
      */
@@ -26,7 +26,6 @@ public class CustomArrayListGeneric<T> implements List<T> {
     public boolean isEmpty() {
         return size == 0;
     }
-
 
     /**
      * Возвращает, true если этот список содержит указанный элемент.
@@ -44,15 +43,6 @@ public class CustomArrayListGeneric<T> implements List<T> {
         return false;
     }
 
-
-    // Возвращает итератор для элементов в этом списке в правильной последовательности.
-    @NotNull
-    @Override
-    public Iterator<T> iterator() {
-        throw new UnsupportedOperationException();
-    }
-
-
     /**
      * Возвращает массив, содержащий все элементы в этом списке в правильной последовательности (от первого до последнего элемента).
      */
@@ -61,7 +51,6 @@ public class CustomArrayListGeneric<T> implements List<T> {
     public Object[] toArray() {
         return Arrays.copyOf(dataElements, size);
     }
-
 
     /**
      * Добавляет указанный элемент в конец этого списка и возвращает true
@@ -75,9 +64,9 @@ public class CustomArrayListGeneric<T> implements List<T> {
         }
         increaseDataElementsLength();
         dataElements[size++] = newDataElement;
+        iteratorPoint++;
         return true;
     }
-
 
     /**
      * Вставляет указанный элемент в указанную позицию в этом списке.
@@ -91,8 +80,8 @@ public class CustomArrayListGeneric<T> implements List<T> {
         increaseDataElementsLength();
         System.arraycopy(dataElements, index, dataElements, index + 1, size++ - index);
         dataElements[index] = newDataElement;
+        iteratorPoint++;
     }
-
 
     /**
      * Удаляет первое вхождение указанного элемента из этого списка, если он присутствует.
@@ -108,12 +97,12 @@ public class CustomArrayListGeneric<T> implements List<T> {
             if (Objects.equals(soughtObject, dataElements[index])) {
                 System.arraycopy(dataElements, index + 1, dataElements, index, oldSize - index);
                 size--;
+                iteratorPoint++;
                 return true;
             }
         }
         return false;
     }
-
 
     /**
      * Удаляет элемент в указанной позиции в этом списке
@@ -121,18 +110,19 @@ public class CustomArrayListGeneric<T> implements List<T> {
      * @param index - указанная позиция
      * @return - этот удаленный элемент
      */
+    @SuppressWarnings("unchecked")
     @Override
     public T remove(int index) {
         checkIndexExistence(index);
         T oldElement = (T) dataElements[index];
-        decreaseDataElementsLength();
-        for (int i = index; i < size; i++) {
+        for (int i = index; i < size - 1; i++) {
             dataElements[i] = dataElements[i + 1];
         }
+        decreaseDataElementsLength();
         size--;
+        iteratorPoint++;
         return oldElement;
     }
-
 
     /**
      * Добавляет все элементы в указанной коллекции в конец этого списка
@@ -147,6 +137,7 @@ public class CustomArrayListGeneric<T> implements List<T> {
             return false;
         }
         size = addedElements.length + size;
+        iteratorPoint++;
         dataElements = Arrays.copyOf(dataElements, size);
         System.arraycopy(addedElements, 0, dataElements, dataElements.length - addedElements.length, addedElements.length);
         return true;
@@ -163,12 +154,12 @@ public class CustomArrayListGeneric<T> implements List<T> {
         }
         int oldSize = size;
         size = addedElements.length + size;
+        iteratorPoint++;
         dataElements = Arrays.copyOf(dataElements, size);
         System.arraycopy(dataElements, index, dataElements, addedElements.length + index, oldSize - index);
         System.arraycopy(addedElements, 0, dataElements, index, addedElements.length);
         return true;
     }
-
 
     /**
      * Удаляет все элементы из этого списка.
@@ -179,8 +170,8 @@ public class CustomArrayListGeneric<T> implements List<T> {
             dataElements[index] = null;
         }
         size = 0;
+        iteratorPoint++;
     }
-
 
     /**
      * Возвращает элемент в указанной позиции в этом списке
@@ -188,12 +179,12 @@ public class CustomArrayListGeneric<T> implements List<T> {
      * @param index - указанная позиция
      * @return элемент
      */
+    @SuppressWarnings("unchecked")
     @Override
     public T get(int index) {
         checkIndexExistence(index);
         return (T) dataElements[index];
     }
-
 
     /**
      * Заменяет элемент в указанной позиции в этом списке на указанный элемент, возвращает старый элемент
@@ -202,6 +193,7 @@ public class CustomArrayListGeneric<T> implements List<T> {
      * @param newElement - новый элемент
      * @return старый элемент в указанной позиции
      */
+    @SuppressWarnings("unchecked")
     @Override
     public T set(int index, T newElement) {
         checkIndexExistence(index);
@@ -209,7 +201,6 @@ public class CustomArrayListGeneric<T> implements List<T> {
         dataElements[index] = newElement;
         return oldElement;
     }
-
 
     /**
      * Возвращает индекс первого вхождения указанного элемента в этом списке или -1, если этот список не содержит элемент.
@@ -227,7 +218,6 @@ public class CustomArrayListGeneric<T> implements List<T> {
         return -1;
     }
 
-
     /**
      * Возвращает индекс последнего вхождения указанного элемента в этом списке или -1, если этот список не содержит элемент.
      *
@@ -243,31 +233,6 @@ public class CustomArrayListGeneric<T> implements List<T> {
         }
         return -1;
     }
-
-    @NotNull
-    @Override
-    public ListIterator<T> listIterator() {
-        throw new UnsupportedOperationException();
-
-    }
-
-    @NotNull
-    @Override
-    public ListIterator<T> listIterator(int index) {
-        throw new UnsupportedOperationException();
-    }
-
-    @NotNull
-    @Override
-    public List<T> subList(int fromIndex, int toIndex) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean retainAll(@NotNull Collection c) {
-        throw new UnsupportedOperationException();
-    }
-
 
     /**
      * Удаляет из этого списка все его элементы, которые содержатся в указанной коллекции.
@@ -290,16 +255,15 @@ public class CustomArrayListGeneric<T> implements List<T> {
 
         int oldSize = size;
 
-        for (int iElement = 0; iElement < deletedElements.length; iElement++) {
+        for (Object deletedElement : deletedElements) {
             for (int index = 0; index < oldSize - 1; index++) {
-                if (Objects.equals(deletedElements[iElement], deletedElements[index])) {
-                    remove(deletedElements[iElement]);
+                if (Objects.equals(deletedElement, deletedElements[index])) {
+                    remove(deletedElement);
                 }
             }
         }
         return true;
     }
-
 
     /**
      * Возвращает, true если этот список содержит все элементы указанной коллекции.
@@ -324,12 +288,12 @@ public class CustomArrayListGeneric<T> implements List<T> {
         return amountOfElements == elementsOfTheCollection.length;
     }
 
-
     /**
      * Возвращает массив, содержащий все элементы в этом списке в правильной последовательности (от первого до последнего элемента);
      * тип времени выполнения возвращаемого массива является типом указанного массива.
      */
     @NotNull
+    @SuppressWarnings("unchecked")
     @Override
     public <T1> T1[] toArray(@NotNull T1[] arr) {
         if (arr.length < size) {
@@ -345,7 +309,6 @@ public class CustomArrayListGeneric<T> implements List<T> {
         }
         return arr;
     }
-
 
     @Override
     public String toString() {
@@ -364,6 +327,8 @@ public class CustomArrayListGeneric<T> implements List<T> {
         return sb.toString();
     }
 
+// -----------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------------
 
     /**
      * Проверяем существование поступающего индекса
@@ -391,6 +356,91 @@ public class CustomArrayListGeneric<T> implements List<T> {
     private void decreaseDataElementsLength() {
         if (dataElements.length > size * 1.5) {
             dataElements = Arrays.copyOf(dataElements, (int) (dataElements.length / 1.5) + 1);
+        }
+    }
+
+// -----------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Возвращает итератор для элементов в этом списке в правильной последовательности.
+     */
+    @NotNull
+    @Override
+    public Iterator<T> iterator() {
+        return new CustomIterator();
+    }
+
+    @NotNull
+    @Override
+    public ListIterator<T> listIterator() { // TODO остановился здесь
+        throw new UnsupportedOperationException();
+
+    }
+
+    @NotNull
+    @Override
+    public ListIterator<T> listIterator(int index) {
+        throw new UnsupportedOperationException();
+    }
+
+    @NotNull
+    @Override
+    public List<T> subList(int fromIndex, int toIndex) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean retainAll(@NotNull Collection c) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Итератор
+     */
+    private class CustomIterator implements Iterator<T> {
+        int pos = 0;
+        int lastPos = -1;
+        int nowIteratorPoint = iteratorPoint;
+
+        @Override
+        public boolean hasNext() {
+            return pos != size;
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public T next() {
+            checkImmutabilityOfList();
+            if (pos >= size) {
+                throw new NoSuchElementException();
+            }
+            lastPos = pos++;
+            return (T) dataElements[lastPos];
+        }
+
+        @Override
+        public void remove() {
+            checkImmutabilityOfList();
+            if (lastPos == -1) {
+                throw new IllegalStateException();
+            }
+            try {
+                CustomArrayListGeneric.this.remove(pos = lastPos);
+                lastPos = -1;
+                nowIteratorPoint++;
+            } catch (IndexOutOfBoundsException e) {
+                throw new ConcurrentModificationException();
+            }
+        }
+
+
+        /**
+         * Проверить неизменяемость листа во время работы итератора
+         */
+        final void checkImmutabilityOfList() {
+            if (iteratorPoint != nowIteratorPoint)
+                throw new ConcurrentModificationException();
         }
     }
 }
