@@ -21,7 +21,6 @@ public class CustomLinkedListGeneric<T> implements List<T> {
         }
     }
 
-
     /**
      * @param size      - размер списка
      * @param head      - ссылка на первый элемент (голова)
@@ -30,6 +29,7 @@ public class CustomLinkedListGeneric<T> implements List<T> {
     private int size = 0;
     private MyNode<T> head;
     private MyNode<T> tail;
+    private int iteratorPoint = 0;
 
 
     /**
@@ -40,7 +40,6 @@ public class CustomLinkedListGeneric<T> implements List<T> {
         return size;
     }
 
-
     /**
      * Возвращает true, если далее этот список пустой
      */
@@ -48,7 +47,6 @@ public class CustomLinkedListGeneric<T> implements List<T> {
     public boolean isEmpty() {
         return size == 0;
     }
-
 
     /**
      * Возвращает, true если этот список содержит указанный элемент.
@@ -59,7 +57,6 @@ public class CustomLinkedListGeneric<T> implements List<T> {
     public boolean contains(Object soughtObject) {
         return indexOf(soughtObject) >= 0;
     }
-
 
     /**
      * Возвращает новый массив, содержащий все элементы в этом списке в правильной последовательности (от первого до последнего элемента).
@@ -74,7 +71,6 @@ public class CustomLinkedListGeneric<T> implements List<T> {
         }
         return result;
     }
-
 
     /**
      * Добавляет указанный элемент в конец этого списка и возвращает true
@@ -94,9 +90,9 @@ public class CustomLinkedListGeneric<T> implements List<T> {
             oldTail.next = tail;
         }
         size++;
+        iteratorPoint++;
         return true;
     }
-
 
     /**
      * Вставляет указанный элемент в указанную позицию в этом списке.
@@ -118,73 +114,15 @@ public class CustomLinkedListGeneric<T> implements List<T> {
                 for (int i = 0; i < index; i++) {
                     tmp = tmp.next;
                 }
-                insertElement1(newElement, tmp);
+                insertElement(newElement, tmp);
             } else {
                 tmp = tail;
                 for (int i = index - 1; i > 0; i--) {
                     tmp = tmp.prev;
                 }
-                insertElement1(newElement, tmp);
+                insertElement(newElement, tmp);
             }
         }
-    }
-
-    /**
-     * Удаляет первое вхождение указанного элемента из этого списка, если он присутствует.
-     *
-     * @param removeElement - указанный объект (искомый)
-     * @return true, если объект есть
-     */
-    @Override
-    public boolean remove(Object removeElement) {
-        MyNode<T> prev = null; // предыдущий
-        MyNode<T> current = head;  // текущий, идем сначала списка
-
-        while (current != null) {
-            if (Objects.equals(current.element, removeElement)) {   // если нашли элемент
-                if (prev != null) {    // если он не вначале
-                    prev.next = current.next;   // перемещаемся
-                    if (current.next == null) {  // если элемент в конце
-                        tail = prev;
-                    } else {
-                        // удаляем средний узел
-                        current.next.prev = prev;
-                    }
-                    size--;
-                } else {
-                    // а если в начале, удаляем первый элемент
-                    removeFirst();
-                }
-                return true;
-            }
-            // смещаемся вперед
-            prev = current;
-            current = current.next;
-        }
-        return false;
-    }
-
-
-    /**
-     * Удаляет элемент в указанной позиции в этом списке
-     *
-     * @param index - указанная позиция
-     * @return - этот удаленный элемент
-     */
-    @Override
-    public T remove(int index) {
-        return deleteNode(getNode(index));
-    }
-
-
-    /**
-     * Удаляет все элементы из этого списка.
-     */
-    @Override
-    public void clear() {
-        head = null;
-        tail = null;
-        size = 0;
     }
 
     /**
@@ -221,6 +159,7 @@ public class CustomLinkedListGeneric<T> implements List<T> {
             prev = coupling.prev;
         }
         size = addedElements.length + size;
+        iteratorPoint++;
 
         for (Object addedElement : addedElements) {
             @SuppressWarnings("unchecked")
@@ -236,12 +175,69 @@ public class CustomLinkedListGeneric<T> implements List<T> {
         if (coupling == null) {
             tail = prev;
         } else {
-            prev.next = coupling; // указываем next ссылку последнего элемента на тот узел, что сохранили
+            prev.next = coupling; // указываем nextNode ссылку последнего элемента на тот узел, что сохранили
             coupling.prev = prev;
         }
         return true;
     }
 
+    /**
+     * Удаляет первое вхождение указанного элемента из этого списка, если он присутствует.
+     *
+     * @param removeElement - указанный объект (искомый)
+     * @return true, если объект есть
+     */
+    @Override
+    public boolean remove(Object removeElement) {
+        MyNode<T> prev = null; // предыдущий
+        MyNode<T> current = head;  // текущий, идем сначала списка
+
+        while (current != null) {
+            if (Objects.equals(current.element, removeElement)) {   // если нашли элемент
+                if (prev != null) {    // если он не вначале
+                    prev.next = current.next;   // перемещаемся
+                    if (current.next == null) {  // если элемент в конце
+                        tail = prev;
+                    } else {
+                        // удаляем средний узел
+                        current.next.prev = prev;
+                    }
+                    size--;
+                } else {
+                    // а если в начале, удаляем первый элемент
+                    removeFirst();
+                }
+                iteratorPoint++;
+                return true;
+            }
+            // смещаемся вперед
+            prev = current;
+            current = current.next;
+        }
+        return false;
+    }
+
+    /**
+     * Удаляет элемент в указанной позиции в этом списке
+     *
+     * @param index - указанная позиция
+     * @return - этот удаленный элемент
+     */
+    @Override
+    public T remove(int index) {
+        return deleteNode(getNode(index));
+    }
+
+    /**
+     * Удаляет все элементы из этого списка.
+     */
+    @Override
+    public void clear() {
+        head = null;
+        tail = null;
+        size = 0;
+        iteratorPoint = 0;
+    }
 
     /**
      * Возвращает элемент в указанной позиции в этом списке
@@ -268,7 +264,6 @@ public class CustomLinkedListGeneric<T> implements List<T> {
         return tmp.element;
     }
 
-
     /**
      * Заменяет элемент в указанной позиции в этом списке на указанный элемент, возвращает старый элемент
      *
@@ -284,7 +279,6 @@ public class CustomLinkedListGeneric<T> implements List<T> {
         tmp.element = newElement;
         return oldElement;
     }
-
 
     /**
      * Возвращает индекс первого вхождения указанного элемента в этом списке или -1, если этот список не содержит элемент.
@@ -303,7 +297,6 @@ public class CustomLinkedListGeneric<T> implements List<T> {
         return -1;
     }
 
-
     /**
      * Возвращает индекс последнего вхождения указанного элемента в этом списке или -1, если этот список не содержит элемент.
      *
@@ -320,7 +313,6 @@ public class CustomLinkedListGeneric<T> implements List<T> {
         }
         return -1;
     }
-
 
     /**
      * Удаляет из этого списка все его элементы, которые содержатся в указанной коллекции.
@@ -353,7 +345,6 @@ public class CustomLinkedListGeneric<T> implements List<T> {
         return true;
     }
 
-
     /**
      * Возвращает, true если этот список содержит все элементы указанной коллекции.
      *
@@ -374,7 +365,6 @@ public class CustomLinkedListGeneric<T> implements List<T> {
         }
         return amountOfElements == elementsOfTheCollection.length;
     }
-
 
     /**
      * Возвращает массив, содержащий все элементы в этом списке в правильной последовательности (от первого до последнего элемента);
@@ -403,7 +393,6 @@ public class CustomLinkedListGeneric<T> implements List<T> {
         return arr;
     }
 
-
     @Override
     public String toString() {   // готово
         StringBuilder sb = new StringBuilder();
@@ -421,24 +410,29 @@ public class CustomLinkedListGeneric<T> implements List<T> {
         return sb.toString();
     }
 
+// -----------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------------
 
-    // Возвращает итератор для элементов в этом списке в правильной последовательности.
+    /**
+     * Возвращает итератор для элементов в этом списке в правильной последовательности.
+     */
     @NotNull
     @Override
     public Iterator<T> iterator() {
-        throw new UnsupportedOperationException();
+        return new CustomIterator();
+
     }
 
     @NotNull
     @Override
     public ListIterator<T> listIterator() {
-        throw new UnsupportedOperationException();
+        return new CustomListIterator(0);
     }
 
     @NotNull
     @Override
     public ListIterator<T> listIterator(int index) {
-        throw new UnsupportedOperationException();
+        return new CustomListIterator(index);
     }
 
     @NotNull
@@ -452,13 +446,8 @@ public class CustomLinkedListGeneric<T> implements List<T> {
         throw new UnsupportedOperationException();
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
-    // -----------------------------------------------------------------------------------------------------------------
-    // -----------------------------------------------------------------------------------------------------------------
-    // -----------------------------------------------------------------------------------------------------------------
-    // -----------------------------------------------------------------------------------------------------------------
-    // -----------------------------------------------------------------------------------------------------------------
-    // -----------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     public Object getFirstElement() {
         if (head == null) {
@@ -473,39 +462,6 @@ public class CustomLinkedListGeneric<T> implements List<T> {
         }
         return tail.element;
     }
-
-
-    /**
-     * Вставляет
-     *
-     * @param newElement - новый элемент
-     * @param node       - в какой узел вставить
-     */
-//    private void insertElement(Object newElement, MyNode node) {
-//        MyNode oldNodePrev = node.prev;
-//        node.prev = new MyNode(node.prev, newElement, node);
-//        if (oldNodePrev == null) {
-//            head = node.prev;
-//        } else {
-//            oldNodePrev.next = node.prev;
-//        }
-//        size++;
-//    }
-    private void insertElement1(T newElement, MyNode<T> node) {
-        if (node == null) {
-            node = new MyNode<>(null, newElement, null);
-        }
-        MyNode<T> newNode = new MyNode<>(node.prev, newElement, node);
-        if (node.prev == null) {
-            head = newNode;
-            newNode.next.prev = newNode;
-        } else {
-            newNode.prev.next = newNode;
-            newNode.next.prev = newNode;
-        }
-        size++;
-    }
-
 
     /**
      * удалить первый элемент списка
@@ -533,6 +489,28 @@ public class CustomLinkedListGeneric<T> implements List<T> {
             tail = tail.prev;
             size--;
         }
+    }
+
+    /**
+     * Вставляет
+     *
+     * @param newElement - новый элемент
+     * @param node       - в какой узел вставить
+     */
+    private void insertElement(T newElement, MyNode<T> node) {
+        if (node == null) {
+            node = new MyNode<>(null, newElement, null);
+        }
+        MyNode<T> newNode = new MyNode<>(node.prev, newElement, node);
+        if (node.prev == null) {
+            head = newNode;
+            newNode.next.prev = newNode;
+        } else {
+            newNode.prev.next = newNode;
+            newNode.next.prev = newNode;
+        }
+        size++;
+        iteratorPoint++;
     }
 
     /**
@@ -578,11 +556,12 @@ public class CustomLinkedListGeneric<T> implements List<T> {
         if (next == null) {
             tail = prev;
         } else {
-            next.prev = prev;  // указываем что next узел ссылается минуя node на его предыдущий узел
+            next.prev = prev;  // указываем что nextNode узел ссылается минуя node на его предыдущий узел
         }
 
         node.element = null;
         size--;
+        iteratorPoint++;
         return element;
     }
 
@@ -594,6 +573,154 @@ public class CustomLinkedListGeneric<T> implements List<T> {
     private void checkIndexExistence(int index) {
         if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException("Index: " + index + " not contained in this List with Size: " + size);
+        }
+    }
+
+    private class CustomIterator implements Iterator<T> {
+        int pos = 0;
+        int lastPos = -1;
+        int nowIteratorPoint = iteratorPoint;
+
+        @Override
+        public boolean hasNext() {
+            return pos != size;
+        }
+
+        @Override
+        public T next() {
+            checkImmutabilityOfList();
+            if (pos >= size) {
+                throw new NoSuchElementException();
+            }
+            lastPos = pos++;
+            return CustomLinkedListGeneric.this.get(lastPos);
+        }
+
+        @Override
+        public void remove() {
+            checkImmutabilityOfList();
+            if (lastPos == -1) {
+                throw new IllegalStateException();
+            }
+            try {
+                CustomLinkedListGeneric.this.remove(pos = lastPos);
+                lastPos = -1;
+                nowIteratorPoint++;
+            } catch (IndexOutOfBoundsException e) {
+                throw new ConcurrentModificationException();
+            }
+        }
+
+        /**
+         * Проверить неизменяемость листа во время работы итератора
+         */
+        final void checkImmutabilityOfList() {
+            if (iteratorPoint != nowIteratorPoint)
+                throw new ConcurrentModificationException();
+        }
+    }
+
+    private class CustomListIterator implements ListIterator<T> {
+        /**
+         * Поля:
+         * currentNode - текущий узел
+         * nextNode    - следущий узел
+         * index       - текущий индекс
+         */
+        private MyNode<T> currentNode;
+        private MyNode<T> nextNode;
+        private int index;
+        private int nowIteratorPoint = iteratorPoint;
+
+        CustomListIterator(int index) {
+            nextNode = (index == size) ? null : getNode(index);
+            this.index = index;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return index < size;
+        }
+
+        @Override
+        public T next() {
+            checkImmutabilityOfList();
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            currentNode = nextNode;
+            nextNode = nextNode.next;
+            index++;
+            return currentNode.element;
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            return index > 0;
+        }
+
+        @Override
+        public T previous() {
+            checkImmutabilityOfList();
+            if (!hasPrevious()) {
+                throw new NoSuchElementException();
+            }
+            nextNode = nextNode == null ? tail : nextNode.prev;
+            currentNode = nextNode;
+            index--;
+            return currentNode.element;
+        }
+
+        @Override
+        public int nextIndex() {
+            return index;
+        }
+
+        @Override
+        public int previousIndex() {
+            return index - 1;
+        }
+
+        @Override
+        public void remove() {
+            checkImmutabilityOfList();
+            if (currentNode == null) {
+                throw new IllegalStateException();
+            }
+            deleteNode(currentNode);
+            index--;
+            currentNode = null;
+            nowIteratorPoint++;
+        }
+
+        @Override
+        public void set(T element) {
+            if (currentNode == null) {
+                throw new IllegalStateException();
+            }
+            checkImmutabilityOfList();
+            currentNode.element = element;
+        }
+
+        @Override
+        public void add(T element) {
+            checkImmutabilityOfList();
+            currentNode = null;
+            if (nextNode == null) {
+                CustomLinkedListGeneric.this.add(element);
+            } else {
+                CustomLinkedListGeneric.this.add(index, element);
+            }
+            nowIteratorPoint++;
+            index++;
+        }
+
+        /**
+         * Проверить неизменяемость листа во время работы итератора
+         */
+        final void checkImmutabilityOfList() {
+            if (iteratorPoint != nowIteratorPoint)
+                throw new ConcurrentModificationException();
         }
     }
 }

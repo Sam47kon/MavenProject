@@ -84,6 +84,43 @@ public class CustomArrayListGeneric<T> implements List<T> {
     }
 
     /**
+     * Добавляет все элементы в указанной коллекции в конец этого списка
+     *
+     * @param addedCollection - добавляемая коллекция
+     * @return - true, если коллекция не пустая
+     */
+    @Override
+    public boolean addAll(@NotNull Collection<? extends T> addedCollection) {
+        Object[] addedElements = addedCollection.toArray();
+        if (addedElements.length == 0) {
+            return false;
+        }
+        size = addedElements.length + size;
+        iteratorPoint++;
+        dataElements = Arrays.copyOf(dataElements, size);
+        System.arraycopy(addedElements, 0, dataElements, dataElements.length - addedElements.length, addedElements.length);
+        return true;
+    }
+
+    /**
+     * Вставляет все элементы из указанной коллекции в этот список, начиная с указанной позиции. либо false если колекция пустая
+     */
+    @Override
+    public boolean addAll(int index, @NotNull Collection<? extends T> addedCollection) {
+        Object[] addedElements = addedCollection.toArray();
+        if (addedElements.length == 0) {
+            return false;
+        }
+        int oldSize = size;
+        size = addedElements.length + size;
+        iteratorPoint++;
+        dataElements = Arrays.copyOf(dataElements, size);
+        System.arraycopy(dataElements, index, dataElements, addedElements.length + index, oldSize - index);
+        System.arraycopy(addedElements, 0, dataElements, index, addedElements.length);
+        return true;
+    }
+
+    /**
      * Удаляет первое вхождение указанного элемента из этого списка, если он присутствует.
      *
      * @param soughtObject - указанный объект (искомый)
@@ -125,43 +162,6 @@ public class CustomArrayListGeneric<T> implements List<T> {
     }
 
     /**
-     * Добавляет все элементы в указанной коллекции в конец этого списка
-     *
-     * @param addedCollection - добавляемая коллекция
-     * @return - true, если коллекция не пустая
-     */
-    @Override
-    public boolean addAll(@NotNull Collection<? extends T> addedCollection) {
-        Object[] addedElements = addedCollection.toArray();
-        if (addedElements.length == 0) {
-            return false;
-        }
-        size = addedElements.length + size;
-        iteratorPoint++;
-        dataElements = Arrays.copyOf(dataElements, size);
-        System.arraycopy(addedElements, 0, dataElements, dataElements.length - addedElements.length, addedElements.length);
-        return true;
-    }
-
-    /**
-     * Вставляет все элементы из указанной коллекции в этот список, начиная с указанной позиции. либо false если колекция пустая
-     */
-    @Override
-    public boolean addAll(int index, @NotNull Collection<? extends T> addedCollection) {
-        Object[] addedElements = addedCollection.toArray();
-        if (addedElements.length == 0) {
-            return false;
-        }
-        int oldSize = size;
-        size = addedElements.length + size;
-        iteratorPoint++;
-        dataElements = Arrays.copyOf(dataElements, size);
-        System.arraycopy(dataElements, index, dataElements, addedElements.length + index, oldSize - index);
-        System.arraycopy(addedElements, 0, dataElements, index, addedElements.length);
-        return true;
-    }
-
-    /**
      * Удаляет все элементы из этого списка.
      */
     @Override
@@ -170,7 +170,7 @@ public class CustomArrayListGeneric<T> implements List<T> {
             dataElements[index] = null;
         }
         size = 0;
-        iteratorPoint++;
+        iteratorPoint=0;
     }
 
     /**
@@ -331,38 +331,6 @@ public class CustomArrayListGeneric<T> implements List<T> {
 // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * Проверяем существование поступающего индекса
-     *
-     * @param index - поступающий индекс
-     */
-    private void checkIndexExistence(int index) {
-        if (index >= size || index < 0) {
-            throw new IndexOutOfBoundsException("Index: " + index + " not contained in this List with Size: " + size);
-        }
-    }
-
-    /**
-     * Увеличиваем длину массива объектов в 1.5 раз
-     */
-    private void increaseDataElementsLength() {
-        if (dataElements.length == size) {
-            dataElements = Arrays.copyOf(dataElements, (int) (dataElements.length * 1.5));
-        }
-    }
-
-    /**
-     * Уменьшаем длину массива объектов в 1.5 раз
-     */
-    private void decreaseDataElementsLength() {
-        if (dataElements.length > size * 1.5) {
-            dataElements = Arrays.copyOf(dataElements, (int) (dataElements.length / 1.5) + 1);
-        }
-    }
-
-// -----------------------------------------------------------------------------------------------------------------
-// -----------------------------------------------------------------------------------------------------------------
-
-    /**
      * Возвращает итератор для элементов в этом списке в правильной последовательности.
      */
     @NotNull
@@ -434,7 +402,6 @@ public class CustomArrayListGeneric<T> implements List<T> {
             }
         }
 
-
         /**
          * Проверить неизменяемость листа во время работы итератора
          */
@@ -443,4 +410,37 @@ public class CustomArrayListGeneric<T> implements List<T> {
                 throw new ConcurrentModificationException();
         }
     }
+
+// -----------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Проверяем существование поступающего индекса
+     *
+     * @param index - поступающий индекс
+     */
+    private void checkIndexExistence(int index) {
+        if (index >= size || index < 0) {
+            throw new IndexOutOfBoundsException("Index: " + index + " not contained in this List with Size: " + size);
+        }
+    }
+
+    /**
+     * Увеличиваем длину массива объектов в 1.5 раз
+     */
+    private void increaseDataElementsLength() {
+        if (dataElements.length == size) {
+            dataElements = Arrays.copyOf(dataElements, (int) (dataElements.length * 1.5));
+        }
+    }
+
+    /**
+     * Уменьшаем длину массива объектов в 1.5 раз
+     */
+    private void decreaseDataElementsLength() {
+        if (dataElements.length > size * 1.5) {
+            dataElements = Arrays.copyOf(dataElements, (int) (dataElements.length / 1.5) + 1);
+        }
+    }
+
 }
