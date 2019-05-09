@@ -323,17 +323,7 @@ public class CustomLinkedListGeneric<T> implements List<T> {
     @Override
     public boolean removeAll(@NotNull Collection<?> inputCollection) {     // Готово
         Object[] objectToDelete = inputCollection.toArray();
-        if (objectToDelete.length == 0) {
-            return false;
-        }
-
-        for (int index = objectToDelete.length - 1; index >= 0; index--) {  // проверяем на содержание хотя бы 1 объекта
-            if (contains(objectToDelete[index])) {  // выходим если нашли
-                break;
-            } else if (index == 0) {    // если дошли до конца и не нашли, возвращаем false
-                return false;
-            }
-        }
+        if (ItContainsAtLeastOne(objectToDelete)) return false;
 
         for (MyNode<T> node = head; node != null; node = node.next) {
             for (int index = objectToDelete.length - 1; index >= 0; index--) {
@@ -343,6 +333,44 @@ public class CustomLinkedListGeneric<T> implements List<T> {
             }
         }
         return true;
+    }
+
+    /**
+     * Удаляет все объекты из текущей коллекции, кроме тех, которые содержатся в коллекции collection.
+     *
+     * @param collection - указанная коллекция
+     * @return если текущая коллекция после удаления изменилась иначе false
+     */
+    @Override
+    public boolean retainAll(@NotNull Collection<?> collection) {
+        Object[] objects = collection.toArray();
+        Boolean x = ItContainsAtLeastOne(objects);
+        if (x != null) return x;
+
+        for (MyNode<T> node = head; node != null; node = node.next) {
+            for (int index = objects.length - 1; index >= 0; index--) {
+                if (!Objects.equals(node.element, objects[index])) {
+                    remove(objects[index]);
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private Boolean ItContainsAtLeastOne(Object[] objects) {
+        if (objects.length == 0) {
+            return false;
+        }
+
+        for (int index = objects.length - 1; index >= 0; index--) {  // проверяем на содержание хотя бы 1 объекта
+            if (contains(objects[index])) {  // выходим если нашли
+                break;
+            } else if (index == 0) {    // если дошли до конца и не нашли, возвращаем false
+                return false;
+            }
+        }
+        return null;
     }
 
     /**
@@ -409,7 +437,6 @@ public class CustomLinkedListGeneric<T> implements List<T> {
         sb.append(tail.element).append("]");
         return sb.toString();
     }
-
 // -----------------------------------------------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------------------------------------
 
@@ -438,11 +465,6 @@ public class CustomLinkedListGeneric<T> implements List<T> {
     @NotNull
     @Override
     public List<T> subList(int fromIndex, int toIndex) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean retainAll(@NotNull Collection<?> c) {
         throw new UnsupportedOperationException();
     }
 
