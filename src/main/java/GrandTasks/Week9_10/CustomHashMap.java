@@ -22,102 +22,20 @@ public class CustomHashMap<K, V> implements Map<K, V> {
      *
      * @return индекс, куда положить пару
      */
-    private int hash(final K key) {
+    private int getIndex(final K key) {
         int hash = 17 * 37 + key.hashCode();
         return hash % hashTable.length;
     }
 
-    /**
-     * Для вставки в нужную ячейку массива hashTable по переданному node
-     *
-     * @return индекс, куда положить пару
-     */
-    private int hash(MyNode<K, V> node) {
-        return node.hashCode() % hashTable.length;
-    }
+//    /**
+//     * Для вставки в нужную ячейку массива hashTable по переданному node
+//     *
+//     * @return индекс, куда положить пару
+//     */
+//    private int getIndex(MyNode<K, V> node) {
+//        return node.hashCode() % hashTable.length;
+//    }
 
-    private void expandTable() {
-
-    }
-//----------------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------------------
-
-    @Override
-    public int size() {
-        return size;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    /**
-     * Содержит ли данная коллекция объект с ключем key
-     *
-     * @return true, если есть такой ключ
-     */
-    @Override
-    public boolean containsKey(Object key) {
-        return false;
-    }
-
-    /**
-     * Содержит ли данная коллекция объект value
-     *
-     * @return true, если имеется такой объект
-     */
-    @Override
-    public boolean containsValue(Object value) {
-        return false;
-    }
-
-    /**
-     * Возвращает объект коллецкии по ключу key, если таковой есть
-     */
-    @Override
-    public V get(Object key) {
-
-        return null;
-    }
-
-    /**
-     * Вставить пару ключ key и значение value в коллекцию CustomHashMap
-     *
-     * @return oldValue, если значение перезаписанно, иначе null
-     */
-    @Nullable
-    @Override
-    public V put(K key, V value) {
-        if (size + 1 >= threshold) {
-            threshold *= 2;
-            increaseTable();
-        }
-
-        MyNode<K, V> newNode = new MyNode<>(key, value);
-//        int index = hash(newNode);    // без разницы это или:
-        int index = newNode.hash();
-
-        if (hashTable[index] == null) {
-            hashTable[index] = new MyNode<>(null, null);
-            hashTable[index].getNodes().add(newNode);
-            size++;
-            return null;
-        }
-
-        List<MyNode<K, V>> nodes = hashTable[index].getNodes();
-
-        for (MyNode<K, V> node : nodes) {
-            if (keyExist(node, newNode)) {
-                return newValueToExistingKey(node, value);
-            }
-            if (itCollision(node, newNode)) {
-                collision(newNode, nodes);
-                return null;
-            }
-        }
-        return null;
-    }
 
     private void increaseTable() {
         MyNode<K, V>[] oldTable = hashTable;
@@ -151,6 +69,121 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         size++;
     }
 
+//----------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
+// Override Map
+
+    @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    /**
+     * Содержит ли данная коллекция объект с ключем key
+     *
+     * @return true, если есть такой ключ
+     */
+    @Override
+    public boolean containsKey(Object key) {
+        K k = (K) key;
+        int index = getIndex(k);
+        try {
+            List<MyNode<K, V>> nodeList = hashTable[index].getNodes();
+            return nodeList != null;
+        } catch (NullPointerException e) {
+            return false;
+        }
+//        catch (ArrayIndexOutOfBoundsException e){
+//            throw new ArrayIndexOutOfBoundsException("Ключ не может быть отрицательным");
+//        }
+    }
+
+    /**
+     * Содержит ли данная коллекция объект value
+     *
+     * @return true, если имеется такой объект
+     */
+    @Override
+    public boolean containsValue(Object value) {
+        if (size > 0) {
+            for (MyNode<K, V> node : hashTable) {
+                if (node == null) {
+                    continue;
+                }
+                List<MyNode<K, V>> nodeList = node.getNodes();
+                for (MyNode<K, V> n : nodeList) {
+                    if (Objects.equals(n.getValue(), (value))) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Возвращает объект коллецкии по ключу key, если таковой есть
+     */
+    @Override
+    public V get(Object key) {
+        if (size > 0) {
+            K k = (K) key;
+            int index = getIndex(k);
+            if (hashTable[index] == null) {
+                return null;
+            }
+            List<MyNode<K, V>> nodeList = hashTable[index].getNodes();
+            for (MyNode<K, V> node : nodeList) {
+                if (Objects.equals(node.key, k)) {
+                    return node.value;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Вставить пару ключ key и значение value в коллекцию CustomHashMap
+     *
+     * @return oldValue, если значение перезаписанно, иначе null
+     */
+    @Nullable
+    @Override
+    public V put(K key, V value) {
+        if (size + 1 >= threshold) {
+            threshold *= 2;
+            increaseTable();
+        }
+
+        MyNode<K, V> newNode = new MyNode<>(key, value);
+        int index = getIndex(key);
+
+        if (hashTable[index] == null) {
+            hashTable[index] = new MyNode<>(null, null);
+            hashTable[index].getNodes().add(newNode);
+            size++;
+            return null;
+        }
+
+        List<MyNode<K, V>> nodes = hashTable[index].getNodes();
+
+        for (MyNode<K, V> node : nodes) {
+            if (keyExist(node, newNode)) {
+                return newValueToExistingKey(node, value);
+            }
+            if (itCollision(node, newNode)) {
+                collision(newNode, nodes);
+                return null;
+            }
+        }
+        return null;
+    }
+
     /**
      * Удаляет объект коллекции по ключу key, если таковой имеется
      *
@@ -158,7 +191,21 @@ public class CustomHashMap<K, V> implements Map<K, V> {
      */
     @Override
     public V remove(Object key) {
-        return null;
+        K k = (K) key;
+        int index = getIndex(k);
+        if (hashTable[index] == null) {
+            return null;
+        }
+        List<MyNode<K, V>> nodeList = hashTable[index].getNodes();
+        V oldElement = null;
+        for (MyNode<K, V> node : nodeList) {
+            if (k.equals(node.key)) {
+                oldElement = node.value;
+                node = null;    // TODO остановился здесь
+            }
+        }
+
+        return oldElement;
     }
 
     @Override
@@ -211,7 +258,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         return st.append("}").toString();
     }
 
-    //----------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
 
 //    @Override
@@ -249,9 +296,9 @@ public class CustomHashMap<K, V> implements Map<K, V> {
             return nodes;
         }
 
-        private int hash() {
-            return hashCode() % hashTable.length;
-        }
+//        private int getIndex() {
+//            return hashCode() % hashTable.length;
+//        }
 
         @Override
         public k getKey() {
@@ -273,7 +320,6 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         @Override
         public final int hashCode() {
             hash = 17 * 37 + key.hashCode();
-//            hash = hash * 37 + value.hashCode();
             return hash;
         }
 
@@ -285,7 +331,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
             }
             if (obj instanceof Map.Entry) {
                 MyNode<?, ?> node = (MyNode<?, ?>) obj; // unchecked
-                return Objects.equals(value, node.getValue()) && Objects.equals(key, node.getKey());
+                return Objects.equals(value, node.value) && Objects.equals(key, node.key);
             }
             return false;
         }
