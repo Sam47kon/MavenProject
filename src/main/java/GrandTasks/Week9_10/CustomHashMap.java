@@ -92,15 +92,10 @@ public class CustomHashMap<K, V> implements Map<K, V> {
     public boolean containsKey(Object key) {
         K k = (K) key;
         int index = getIndex(k);
-        try {
-            List<MyNode<K, V>> nodeList = hashTable[index].getNodes();
-            return nodeList != null;
-        } catch (NullPointerException e) {
-            return false;
+        if (hashTable[index] != null) {
+            return hashTable[index].getNodes() != null;
         }
-//        catch (ArrayIndexOutOfBoundsException e){
-//            throw new ArrayIndexOutOfBoundsException("Ключ не может быть отрицательным");
-//        }
+        return false;
     }
 
     /**
@@ -112,13 +107,12 @@ public class CustomHashMap<K, V> implements Map<K, V> {
     public boolean containsValue(Object value) {
         if (size > 0) {
             for (MyNode<K, V> node : hashTable) {
-                if (node == null) {
-                    continue;
-                }
-                List<MyNode<K, V>> nodeList = node.getNodes();
-                for (MyNode<K, V> n : nodeList) {
-                    if (Objects.equals(n.getValue(), (value))) {
-                        return true;
+                if (node != null) {
+                    List<MyNode<K, V>> nodeList = node.getNodes();
+                    for (MyNode<K, V> n : nodeList) {
+                        if (Objects.equals(n.value, value)) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -134,15 +128,29 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         if (size > 0) {
             K k = (K) key;
             int index = getIndex(k);
-            if (hashTable[index] == null) {
+            try {
+                if (hashTable[index] == null) {
+                    return null;
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
                 return null;
             }
             List<MyNode<K, V>> nodeList = hashTable[index].getNodes();
-            for (MyNode<K, V> node : nodeList) {
-                if (Objects.equals(node.key, k)) {
-                    return node.value;
-                }
+            if (nodeList.size() == 1) {
+                return nodeList.get(0).value;
             }
+
+            // не совсем уверен на счет цикла do while, он нужен чтобы вытаскивать значения при коллизии
+            do {
+
+                for (MyNode<K, V> node : nodeList) {
+                    if (Objects.equals(node.key, k)) {
+                        return node.value;
+                    }
+                }
+
+                nodeList = nodeList.get(0).getNodes();
+            } while (nodeList != null);
         }
         return null;
     }
@@ -196,20 +204,27 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         if (hashTable[index] == null) {
             return null;
         }
+
         List<MyNode<K, V>> nodeList = hashTable[index].getNodes();
         V oldElement = null;
+        if (nodeList.size() == 1) {
+            oldElement = nodeList.get(0).value;
+            hashTable[index] = null;
+            size--;
+            return oldElement;
+        }
         for (MyNode<K, V> node : nodeList) {
             if (k.equals(node.key)) {
                 oldElement = node.value;
-                node = null;    // TODO остановился здесь
+                nodeList.remove(node);
+                size--;
             }
         }
-
         return oldElement;
     }
 
     @Override
-    public void putAll(@NotNull Map<? extends K, ? extends V> m) {
+    public void putAll(@NotNull Map<? extends K, ? extends V> m) { // TODO остановился здесь
 
     }
 
@@ -282,7 +297,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
     class MyNode<k, v> implements Map.Entry<k, v> {
         //        MyNode<k, v> next;
         List<MyNode<k, v>> nodes;
-        final k key;
+        k key;
         int hash;
         v value;
 

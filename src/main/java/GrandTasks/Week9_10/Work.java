@@ -50,6 +50,8 @@ public class Work {
         System.out.println("myMap.containsValue(\"false\") = " + myMap.containsValue("false"));
         System.out.println("myMap.remove(1) = " + myMap.remove(1));
         System.out.println("myMap.remove(0) = " + myMap.remove(0));
+        System.out.println("myMap.get(1) = " + myMap.get(1));
+        System.out.println("myMap.size() = " + myMap.size());
 
     }
 }

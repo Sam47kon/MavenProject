@@ -94,12 +94,12 @@ class CustomHashMapTest {
         System.out.println("runTime libraryMap.containsValue 10000 times (true) = " + runTime + "ms");
 
         startTime = System.nanoTime();
-        for (Integer i = capacity; i < 1_001_000; i++) {
+        for (Integer i = capacity; i < 1_000_100; i++) {
             Assertions.assertFalse(libraryMap.containsValue(i));
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime libraryMap.containsValue 1000 times (false) = " + runTime + "ms");
+        System.out.println("runTime libraryMap.containsValue 100 times (false) = " + runTime + "ms");
 
 
         startTime = System.nanoTime();
@@ -111,12 +111,12 @@ class CustomHashMapTest {
         System.out.println("runTime myMap.containsValue 10000 times (true) = " + runTime + "ms");
 
         startTime = System.nanoTime();
-        for (Integer i = capacity; i < 1_001_000; i++) {
+        for (Integer i = capacity; i < 1_000_100; i++) {
             Assertions.assertFalse(myMap.containsValue(i));
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime myMap.containsValue 1000 times (false) = " + runTime + "ms");
+        System.out.println("runTime myMap.containsValue 100 times (false) = " + runTime + "ms");
 
     }
 
