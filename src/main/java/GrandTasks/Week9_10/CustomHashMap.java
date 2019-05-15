@@ -136,11 +136,8 @@ public class CustomHashMap<K, V> implements Map<K, V> {
                 return null;
             }
             List<MyNode<K, V>> nodeList = hashTable[index].getNodes();
-            if (nodeList.size() == 1) {
-                return nodeList.get(0).value;
-            }
 
-            // не совсем уверен на счет цикла do while, он нужен чтобы вытаскивать значения при коллизии
+            // TODO не совсем уверен на счет цикла do while, он нужен чтобы вытаскивать значения при коллизии
             do {
 
                 for (MyNode<K, V> node : nodeList) {
@@ -179,7 +176,6 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         }
 
         List<MyNode<K, V>> nodes = hashTable[index].getNodes();
-
         for (MyNode<K, V> node : nodes) {
             if (keyExist(node, newNode)) {
                 return newValueToExistingKey(node, value);
@@ -230,25 +226,68 @@ public class CustomHashMap<K, V> implements Map<K, V> {
 
     @Override
     public void clear() {
-
+//        hashTable = new MyNode[16];   // Почему бы не использовать так? спросить у гриши
+//        size = 0;
+        if (size != 0) {
+            for (int i = 0; i < hashTable.length; i++) {
+                hashTable[i] = null;
+            }
+            size = 0;
+        }
     }
 
     @NotNull
     @Override
     public Set<K> keySet() {
-        return null;
+        Set<K> keySet = new HashSet<>();
+        if (size > 0) {
+            for (MyNode<K, V> node : hashTable) {
+                if (node != null) {
+                    List<MyNode<K, V>> nodeList = node.getNodes();
+                    for (MyNode<K, V> n : nodeList) {
+                        keySet.add(n.key);
+                    }
+                }
+            }
+        }
+        return keySet;
     }
 
+    // Возвращает коллекцию всех значений ТУДУ ду вайл?
     @NotNull
     @Override
     public Collection<V> values() {
-        return null;
+        Collection<V> values = new ArrayList<>();
+        if (size > 0) {
+            for (MyNode<K, V> node : hashTable) {
+                if (node != null) {
+                    List<MyNode<K, V>> nodeList = node.getNodes();
+                    for (MyNode<K, V> n : nodeList) {
+                        values.add(n.value);
+                    }
+                }
+            }
+        }
+        return values;
     }
 
+    // Возвращает множество всех пар (ключ, значение) ТУДУ ду вайл?
     @NotNull
     @Override
     public Set<Entry<K, V>> entrySet() {
-        return null;
+        Set<Entry<K, V>> nodeSet = new NodesSet();
+        if (size > 0) {
+            for (MyNode<K, V> node : hashTable) {
+                if (node != null) {
+                    List<MyNode<K, V>> nodeList = node.getNodes();
+                    for (MyNode<K, V> n : nodeList) {
+                        MyNode<K, V> tmp = new MyNode<>(n.key, n.value);
+                        nodeSet.add(tmp);
+                    }
+                }
+            }
+        }
+        return nodeSet;
     }
 
 
@@ -260,15 +299,12 @@ public class CustomHashMap<K, V> implements Map<K, V> {
             return st.append("}").toString();
         }
         for (MyNode<K, V> node : hashTable) {
-            try {
+            if (node != null) {
                 List<MyNode<K, V>> nodes = node.getNodes();
                 if (nodes != null) {
                     st.append(nodes.toString());
                 }
-            } catch (NullPointerException e) {
-                continue;
             }
-
         }
         return st.append("}").toString();
     }
@@ -294,7 +330,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
 //----------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
 
-    class MyNode<k, v> implements Map.Entry<k, v> {
+    private class MyNode<k, v> implements Map.Entry<k, v> {
         //        MyNode<k, v> next;
         List<MyNode<k, v>> nodes;
         k key;
@@ -310,10 +346,6 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         private List<MyNode<k, v>> getNodes() {
             return nodes;
         }
-
-//        private int getIndex() {
-//            return hashCode() % hashTable.length;
-//        }
 
         @Override
         public k getKey() {
@@ -354,6 +386,107 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         @Override
         public String toString() {
             return key + "=" + value;
+        }
+    }
+
+
+    private class NodesSet implements Set<Entry<K, V>> {
+        private int size = 0;
+        private MyNode<K, V>[] nodes;
+
+        void increaseNodes() {
+            if (size == nodes.length) {
+                nodes = Arrays.copyOf(nodes, (int) (nodes.length * 1.5));
+            }
+        }
+
+        @SuppressWarnings("unchecked")
+        NodesSet() {
+            nodes = new MyNode[16];
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder st = new StringBuilder();
+            st.append("[");
+            if (size == 0) {
+                return st.append("]").toString();
+            }
+            for (int i = 0; i < size - 2; i++) {
+                st.append(nodes[i].toString()).append(", ");
+            }
+            return st.append(nodes[size - 1].toString()).append("]").toString();
+        }
+
+        @Override
+        public int size() {
+            return size;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return size == 0;
+        }
+
+        @Override
+        public boolean add(Entry<K, V> newNode) {
+            increaseNodes();
+            nodes[size] = (MyNode<K, V>) newNode;
+            size++;
+            return true;
+        }
+
+        @Override
+        public boolean addAll(@NotNull Collection<? extends Entry<K, V>> c) {
+            return false;
+        }
+
+        @NotNull
+        @Override
+        public Object[] toArray() {
+            return Arrays.copyOf(nodes, size);
+        }
+
+        @NotNull
+        @Override
+        public <T> T[] toArray(@NotNull T[] a) {
+            return a;
+        }
+
+        @Override
+        public boolean contains(Object o) {
+            return false;
+        }
+
+        @Override
+        public boolean containsAll(@NotNull Collection<?> c) {
+            return false;
+        }
+
+        @Override
+        public void clear() {
+
+        }
+
+        @Override
+        public boolean remove(Object o) {
+            return false;
+        }
+
+        @Override
+        public boolean removeAll(@NotNull Collection<?> c) {
+            return false;
+        }
+
+        @Override
+        public boolean retainAll(@NotNull Collection<?> c) {
+            return false;
+        }
+
+        @NotNull
+        @Override
+        public Iterator<Entry<K, V>> iterator() {
+            throw new UnsupportedOperationException();
         }
     }
 }

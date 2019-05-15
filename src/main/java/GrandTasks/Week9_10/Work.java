@@ -1,5 +1,9 @@
 package GrandTasks.Week9_10;
 
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+
 public class Work {
     public static void main(String[] args) {
 //        HashMap<Integer, String> hashMap = new HashMap<>();
@@ -53,5 +57,14 @@ public class Work {
         System.out.println("myMap.get(1) = " + myMap.get(1));
         System.out.println("myMap.size() = " + myMap.size());
 
+        Set<Integer> keySet = myMap.keySet();
+        System.out.println("keySet.toString() = " + keySet.toString());
+        Collection<String> values = myMap.values();
+        System.out.println("values.toString() = " + values.toString());
+        Set<Map.Entry<Integer, String>> entrySet = myMap.entrySet();
+        System.out.println("entrySet.toString() = " + entrySet.toString());
+
+//        myMap.clear();
+//        System.out.println("myMap.clear(); " + myMap.toString());
     }
 }
