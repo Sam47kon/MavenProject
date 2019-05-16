@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
+import java.util.*;
 
 class CustomHashMapTest {
     private HashMap<Integer, Integer> libraryMap = new HashMap<>();
@@ -32,6 +32,7 @@ class CustomHashMapTest {
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
         System.out.println("runTime myMap.put = " + runTime + "ms");
+
 
     }
 
@@ -174,33 +175,132 @@ class CustomHashMapTest {
 
     @Test
     void put() {
+        startTime = System.nanoTime();
+        for (int i = capacity; i < 2_000_000; i++) {
+            Assertions.assertNull(libraryMap.put(i, i));
+        }
+        stopTime = System.nanoTime();
+        runTime = (stopTime - startTime) / 1000000;
+        System.out.println("runTime libraryMap.put (newKey, newValue) = " + runTime + "ms");
+
+        startTime = System.nanoTime();
+        for (int i = capacity; i < 2_000_000; i++) {
+            Assertions.assertNull(myMap.put(i, i));
+        }
+        stopTime = System.nanoTime();
+        runTime = (stopTime - startTime) / 1000000;
+        System.out.println("runTime myMap.put (newKey, newValue) = " + runTime + "ms");
+
+
+        startTime = System.nanoTime();
+        for (int i = 0; i < capacity; i++) {
+            Assertions.assertEquals(i, libraryMap.put(i, i));
+        }
+        stopTime = System.nanoTime();
+        runTime = (stopTime - startTime) / 1000000;
+        System.out.println("runTime libraryMap.put (newKey, newValue) = " + runTime + "ms");
+
+        startTime = System.nanoTime();
+        for (int i = 0; i < capacity; i++) {
+            Assertions.assertEquals(i, myMap.put(i, i));
+        }
+        stopTime = System.nanoTime();
+        runTime = (stopTime - startTime) / 1000000;
+        System.out.println("runTime myMap.put (newKey, newValue) = " + runTime + "ms");
+
     }
 
     @Test
     void remove() {
+        startTime = System.nanoTime();
+        for (int i = capacity; i <= 10_000_000; i++) {
+            Assertions.assertNull(libraryMap.remove(i));
+        }
+        stopTime = System.nanoTime();
+        runTime = (stopTime - startTime) / 1000000;
+        System.out.println("runTime libraryMap.remove (nonexistent) = " + runTime + "ms");
+
+        startTime = System.nanoTime();
+        for (int i = capacity; i <= 10_000_000; i++) {
+            Assertions.assertNull(myMap.remove(i));
+        }
+        stopTime = System.nanoTime();
+        runTime = (stopTime - startTime) / 1000000;
+        System.out.println("runTime myMap.remove (nonexistent) = " + runTime + "ms");
+
+
+        startTime = System.nanoTime();
+        for (int i = 0; i < 1_000_000; i++) {
+            Assertions.assertEquals(i, libraryMap.remove(i));
+        }
+        stopTime = System.nanoTime();
+        runTime = (stopTime - startTime) / 1000000;
+        System.out.println("runTime libraryMap.remove (all) = " + runTime + "ms");
+
+        startTime = System.nanoTime();
+        for (int i = 0; i < 1_000_000; i++) {
+            Assertions.assertEquals(i, myMap.remove(i));
+        }
+        stopTime = System.nanoTime();
+        runTime = (stopTime - startTime) / 1000000;
+        System.out.println("runTime myMap.remove (all) = " + runTime + "ms");
+
+        Assertions.assertEquals(0, libraryMap.size());
+        Assertions.assertEquals(0, myMap.size());
     }
 
-    @Test
-    void putAll() {
-    }
-
+    //    @Test
+//    void putAll() {
+//    }
+//
     @Test
     void clear() {
+        libraryMap.clear();
+        myMap.clear();
+        Assertions.assertEquals(0, libraryMap.size());
+        Assertions.assertEquals(0, myMap.size());
+        Assertions.assertNull(libraryMap.get(0));
+        Assertions.assertNull(myMap.get(0));
+        Assertions.assertNull(libraryMap.get(5000));
+        Assertions.assertNull(myMap.get(5000));
+        Assertions.assertNull(libraryMap.get(999999));
+        Assertions.assertNull(myMap.get(999999));
     }
 
     @Test
     void keySet() {
+        Assertions.assertEquals(capacity, libraryMap.keySet().size());
+        Assertions.assertEquals(capacity, myMap.keySet().size());
+
+        Set<Integer> set = new TreeSet<>();
+        for (Integer i = 0; i < capacity; i++) {
+            set.add(i);
+        }
+        Assertions.assertTrue(set.containsAll(libraryMap.keySet()));
+        Assertions.assertTrue(set.containsAll(myMap.keySet()));
+        set.remove(capacity - 1);
+        Assertions.assertFalse(set.containsAll(libraryMap.keySet()));
+        Assertions.assertFalse(set.containsAll(myMap.keySet()));
     }
 
     @Test
     void values() {
+        Assertions.assertEquals(capacity, libraryMap.values().size());
+        Assertions.assertEquals(capacity, myMap.values().size());
+
+        Collection<Integer> collections = new TreeSet<>();
+        for (Integer i = 0; i < capacity; i++) {
+            collections.add(i);
+        }
+        Assertions.assertTrue(collections.containsAll(libraryMap.values()));
+        Assertions.assertTrue(collections.containsAll(myMap.values()));
+        collections.remove(capacity - 1);
+        Assertions.assertFalse(collections.containsAll(libraryMap.values()));
+        Assertions.assertFalse(collections.containsAll(myMap.values()));
     }
 
-    @Test
-    void entrySet() {
-    }
+//    @Test
+//    void entrySet() {
+//    }
 
-    @Test
-    void toString1() {
-    }
 }

@@ -11,7 +11,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
     private int size;
     private double threshold;   // порог размера
 
-    public CustomHashMap() {
+    CustomHashMap() {
         hashTable = new MyNode[16];
         threshold = hashTable.length * 0.75;
     }
@@ -48,14 +48,6 @@ public class CustomHashMap<K, V> implements Map<K, V> {
                 }
             }
         }
-    }
-
-    private boolean keyExist(MyNode<K, V> node, MyNode<K, V> newNode) {
-        return Objects.equals(node.key, newNode.key) && !Objects.equals(node.value, newNode.value);
-    }
-
-    private V newValueToExistingKey(MyNode<K, V> node, V value) {
-        return node.setValue(value);
     }
 
     private boolean itCollision(MyNode<K, V> node, MyNode<K, V> newNode) {
@@ -177,11 +169,11 @@ public class CustomHashMap<K, V> implements Map<K, V> {
 
         List<MyNode<K, V>> nodes = hashTable[index].getNodes();
         for (MyNode<K, V> node : nodes) {
-            if (keyExist(node, newNode)) {
-                return newValueToExistingKey(node, value);
+            if (Objects.equals(node.key, key)) {  // if key exist (Если данный ключ уже существует в HashMap, значение перезаписывается)
+                return node.setValue(value); // set new value, return oldValue (даже если значение одинаковое, оно все равно перезаписывается)
             }
             if (itCollision(node, newNode)) {
-                collision(newNode, nodes);
+                collision(newNode, nodes); // if collision - insert new node
                 return null;
             }
         }
@@ -203,12 +195,14 @@ public class CustomHashMap<K, V> implements Map<K, V> {
 
         List<MyNode<K, V>> nodeList = hashTable[index].getNodes();
         V oldElement = null;
-        if (nodeList.size() == 1) {
-            oldElement = nodeList.get(0).value;
-            hashTable[index] = null;
-            size--;
-            return oldElement;
-        }
+        //неверно:
+//        if (nodeList.size() == 1) {
+//            oldElement = nodeList.get(0).value;
+//            hashTable[index] = null;
+//            size--;
+//            return oldElement;
+//        }
+
         for (MyNode<K, V> node : nodeList) {
             if (k.equals(node.key)) {
                 oldElement = node.value;
@@ -236,10 +230,11 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         }
     }
 
+    // возвращает множество всех ключей
     @NotNull
     @Override
     public Set<K> keySet() {
-        Set<K> keySet = new HashSet<>();
+        Set<K> keySet = new TreeSet<>();
         if (size > 0) {
             for (MyNode<K, V> node : hashTable) {
                 if (node != null) {
@@ -365,7 +360,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         }
 
         @Override
-        public final int hashCode() {
+        public int hashCode() {
             hash = 17 * 37 + key.hashCode();
             return hash;
         }
