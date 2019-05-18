@@ -12,7 +12,7 @@ class CustomHashMapTest {
     private double startTime;
     private double stopTime;
     private double runTime;
-    private Integer capacity = 1_000_000;
+    private static final Integer capacity = 1_000_000;
 
     @BeforeEach
     void before() {
@@ -198,7 +198,7 @@ class CustomHashMapTest {
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime libraryMap.put (newKey, newValue) = " + runTime + "ms");
+        System.out.println("runTime libraryMap.put (ExistKey, ExistValue) = " + runTime + "ms");
 
         startTime = System.nanoTime();
         for (int i = 0; i < capacity; i++) {
@@ -206,7 +206,7 @@ class CustomHashMapTest {
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime myMap.put (newKey, newValue) = " + runTime + "ms");
+        System.out.println("runTime myMap.put (ExistKey, ExistValue) = " + runTime + "ms");
 
     }
 
