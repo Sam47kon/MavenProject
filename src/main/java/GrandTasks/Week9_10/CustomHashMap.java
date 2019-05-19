@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
+//@SuppressWarnings("unchecked")
 public class CustomHashMap<K, V> implements Map<K, V> {
     private int size;
     private TreeSet<MyNode<K, V>>[] hashTable;
@@ -18,7 +19,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
     }
 
     CustomHashMap(int capacity) {
-        if (size < 0) {
+        if (capacity < 0) {
             throw new IllegalArgumentException("Illegal capacity: " + capacity);
         }
         size = capacity;
@@ -28,7 +29,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
     }
 
     CustomHashMap(int capacity, double fillFactor) {
-        if (size < 0) {
+        if (capacity < 0) {
             throw new IllegalArgumentException("Illegal capacity: " + capacity);
         }
         size = capacity;
@@ -74,11 +75,14 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         size++;
     }
 
-    private Comparator<MyNode<K, V>> nodeComparator = new Comparator<MyNode<K, V>>() {
-        @Override
-        public int compare(MyNode<K, V> node1, MyNode<K, V> node2) {
+    private Comparator<MyNode<K, V>> nodeComparator = (o1, o2) -> {
+        if (o1.hash > o2.hash) {
+            return 1;
+        }
+        if (o1.equals(o2)) {
             return 0;
         }
+        return -1;
     };
 
 
@@ -118,7 +122,6 @@ public class CustomHashMap<K, V> implements Map<K, V> {
             return hash;
         }
 
-        @SuppressWarnings("unchecked")
         @Override
         public boolean equals(Object obj) {
             if (obj == this) {
@@ -232,7 +235,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
 
         if (hashTable[index] == null) {
             hashTable[index] = new TreeSet<>(nodeComparator);
-            hashTable[index].add(newNode);    // TODO
+            hashTable[index].add(newNode);
             size++;
             return null;
         }
@@ -297,7 +300,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
     @NotNull
     @Override
     public Set<K> keySet() {
-        Set<K> keySet = new TreeSet<>();
+        Set<K> keySet = new HashSet<>();
         if (size > 0) {
             for (TreeSet<MyNode<K, V>> nodes : hashTable) {
                 if (nodes != null) {
@@ -314,7 +317,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
     @NotNull
     @Override
     public Collection<V> values() {
-        Collection<V> values = new TreeSet<>(); // или аррейлист
+        Collection<V> values = new ArrayList<>();
         if (size > 0) {
             for (TreeSet<MyNode<K, V>> nodes : hashTable) {
                 if (nodes != null) {
@@ -327,7 +330,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         return values;
     }
 
-    // Возвращает множество всех пар (ключ, значение) ТУДУ ду вайл?
+    // Возвращает множество всех пар (ключ, значение)
     @NotNull
     @Override
     public Set<Entry<K, V>> entrySet() {

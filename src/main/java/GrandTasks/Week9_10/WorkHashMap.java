@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-public class Work {
+public class WorkHashMap {
     public static void main(String[] args) {
         CustomHashMap<Integer, String> myMap = new CustomHashMap<>();
         myMap.put(1, "Ilya");

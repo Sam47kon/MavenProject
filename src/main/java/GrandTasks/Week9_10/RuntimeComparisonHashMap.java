@@ -2,7 +2,7 @@ package GrandTasks.Week9_10;
 
 import java.util.HashMap;
 
-public class RuntimeComparison {
+public class RuntimeComparisonHashMap {
 
     public static void main(String[] args) {
         HashMap<Integer, Integer> libraryMap = new HashMap<>();

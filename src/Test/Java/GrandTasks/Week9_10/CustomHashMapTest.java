@@ -124,7 +124,7 @@ class CustomHashMapTest {
     @Test
     void get() {
         startTime = System.nanoTime();
-        for (Integer i = 0; i < 1_000_000; i++) {
+        for (Integer i = 0; i < capacity; i++) {
             Assertions.assertEquals(i, libraryMap.get(i));
         }
         stopTime = System.nanoTime();
@@ -149,7 +149,7 @@ class CustomHashMapTest {
 
 
         startTime = System.nanoTime();
-        for (Integer i = 0; i < 1_000_000; i++) {
+        for (Integer i = 0; i < capacity; i++) {
             Assertions.assertEquals(i, myMap.get(i));
         }
         stopTime = System.nanoTime();
