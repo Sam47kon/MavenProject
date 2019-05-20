@@ -46,9 +46,14 @@ public class CustomHashMap<K, V> implements Map<K, V> {
      *
      * @return индекс, куда положить пару
      */
-    private int getIndex(final K key) {
-        int hash = 17 * 37 + key.hashCode();
-        return hash % hashTable.length;
+
+    private int getIndex(final int hash) {
+        return (hashTable.length - 1) & hash;
+    }
+
+    private int hash(final K key) {
+        int hash = key.hashCode();
+        return hash ^ (hash >>> 16);
     }
 
     private void increaseTable() {
@@ -64,11 +69,11 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         }
     }
 
-    private boolean itCollision(MyNode<K, V> node, MyNode<K, V> newNode) {
-        return node.hashCode() == newNode.hashCode() &&
-                !Objects.equals(node.key, newNode.key) &&
-                !Objects.equals(node.value, newNode.value);
-    }
+//    private boolean itCollision(MyNode<K, V> node, MyNode<K, V> newNode) {
+//        return node.hashCode() == newNode.hashCode() &&
+//                !Objects.equals(node.key, newNode.key) &&
+//                !Objects.equals(node.value, newNode.value);
+//    }
 
     private void collision(MyNode<K, V> newNode, TreeSet<MyNode<K, V>> nodes) {
         nodes.add(newNode);
@@ -162,11 +167,11 @@ public class CustomHashMap<K, V> implements Map<K, V> {
     @Override
     public boolean containsKey(Object key) {
         K k = (K) key;
-        int index = getIndex(k);
+        int index = getIndex(hash((k)));
         if (hashTable[index] != null) {
             if (hashTable[index] != null) {
                 for (MyNode<K, V> node : hashTable[index]) {
-                    if (Objects.equals(k, node.key)) {
+                    if (Objects.equals(key, node.key)) {
                         return true;
                     }
                 }
@@ -202,14 +207,13 @@ public class CustomHashMap<K, V> implements Map<K, V> {
     @Override
     public V get(Object key) {
         if (size > 0) {
-            K k = (K) key;
-            int index = getIndex(k);
+            int index = getIndex(hash((K) key));
             if (hashTable[index] == null) {
                 return null;
             }
             TreeSet<MyNode<K, V>> nodeList = hashTable[index];
             for (MyNode<K, V> node : nodeList) {
-                if (Objects.equals(node.key, k)) {
+                if (Objects.equals(node.key, key)) {
                     return node.value;
                 }
             }
@@ -229,9 +233,8 @@ public class CustomHashMap<K, V> implements Map<K, V> {
             threshold *= 2;
             increaseTable();
         }
-
         MyNode<K, V> newNode = new MyNode<>(key, value);
-        int index = getIndex(key);
+        int index = getIndex(hash(key));
 
         if (hashTable[index] == null) {
             hashTable[index] = new TreeSet<>(nodeComparator);
@@ -239,17 +242,13 @@ public class CustomHashMap<K, V> implements Map<K, V> {
             size++;
             return null;
         }
-
         TreeSet<MyNode<K, V>> nodes = hashTable[index];
         for (MyNode<K, V> node : nodes) {
             if (Objects.equals(node.key, key)) {  // if key exist (Если данный ключ уже существует в HashMap, значение перезаписывается)
                 return node.setValue(value); // set new value, return oldValue (даже если значение одинаковое, оно все равно перезаписывается)
             }
-            if (itCollision(node, newNode)) {
-                collision(newNode, nodes); // if collision - insert new node
-                return null;
-            }
         }
+        collision(newNode, nodes);
         return null;
     }
 
@@ -260,15 +259,14 @@ public class CustomHashMap<K, V> implements Map<K, V> {
      */
     @Override
     public V remove(Object key) {
-        K k = (K) key;
-        int index = getIndex(k);
+        int index = getIndex(hash((K) key));
         if (hashTable[index] == null) {
             return null;
         }
         TreeSet<MyNode<K, V>> nodes = hashTable[index];
         V oldElement = null;
         for (MyNode<K, V> node : nodes) {
-            if (k.equals(node.key)) {
+            if (key.equals(node.key)) {
                 oldElement = node.value;
                 nodes.remove(node);
                 size--;

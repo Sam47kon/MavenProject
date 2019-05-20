@@ -60,8 +60,23 @@ public class CustomHashSet<E> implements Set<E> {
 
     @NotNull
     @Override
-    public <T> T[] toArray(@NotNull T[] array) {
-        return null;
+    public <T> T[] toArray(@NotNull T[] array) {  // хз
+        int size = size();
+        int index = 0;
+        if (array.length < size) {
+            array = (T[]) new Object[size];
+        }
+        if (array.length > size) {
+            int interval = array.length - size;
+            for (int i = array.length - 1; i >= interval; i--) {
+                array[i] = null;
+            }
+        }
+        for (E e : map.keySet()) {
+            array[index++] = (T) e;
+        }
+
+        return array;
     }
 
     @Override
@@ -86,19 +101,28 @@ public class CustomHashSet<E> implements Set<E> {
 
     @Override
     public boolean addAll(@NotNull Collection<? extends E> collection) {
-        int count = 0;
+        boolean changed = false;
         for (E e : collection) {
             if (add(e)) {
-                count++;
+                changed = true;
             }
         }
-        return count > 0;
+        return changed;
     }
 
-    @Override
+    @Override // не работает почему то
     public boolean retainAll(@NotNull Collection<?> collection) {
-
-        return false;
+        boolean changed = false;
+        Iterator<?> iterator = iterator();
+        while (iterator.hasNext()) {
+            if (!collection.contains(iterator.next())) {
+                iterator.remove();
+                changed = true;
+            }
+        }
+        return changed;
+        // или просто так:
+//        return removeIf(o -> !collection.contains(o));
     }
 
     @Override
@@ -128,5 +152,6 @@ public class CustomHashSet<E> implements Set<E> {
         }
         return st.append(iterator.next()).append("}").toString();
     }
+
 
 }

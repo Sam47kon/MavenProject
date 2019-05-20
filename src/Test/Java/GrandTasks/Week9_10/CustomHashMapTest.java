@@ -18,15 +18,6 @@ class CustomHashMapTest {
     void before() {
         startTime = System.nanoTime();
         for (Integer i = 0; i < capacity; i++) {
-            libraryMap.put(i, i);
-        }
-        stopTime = System.nanoTime();
-        runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime libraryMap.put = " + runTime + "ms");
-
-
-        startTime = System.nanoTime();
-        for (Integer i = 0; i < capacity; i++) {
             myMap.put(i, i);
         }
         stopTime = System.nanoTime();
@@ -34,6 +25,13 @@ class CustomHashMapTest {
         System.out.println("runTime myMap.put = " + runTime + "ms");
 
 
+        startTime = System.nanoTime();
+        for (Integer i = 0; i < capacity; i++) {
+            libraryMap.put(i, i);
+        }
+        stopTime = System.nanoTime();
+        runTime = (stopTime - startTime) / 1000000;
+        System.out.println("runTime libraryMap.put = " + runTime + "ms");
     }
 
     @Test
