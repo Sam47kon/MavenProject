@@ -22,7 +22,7 @@ class CustomHashMapTest {
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime myMap.put = " + runTime + "ms");
+        System.out.println("runTime myMap.put      = " + runTime + "ms");
 
 
         startTime = System.nanoTime();
@@ -37,69 +37,70 @@ class CustomHashMapTest {
     @Test
     void size() {
         Assertions.assertEquals(capacity, myMap.size());
-        Assertions.assertEquals(capacity, myMap.size());
+        Assertions.assertEquals(capacity, libraryMap.size());
     }
 
     @Test
     void isEmpty() {
         Assertions.assertFalse(libraryMap.isEmpty());
         Assertions.assertFalse(myMap.isEmpty());
+        myMap.clear();
+        libraryMap.clear();
+        Assertions.assertTrue(libraryMap.isEmpty());
+        Assertions.assertTrue(myMap.isEmpty());
+
     }
 
     @Test
     void containsKey() {
+        System.out.println("test containsKey");
+        System.out.println("containsKey every existing key:");
         startTime = System.nanoTime();
-        for (Integer i = 0; i < 1_000_000; i++) {
+        for (Integer i = 0; i < capacity; i++) {
             Assertions.assertTrue(libraryMap.containsKey(i));
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime libraryMap.containsKey (true) = " + runTime + "ms");
+        System.out.println("runTime libraryMap.containsKey = " + runTime + "ms");
 
         startTime = System.nanoTime();
-        for (Integer i = capacity; i < 2_000_000; i++) {
-            Assertions.assertFalse(libraryMap.containsKey(i));
-        }
-        stopTime = System.nanoTime();
-        runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime libraryMap.containsKey (false) = " + runTime + "ms");
-
-
-        startTime = System.nanoTime();
-        for (Integer i = 0; i < 1_000_000; i++) {
+        for (Integer i = 0; i < capacity; i++) {
             Assertions.assertTrue(myMap.containsKey(i));
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime myMap.containsKey (true) = " + runTime + "ms");
+        System.out.println("runTime myMap.containsKey      = " + runTime + "ms");
+
+
+        System.out.println("containsKey 1_000_000 times nonexistent key:");
+        startTime = System.nanoTime();
+        for (Integer i = capacity; i < capacity * 2; i++) {
+            Assertions.assertFalse(libraryMap.containsKey(i));
+        }
+        stopTime = System.nanoTime();
+        runTime = (stopTime - startTime) / 1000000;
+        System.out.println("runTime libraryMap.containsKey = " + runTime + "ms");
 
         startTime = System.nanoTime();
-        for (Integer i = capacity; i < 2_000_000; i++) {
+        for (Integer i = capacity; i < capacity * 2; i++) {
             Assertions.assertFalse(myMap.containsKey(i));
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime myMap.containsKey (false) = " + runTime + "ms");
+        System.out.println("runTime myMap.containsKey      = " + runTime + "ms");
     }
 
     @Test
     void containsValue() {
+        System.out.println("test containsValue");
+        System.out.println("containsValue 10_000 times (existing value):");
         startTime = System.nanoTime();
         for (Integer i = 0; i < 10_000; i++) {
             Assertions.assertTrue(libraryMap.containsValue(i));
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime libraryMap.containsValue 10000 times (true) = " + runTime + "ms");
-
-        startTime = System.nanoTime();
-        for (Integer i = capacity; i < 1_000_100; i++) {
-            Assertions.assertFalse(libraryMap.containsValue(i));
-        }
-        stopTime = System.nanoTime();
-        runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime libraryMap.containsValue 100 times (false) = " + runTime + "ms");
-
+        System.out.println("runTime libraryMap.containsValue = " + runTime + "ms");
 
         startTime = System.nanoTime();
         for (Integer i = 0; i < 10_000; i++) {
@@ -107,27 +108,48 @@ class CustomHashMapTest {
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime myMap.containsValue 10000 times (true) = " + runTime + "ms");
+        System.out.println("runTime myMap.containsValue      = " + runTime + "ms");
+
+
+        System.out.println("containsValue 100 times (nonexistent value):");
+        startTime = System.nanoTime();
+        for (Integer i = capacity; i < capacity + 100; i++) {
+            Assertions.assertFalse(libraryMap.containsValue(i));
+        }
+        stopTime = System.nanoTime();
+        runTime = (stopTime - startTime) / 1000000;
+        System.out.println("runTime libraryMap.containsValue = " + runTime + "ms");
 
         startTime = System.nanoTime();
-        for (Integer i = capacity; i < 1_000_100; i++) {
+        for (Integer i = capacity; i < capacity + 100; i++) {
             Assertions.assertFalse(myMap.containsValue(i));
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime myMap.containsValue 100 times (false) = " + runTime + "ms");
+        System.out.println("runTime myMap.containsValue      = " + runTime + "ms");
 
     }
 
     @Test
     void get() {
+        System.out.println("test get");
+        System.out.println("get every existing key:");
         startTime = System.nanoTime();
         for (Integer i = 0; i < capacity; i++) {
             Assertions.assertEquals(i, libraryMap.get(i));
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime libraryMap.get 0++> = " + runTime + "ms");
+        System.out.println("runTime libraryMap.get from 0 to size = " + runTime + "ms");
+
+        startTime = System.nanoTime();
+        for (Integer i = 0; i < capacity; i++) {
+            Assertions.assertEquals(i, myMap.get(i));
+        }
+        stopTime = System.nanoTime();
+        runTime = (stopTime - startTime) / 1000000;
+        System.out.println("runTime myMap.get      from 0 to size = " + runTime + "ms");
+
 
         startTime = System.nanoTime();
         for (Integer i = capacity - 1; i <= 0; i--) {
@@ -135,32 +157,25 @@ class CustomHashMapTest {
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime libraryMap.get -->0 = " + runTime + "ms");
+        System.out.println("runTime libraryMap.get from size to 0 = " + runTime + "ms");
 
+        startTime = System.nanoTime();
+        for (Integer i = capacity - 1; i <= 0; i--) {
+            Assertions.assertEquals(i, myMap.get(i));
+        }
+        stopTime = System.nanoTime();
+        runTime = (stopTime - startTime) / 1000000;
+        System.out.println("runTime myMap.get      from size to 0 = " + runTime + "ms");
+
+
+        System.out.println("get 1_000_000 times nonexistent key: ");
         startTime = System.nanoTime();
         for (Integer i = capacity; i < 2_000_000; i++) {
             Assertions.assertNotEquals(i, libraryMap.get(i));
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime libraryMap.get (NotEquals) = " + runTime + "ms");
-
-
-        startTime = System.nanoTime();
-        for (Integer i = 0; i < capacity; i++) {
-            Assertions.assertEquals(i, myMap.get(i));
-        }
-        stopTime = System.nanoTime();
-        runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime myMap.get 0++> = " + runTime + "ms");
-
-        startTime = System.nanoTime();
-        for (Integer i = capacity - 1; i <= 0; i--) {
-            Assertions.assertEquals(i, myMap.get(i));
-        }
-        stopTime = System.nanoTime();
-        runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime myMap.get -->0 = " + runTime + "ms");
+        System.out.println("runTime libraryMap.get = " + runTime + "ms");
 
         startTime = System.nanoTime();
         for (Integer i = capacity; i <= 2_000_000; i++) {
@@ -168,35 +183,38 @@ class CustomHashMapTest {
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime myMap.get (NotEquals) = " + runTime + "ms");
+        System.out.println("runTime myMap.get      = " + runTime + "ms");
     }
 
     @Test
     void put() {
+        System.out.println("test put");
+        System.out.println("put (newKey, newValue) 1_000_000 times:");
         startTime = System.nanoTime();
-        for (int i = capacity; i < 2_000_000; i++) {
+        for (int i = capacity; i < capacity * 2; i++) {
             Assertions.assertNull(libraryMap.put(i, i));
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime libraryMap.put (newKey, newValue) = " + runTime + "ms");
+        System.out.println("runTime libraryMap.put = " + runTime + "ms");
 
         startTime = System.nanoTime();
-        for (int i = capacity; i < 2_000_000; i++) {
+        for (int i = capacity; i < capacity * 2; i++) {
             Assertions.assertNull(myMap.put(i, i));
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime myMap.put (newKey, newValue) = " + runTime + "ms");
+        System.out.println("runTime myMap.put      = " + runTime + "ms");
 
 
+        System.out.println("put (ExistKey, not important) 1_000_000 times:");
         startTime = System.nanoTime();
         for (int i = 0; i < capacity; i++) {
             Assertions.assertEquals(i, libraryMap.put(i, i));
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime libraryMap.put (ExistKey, ExistValue) = " + runTime + "ms");
+        System.out.println("runTime libraryMap.put = " + runTime + "ms");
 
         startTime = System.nanoTime();
         for (int i = 0; i < capacity; i++) {
@@ -204,19 +222,20 @@ class CustomHashMapTest {
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime myMap.put (ExistKey, ExistValue) = " + runTime + "ms");
-
+        System.out.println("runTime myMap.put      = " + runTime + "ms");
     }
 
     @Test
     void remove() {
+        System.out.println("test remove");
+        System.out.println("remove (nonexistent key) 10_000_000 times:");
         startTime = System.nanoTime();
         for (int i = capacity; i <= 10_000_000; i++) {
             Assertions.assertNull(libraryMap.remove(i));
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime libraryMap.remove (nonexistent) = " + runTime + "ms");
+        System.out.println("runTime libraryMap.remove = " + runTime + "ms");
 
         startTime = System.nanoTime();
         for (int i = capacity; i <= 10_000_000; i++) {
@@ -224,33 +243,30 @@ class CustomHashMapTest {
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime myMap.remove (nonexistent) = " + runTime + "ms");
+        System.out.println("runTime myMap.remove       = " + runTime + "ms");
 
 
+        System.out.println("remove (each existing key) 10_000_000 times:");
         startTime = System.nanoTime();
-        for (int i = 0; i < 1_000_000; i++) {
+        for (int i = 0; i < capacity; i++) {
             Assertions.assertEquals(i, libraryMap.remove(i));
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime libraryMap.remove (all) = " + runTime + "ms");
+        System.out.println("runTime libraryMap.remove = " + runTime + "ms");
 
         startTime = System.nanoTime();
-        for (int i = 0; i < 1_000_000; i++) {
+        for (int i = 0; i < capacity; i++) {
             Assertions.assertEquals(i, myMap.remove(i));
         }
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime myMap.remove (all) = " + runTime + "ms");
+        System.out.println("runTime myMap.remove      = " + runTime + "ms");
 
         Assertions.assertEquals(0, libraryMap.size());
         Assertions.assertEquals(0, myMap.size());
     }
 
-    //    @Test
-//    void putAll() {
-//    }
-//
     @Test
     void clear() {
         libraryMap.clear();
@@ -297,8 +313,31 @@ class CustomHashMapTest {
         Assertions.assertFalse(collections.containsAll(myMap.values()));
     }
 
-//    @Test
-//    void entrySet() {
-//    }
+    @Test
+    void entrySet() {
+        System.out.println("test entrySet");
+        System.out.println("entrySet 10 times (1_000_000 pairs):");
+        Set set = myMap.entrySet();
+
+        startTime = System.nanoTime();
+        for (int i = 0; i < 10; i++) {
+            set = myMap.entrySet();
+        }
+        stopTime = System.nanoTime();
+        runTime = (stopTime - startTime) / 1000000;
+        System.out.println("runTime myMap.entrySet()      = " + runTime + "ms");
+        Assertions.assertEquals(capacity, set.size());
+
+
+        startTime = System.nanoTime();
+        for (int i = 0; i < 10; i++) {
+            set = libraryMap.entrySet();
+        }
+        stopTime = System.nanoTime();
+        runTime = (stopTime - startTime) / 1000000;
+        System.out.println("runTime libraryMap.entrySet() = " + runTime + "ms");
+        Assertions.assertEquals(capacity, set.size());
+
+    }
 
 }

@@ -7,13 +7,13 @@ import java.util.*;
 
 //@SuppressWarnings("unchecked")
 public class CustomHashMap<K, V> implements Map<K, V> {
-    private int size;
-    private TreeSet<MyNode<K, V>>[] hashTable;
+    int size;
+    private LinkedList<MyNode<K, V>>[] hashTable;
     private double threshold;   // порог размера
     final private double fillFactor;
 
     CustomHashMap() {
-        hashTable = new TreeSet[16];
+        hashTable = new LinkedList[16];
         fillFactor = 0.75;
         threshold = hashTable.length * fillFactor;
     }
@@ -23,7 +23,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
             throw new IllegalArgumentException("Illegal capacity: " + capacity);
         }
         size = capacity;
-        hashTable = new TreeSet[size];
+        hashTable = new LinkedList[size];
         fillFactor = 0.75;
         threshold = hashTable.length * fillFactor;
     }
@@ -36,7 +36,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         if (fillFactor <= 0 || fillFactor >= 1) {
             throw new IllegalArgumentException("Illegal fillFactor: " + fillFactor);
         }
-        hashTable = new TreeSet[size];
+        hashTable = new LinkedList[size];
         this.fillFactor = fillFactor;
         threshold = hashTable.length * fillFactor;
     }
@@ -57,10 +57,10 @@ public class CustomHashMap<K, V> implements Map<K, V> {
     }
 
     private void increaseTable() {
-        TreeSet<MyNode<K, V>>[] oldTable = hashTable;
-        hashTable = new TreeSet[oldTable.length * 2];
+        LinkedList<MyNode<K, V>>[] oldTable = hashTable;
+        hashTable = new LinkedList[oldTable.length * 2];
         size = 0;
-        for (TreeSet<MyNode<K, V>> nodes : oldTable) {
+        for (LinkedList<MyNode<K, V>> nodes : oldTable) {
             if (nodes != null) {
                 for (MyNode<K, V> node : nodes) {
                     put(node.key, node.value);
@@ -69,13 +69,12 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         }
     }
 
-//    private boolean itCollision(MyNode<K, V> node, MyNode<K, V> newNode) {
-//        return node.hashCode() == newNode.hashCode() &&
-//                !Objects.equals(node.key, newNode.key) &&
-//                !Objects.equals(node.value, newNode.value);
-//    }
+    private boolean isCollision(K key, K newKey) {
+        return hash(key) == hash(newKey) &&
+                !Objects.equals(key, newKey);
+    }
 
-    private void collision(MyNode<K, V> newNode, TreeSet<MyNode<K, V>> nodes) {
+    private void collision(MyNode<K, V> newNode, LinkedList<MyNode<K, V>> nodes) {
         nodes.add(newNode);
         size++;
     }
@@ -169,11 +168,9 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         K k = (K) key;
         int index = getIndex(hash((k)));
         if (hashTable[index] != null) {
-            if (hashTable[index] != null) {
-                for (MyNode<K, V> node : hashTable[index]) {
-                    if (Objects.equals(key, node.key)) {
-                        return true;
-                    }
+            for (MyNode<K, V> node : hashTable[index]) {
+                if (Objects.equals(key, node.key)) {
+                    return true;
                 }
             }
         }
@@ -188,7 +185,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
     @Override
     public boolean containsValue(Object value) {
         if (size > 0) {
-            for (TreeSet<MyNode<K, V>> nodes : hashTable) {
+            for (LinkedList<MyNode<K, V>> nodes : hashTable) {
                 if (nodes != null) {
                     for (MyNode<K, V> node : nodes) {
                         if (Objects.equals(node.value, value)) {
@@ -211,7 +208,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
             if (hashTable[index] == null) {
                 return null;
             }
-            TreeSet<MyNode<K, V>> nodeList = hashTable[index];
+            LinkedList<MyNode<K, V>> nodeList = hashTable[index];
             for (MyNode<K, V> node : nodeList) {
                 if (Objects.equals(node.key, key)) {
                     return node.value;
@@ -237,13 +234,16 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         int index = getIndex(hash(key));
 
         if (hashTable[index] == null) {
-            hashTable[index] = new TreeSet<>(nodeComparator);
+            hashTable[index] = new LinkedList<>();
             hashTable[index].add(newNode);
             size++;
             return null;
         }
-        TreeSet<MyNode<K, V>> nodes = hashTable[index];
+        LinkedList<MyNode<K, V>> nodes = hashTable[index];
         for (MyNode<K, V> node : nodes) {
+            if (isCollision(node.key, key)) {
+                collision(newNode, nodes);
+            }
             if (Objects.equals(node.key, key)) {  // if key exist (Если данный ключ уже существует в HashMap, значение перезаписывается)
                 return node.setValue(value); // set new value, return oldValue (даже если значение одинаковое, оно все равно перезаписывается)
             }
@@ -263,7 +263,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         if (hashTable[index] == null) {
             return null;
         }
-        TreeSet<MyNode<K, V>> nodes = hashTable[index];
+        LinkedList<MyNode<K, V>> nodes = hashTable[index];
         V oldElement = null;
         for (MyNode<K, V> node : nodes) {
             if (key.equals(node.key)) {
@@ -300,7 +300,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
     public Set<K> keySet() {
         Set<K> keySet = new HashSet<>();
         if (size > 0) {
-            for (TreeSet<MyNode<K, V>> nodes : hashTable) {
+            for (LinkedList<MyNode<K, V>> nodes : hashTable) {
                 if (nodes != null) {
                     for (MyNode<K, V> node : nodes) {
                         keySet.add(node.key);
@@ -317,7 +317,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
     public Collection<V> values() {
         Collection<V> values = new ArrayList<>();
         if (size > 0) {
-            for (TreeSet<MyNode<K, V>> nodes : hashTable) {
+            for (LinkedList<MyNode<K, V>> nodes : hashTable) {
                 if (nodes != null) {
                     for (MyNode<K, V> node : nodes) {
                         values.add(node.value);
@@ -334,7 +334,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
     public Set<Entry<K, V>> entrySet() {
         Set<Entry<K, V>> nodeSet = new HashSet<>();
         if (size > 0) {
-            for (TreeSet<MyNode<K, V>> nodes : hashTable) {
+            for (LinkedList<MyNode<K, V>> nodes : hashTable) {
                 if (nodes != null) {
                     for (MyNode<K, V> node : nodes) {
                         nodeSet.add(new MyNode<>(node.key, node.value));
@@ -353,7 +353,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
             return st.append("}").toString();
         }
 
-        for (TreeSet<MyNode<K, V>> nodes : hashTable) {
+        for (LinkedList<MyNode<K, V>> nodes : hashTable) {
             if (nodes != null) {
                 for (MyNode<K, V> node : nodes) {
                     st.append(node.toString()).append(";");
