@@ -1,255 +1,318 @@
 package GrandTasks.Week9_10;
 
-public class CustomHashSet1<E> /*implements Set<E>*/ {
-//    private CustomHashMap<E, Object> map;
-//    private static final Object obj = new Object();
-//
-//
-//    private int size;
-//    private MyNode<E>[] hashTable;
-//    private double threshold;   // порог размера
-//    final private double fillFactor;
-//
-//    // region utility
-//    class MyNode<K> {
-//        K key;
-//        int hash;
-//        MyNode<K> next;
-//
-//
-//        private MyNode(K key, MyNode<K> next) {
-//            this.key = key;
-//            this.next = next;
-//        }
-//
-//        public K getKey() {
-//            return key;
-//        }
-//
-//        @Override
-//        public int hashCode() {
-//            hash = 17 * 37 + key.hashCode();
-//            return hash;
-//        }
-//
-//        @SuppressWarnings("unchecked")
-//        @Override
-//        public boolean equals(Object obj) {
-//            if (obj == this) {
-//                return true;
-//            }
-//            if (obj instanceof MyNode) {
-//                MyNode<K> node = (MyNode<K>) obj; // unchecked
-//                return Objects.equals(key, node.key);
-//            }
-//            return false;
-//        }
-//
-//        @Override
-//        public String toString() {
-//            return key + "";
-//        }
-//    }
-//
-//    private int getIndex(final E key) {
-//        int hash = 17 * 37 + key.hashCode();
-//        return hash % hashTable.length;
-//    }
-//
-//    private void increaseTable() {
-//        MyNode<E>[] oldTable = hashTable;
-//        hashTable = new MyNode[oldTable.length * 2];
-//        size = 0;
-//        for (MyNode<E> node : oldTable) {
-//            if (hashTable != null) {
-//                add(node.key);
-//            }
-//        }
-//    }
-//// endregion------------------------------------------------------------------------------------------------------------
-//    // region constructors
-//
-//    CustomHashSet1() {
-//        hashTable = new MyNode[16];
-//        fillFactor = 0.75;
-//        threshold = hashTable.length * fillFactor;
-//    }
-//
-//    CustomHashSet1(int capacity) {
-//        if (capacity < 0) {
-//            throw new IllegalArgumentException("Illegal capacity: " + capacity);
-//        }
-//        size = capacity;
-//        hashTable = new MyNode[size];
-//        fillFactor = 0.75;
-//        threshold = hashTable.length * fillFactor;
-//
-//    }
-//
-//    CustomHashSet1(int capacity, double fillFactor) {
-//        if (capacity < 0) {
-//            throw new IllegalArgumentException("Illegal capacity: " + capacity);
-//        }
-//        size = capacity;
-//        if (fillFactor <= 0 || fillFactor >= 1) {
-//            throw new IllegalArgumentException("Illegal fillFactor: " + fillFactor);
-//        }
-//        hashTable = new MyNode[size];
-//        threshold = hashTable.length * (this.fillFactor = fillFactor);
-//    }
-//
-//// endregion------------------------------------------------------------------------------------------------------------
-//    // region override
-//
-//    @Override
-//    public int size() {
-//        return size;
-//    }
-//
-//    @Override
-//    public boolean isEmpty() {
-//        return size == 0;
-//    }
-//
-//    @Override
-//    public boolean contains(Object obj) { // TODO
-//        return map.containsKey(obj);
-//    }
-//
-//    @NotNull
-//    @Override
-//    public Iterator<E> iterator() { // TODO
-//        return map.keySet().iterator();
-//    }
-//
-//    @NotNull
-//    @Override
-//    public Object[] toArray() { // TODO
-//        Object[] array = new Object[size()];
-//        Iterator<E> iterator = map.keySet().iterator();
-//        for (int i = 0; i < array.length; i++) {
-//            array[i] = iterator.next();
-//        }
-//        return array;
-//    }
-//
-//    @NotNull
-//    @Override
-//    public <T> T[] toArray(@NotNull T[] array) { // TODO
-//        return null;
-//    }
-//
-//    @Override
-//    public boolean add(E element) {
-//        if (size + 1 >= threshold) {
-//            threshold *= 2;
-//            increaseTable();
-//        }
-//        MyNode<E> newNode = new MyNode<>(element, null);
-//        int index = getIndex(element);
-//        if (hashTable[index] == null) {
-//            hashTable[index] = newNode;
-//            size++;
-//            return true;
-//        }
-//        if (hashTable[index].key.equals(element)) {
-//            return false;
-//        }
-//        addNode(hashTable[index], newNode);
-//        return true;
-//    }
-//
-//    private void addNode(MyNode<E> tableNode, MyNode<E> newNode) {
-//        if (tableNode.next == null) {
-//            tableNode.next = newNode;
-//        } else {
-//            addNode(tableNode.next, newNode);
-//        }
-//    }
-//
-//    @Override
-//    public boolean remove(Object element) {
-//        E key = (E) element;
-//        int index = getIndex(key);
-//        if (hashTable[index] == null) {
-//            return false;
-//        }
-//        MyNode<E> nodes = hashTable[index];
-//        for (MyNode<E> node = nodes; node != null; node = node.next) {
-//
-//            if (node.next == null) {
-//                if (element.equals(node.key)) {
-//                    node.key = null;
-//                    node = null;
-//                    return true;
-//                }
-//            }
-//
-//            if (element.equals(node.key)) {
-//                node.key = null;
-//                if (node.next == null) {
-//
-//                }
-//                size--;
-//            }
-//        }
-//        return map.remove(element) == null;
-//    }
-//
-//
-//    @Override
-//    public boolean containsAll(@NotNull Collection<?> collection) { // готово
-//        for (Object obj : collection) {
-//            if (!contains(obj)) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean addAll(@NotNull Collection<? extends E> collection) { // готово
-//        int count = 0;
-//        for (E e : collection) {
-//            if (add(e)) {
-//                count++;
-//            }
-//        }
-//        return count > 0;
-//    }
-//
-//    @Override
-//    public boolean retainAll(@NotNull Collection<?> collection) {
-//
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean removeAll(@NotNull Collection<?> collection) {
-//        boolean changed = false;
-//        for (Object obj : collection) {
-//            if (contains(obj)) {
-//                remove(obj);
-//                changed = true;
-//            }
-//        }
-//        return changed;
-//    }
-//
-//    @Override
-//    public void clear() {
-//        map.clear();
-//    }
-//
-//
-//    public String toString() {
-//        StringBuilder st = new StringBuilder();
-//        Iterator<E> iterator = map.keySet().iterator();
-//        st.append("{");
-//        for (int i = 0; i < size() - 1; i++) {
-//            st.append(iterator.next()).append(", ");
-//        }
-//        return st.append(iterator.next()).append("}").toString();
-//    }
-//// endregion -----------------------------------------------------------------------------------------------------------
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.*;
+
+public class CustomHashSet1<E> implements Set<E> {
+    private int size;
+    private LinkedList<E>[] hashTable;
+    private static final Object obj = new Object();
+    private double threshold;   // порог размера
+    final private double fillFactor;
+    private int itrPoint = 0;
+
+//----------------------------------------------------------------------------------------------------------------------
+// constructors
+
+    CustomHashSet1() {
+        hashTable = new LinkedList[16];
+        fillFactor = 0.75;
+        threshold = hashTable.length * fillFactor;
+    }
+
+    CustomHashSet1(int capacity) {
+        if (capacity < 0) {
+            throw new IllegalArgumentException("Illegal capacity: " + capacity);
+        }
+        size = capacity;
+        hashTable = new LinkedList[size];
+        fillFactor = 0.75;
+        threshold = hashTable.length * fillFactor;
+    }
+
+    CustomHashSet1(int capacity, double fillFactor) {
+        if (capacity < 0) {
+            throw new IllegalArgumentException("Illegal capacity: " + capacity);
+        }
+        size = capacity;
+        if (fillFactor <= 0 || fillFactor >= 1) {
+            throw new IllegalArgumentException("Illegal fillFactor: " + fillFactor);
+        }
+        hashTable = new LinkedList[size];
+        this.fillFactor = fillFactor;
+        threshold = hashTable.length * fillFactor;
+    }
+
+    //----------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
+//    utilities
+    private int getIndex(final int hash) {
+        return (hashTable.length - 1) & hash;
+    }
+
+    private int hash(final E key) {
+        int hash = key.hashCode();
+        return hash ^ (hash >>> 16);
+    }
+
+    private void increaseTable() {
+        LinkedList<E>[] oldTable = hashTable;
+        hashTable = new LinkedList[oldTable.length * 2];
+        size = 0;
+        for (LinkedList<E> nodes : oldTable) {
+            if (nodes != null) {
+                for (E element : nodes) {
+                    simpleAdd(element);
+                }
+            }
+        }
+    }
+
+    private boolean simpleAdd(E newElement) {
+        int index = getIndex(hash(newElement));
+
+        if (hashTable[index] == null) {
+            hashTable[index] = new LinkedList<>();
+            hashTable[index].add(newElement);
+            size++;
+            itrPoint++;
+            return true;
+        }
+        LinkedList<E> elements = hashTable[index];
+        for (E element : elements) {
+            if (isCollision(element, newElement)) {
+                collision(newElement, elements);
+                return true;
+            }
+            if (Objects.equals(element, newElement)) {  // if element exist (Если данный element уже существует в HashSet возвращаем false)
+                return false;
+            }
+        }
+        collision(newElement, elements);
+        return true;
+    }
+
+    private boolean isCollision(E element, E newElement) {
+        return hash(element) == hash(newElement) &&
+                !Objects.equals(element, newElement);
+    }
+
+    private void collision(E newElement, LinkedList<E> nodes) {
+        nodes.add(newElement);
+        size++;
+        itrPoint++;
+    }
+
+
+    class Itr implements Iterator<E> {
+        int pos = 0;
+        int lastPos = -1;
+        int nowIteratorPoint = itrPoint;
+
+        @Override
+        public boolean hasNext() {
+            return pos != size;
+        }
+
+        @Override
+        public E next() {
+            checkImmutabilityOfList();
+            if (pos >= size) {
+                throw new NoSuchElementException();
+            }
+            lastPos = pos++;
+
+    // TODO вот здесь не могу догнать как
+
+            return null;
+        }
+
+        @Override
+        public void remove() {
+
+        }
+
+        /**
+         * Проверить неизменяемость листа во время работы итератора
+         */
+        final void checkImmutabilityOfList() {
+            if (itrPoint != nowIteratorPoint)
+                throw new ConcurrentModificationException();
+        }
+    }
+//----------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
+// override
+
+    @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    @Override
+    public boolean contains(Object obj) {
+        E key = (E) obj;
+        int index = getIndex(hash((key)));
+        if (hashTable[index] != null) {
+            for (E element : hashTable[index]) {
+                if (Objects.equals(key, element)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @NotNull
+    @Override
+    public Iterator<E> iterator() {
+        return new Itr();
+    }
+
+    @NotNull
+    @Override
+    public Object[] toArray() {
+        Object[] array = new Object[size];
+        Iterator<E> iterator = iterator();
+        for (int i = 0; i < array.length; i++) {
+            array[i] = iterator.next();
+        }
+        return array;
+    }
+
+    @NotNull
+    @Override
+    public <T> T[] toArray(@NotNull T[] array) {  // хз
+        if (size == 0) {
+            throw new NullArgumentException();
+        }
+        int index = 0;
+        if (array.length < size) {
+            array = (T[]) new Object[size];
+        }
+        if (array.length > size) {
+            int interval = array.length - size;
+            for (int i = array.length - 1; i >= interval; i--) {
+                array[i] = null;
+            }
+        }
+        for (LinkedList<E> nodes : hashTable) {
+            if (nodes != null) {
+                for (E element : nodes) {
+                    array[index++] = (T) element;
+                }
+            }
+        }
+        return array;
+    }
+
+    @Override
+    public boolean add(E newElement) {
+        if (size + 1 >= threshold) {
+            threshold *= 2;
+            increaseTable();
+        }
+        return simpleAdd(newElement);
+    }
+
+    @Override
+    public boolean remove(Object element) {
+        int index = getIndex(hash((E) element));
+        if (hashTable[index] == null) {
+            return false;
+        }
+        LinkedList<E> elements = hashTable[index];
+        for (E el : elements) {
+            if (element.equals(el)) {
+                elements.remove(el);
+                size--;
+                itrPoint++;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean containsAll(@NotNull Collection<?> collection) {
+        for (Object obj : collection) {
+            if (!contains(obj)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean addAll(@NotNull Collection<? extends E> collection) {
+        boolean changed = false;
+        for (E e : collection) {
+            if (add(e)) {
+                changed = true;
+            }
+        }
+        return changed;
+    }
+
+    @Override
+    public boolean retainAll(@NotNull Collection<?> collection) {
+        boolean changed = false;
+        Iterator<?> iterator = iterator();
+        while (iterator.hasNext()) {
+            if (!collection.contains(iterator.next())) {
+                iterator.remove();
+                changed = true;
+            }
+        }
+        if (changed) {
+            itrPoint++;
+        }
+        return changed;
+        // или просто так:
+//        return removeIf(o -> !collection.contains(o));
+    }
+
+    @Override
+    public boolean removeAll(@NotNull Collection<?> collection) {
+        boolean changed = false;
+        for (Object obj : collection) {
+            if (contains(obj)) {
+                remove(obj);
+                changed = true;
+            }
+        }
+        if (changed) {
+            itrPoint++;
+        }
+        return changed;
+    }
+
+    @Override
+    public void clear() {
+        if (size != 0) {
+            for (int i = 0; i < hashTable.length; i++) {
+                hashTable[i] = null;
+            }
+            size = 0;
+            itrPoint++;
+        }
+    }
+
+
+    public String toString() {
+        StringBuilder st = new StringBuilder();
+        Iterator<E> iterator = iterator();
+        st.append("{");
+        for (int i = 0; i < size() - 1; i++) {
+            st.append(iterator.next()).append(", ");
+        }
+        return st.append(iterator.next()).append("}").toString();
+    }
 }

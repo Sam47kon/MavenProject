@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
+import static MyMethods.MyMethods.createRandomArrayWithSize;
+
 class CustomHashMapTest {
     private HashMap<Integer, Integer> libraryMap = new HashMap<>();
     private CustomHashMap<Integer, Integer> myMap = new CustomHashMap<>();
@@ -16,14 +18,9 @@ class CustomHashMapTest {
 
     @BeforeEach
     void before() {
-        startTime = System.nanoTime();
-        for (Integer i = 0; i < capacity; i++) {
-            myMap.put(i, i);
-        }
-        stopTime = System.nanoTime();
-        runTime = (stopTime - startTime) / 1000000;
-        System.out.println("runTime myMap.put      = " + runTime + "ms");
+        Integer[] arr = createRandomArrayWithSize(capacity);    // для разгона машины
 
+        System.out.println("before:");
 
         startTime = System.nanoTime();
         for (Integer i = 0; i < capacity; i++) {
@@ -32,6 +29,17 @@ class CustomHashMapTest {
         stopTime = System.nanoTime();
         runTime = (stopTime - startTime) / 1000000;
         System.out.println("runTime libraryMap.put = " + runTime + "ms");
+
+
+        startTime = System.nanoTime();
+        for (Integer i = 0; i < capacity; i++) {
+            myMap.put(i, i);
+        }
+        stopTime = System.nanoTime();
+        runTime = (stopTime - startTime) / 1000000;
+        System.out.println("runTime myMap.put      = " + runTime + "ms");
+
+        System.out.println("after:");
     }
 
     @Test
@@ -152,7 +160,7 @@ class CustomHashMapTest {
 
 
         startTime = System.nanoTime();
-        for (Integer i = capacity - 1; i <= 0; i--) {
+        for (Integer i = capacity - 1; i >= 0; i--) {
             Assertions.assertEquals(i, libraryMap.get(i));
         }
         stopTime = System.nanoTime();
@@ -160,7 +168,7 @@ class CustomHashMapTest {
         System.out.println("runTime libraryMap.get from size to 0 = " + runTime + "ms");
 
         startTime = System.nanoTime();
-        for (Integer i = capacity - 1; i <= 0; i--) {
+        for (Integer i = capacity - 1; i >= 0; i--) {
             Assertions.assertEquals(i, myMap.get(i));
         }
         stopTime = System.nanoTime();

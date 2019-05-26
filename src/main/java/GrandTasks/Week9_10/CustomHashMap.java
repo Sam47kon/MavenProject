@@ -7,8 +7,8 @@ import java.util.*;
 
 //@SuppressWarnings("unchecked")
 public class CustomHashMap<K, V> implements Map<K, V> {
-    int size;
-    private LinkedList<MyNode<K, V>>[] hashTable;
+    private int size;
+    private LinkedList<MyCouple<K, V>>[] hashTable;
     private double threshold;   // порог размера
     final private double fillFactor;
 
@@ -41,12 +41,14 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         threshold = hashTable.length * fillFactor;
     }
 
+//----------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
+
     /**
      * Для вставки в нужную ячейку массива hashTable по переданному ключу
      *
      * @return индекс, куда положить пару
      */
-
     private int getIndex(final int hash) {
         return (hashTable.length - 1) & hash;
     }
@@ -57,16 +59,40 @@ public class CustomHashMap<K, V> implements Map<K, V> {
     }
 
     private void increaseTable() {
-        LinkedList<MyNode<K, V>>[] oldTable = hashTable;
+        LinkedList<MyCouple<K, V>>[] oldTable = hashTable;
         hashTable = new LinkedList[oldTable.length * 2];
         size = 0;
-        for (LinkedList<MyNode<K, V>> nodes : oldTable) {
-            if (nodes != null) {
-                for (MyNode<K, V> node : nodes) {
-                    put(node.key, node.value);
+        for (LinkedList<MyCouple<K, V>> couples : oldTable) {
+            if (couples != null) {
+                for (MyCouple<K, V> couple : couples) {
+                    add(couple.key, couple.value);
                 }
             }
         }
+    }
+
+    private V add(K key, V value) {
+        MyCouple<K, V> newCouple = new MyCouple<>(key, value);
+        int index = getIndex(hash(key));
+
+        if (hashTable[index] == null) {
+            hashTable[index] = new LinkedList<>();
+            hashTable[index].add(newCouple);
+            size++;
+            return null;
+        }
+        LinkedList<MyCouple<K, V>> couples = hashTable[index];
+        for (MyCouple<K, V> couple : couples) {
+            if (isCollision(couple.key, key)) {
+                collision(newCouple, couples);
+                return null;
+            }
+            if (Objects.equals(couple.key, key)) {  // if key exist (Если данный ключ уже существует в HashMap, значение перезаписывается)
+                return couple.setValue(value); // set new value, return oldValue (даже если значение одинаковое, оно все равно перезаписывается)
+            }
+        }
+        collision(newCouple, couples);
+        return null;
     }
 
     private boolean isCollision(K key, K newKey) {
@@ -74,31 +100,17 @@ public class CustomHashMap<K, V> implements Map<K, V> {
                 !Objects.equals(key, newKey);
     }
 
-    private void collision(MyNode<K, V> newNode, LinkedList<MyNode<K, V>> nodes) {
-        nodes.add(newNode);
+    private void collision(MyCouple<K, V> newCouple, LinkedList<MyCouple<K, V>> couples) {
+        couples.add(newCouple);
         size++;
     }
 
-    private Comparator<MyNode<K, V>> nodeComparator = (o1, o2) -> {
-        if (o1.hash > o2.hash) {
-            return 1;
-        }
-        if (o1.equals(o2)) {
-            return 0;
-        }
-        return -1;
-    };
-
-
-//----------------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------------------
-
-    class MyNode<k, v> implements Map.Entry<k, v> {
+    class MyCouple<k, v> implements Map.Entry<k, v> {
         k key;
         int hash;
         v value;
 
-        private MyNode(k key, v value) {
+        private MyCouple(k key, v value) {
             this.key = key;
             this.value = value;
         }
@@ -132,8 +144,8 @@ public class CustomHashMap<K, V> implements Map<K, V> {
                 return true;
             }
             if (obj instanceof Map.Entry) {
-                MyNode<?, ?> node = (MyNode<?, ?>) obj; // unchecked
-                return Objects.equals(value, node.value) && Objects.equals(key, node.key);
+                MyCouple<?, ?> couple = (MyCouple<?, ?>) obj; // unchecked
+                return Objects.equals(value, couple.value) && Objects.equals(key, couple.key);
             }
             return false;
         }
@@ -168,8 +180,8 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         K k = (K) key;
         int index = getIndex(hash((k)));
         if (hashTable[index] != null) {
-            for (MyNode<K, V> node : hashTable[index]) {
-                if (Objects.equals(key, node.key)) {
+            for (MyCouple<K, V> couple : hashTable[index]) {
+                if (Objects.equals(key, couple.key)) {
                     return true;
                 }
             }
@@ -185,10 +197,10 @@ public class CustomHashMap<K, V> implements Map<K, V> {
     @Override
     public boolean containsValue(Object value) {
         if (size > 0) {
-            for (LinkedList<MyNode<K, V>> nodes : hashTable) {
-                if (nodes != null) {
-                    for (MyNode<K, V> node : nodes) {
-                        if (Objects.equals(node.value, value)) {
+            for (LinkedList<MyCouple<K, V>> couples : hashTable) {
+                if (couples != null) {
+                    for (MyCouple<K, V> couple : couples) {
+                        if (Objects.equals(couple.value, value)) {
                             return true;
                         }
                     }
@@ -208,10 +220,10 @@ public class CustomHashMap<K, V> implements Map<K, V> {
             if (hashTable[index] == null) {
                 return null;
             }
-            LinkedList<MyNode<K, V>> nodeList = hashTable[index];
-            for (MyNode<K, V> node : nodeList) {
-                if (Objects.equals(node.key, key)) {
-                    return node.value;
+            LinkedList<MyCouple<K, V>> couples = hashTable[index];
+            for (MyCouple<K, V> couple : couples) {
+                if (Objects.equals(couple.key, key)) {
+                    return couple.value;
                 }
             }
         }
@@ -230,26 +242,7 @@ public class CustomHashMap<K, V> implements Map<K, V> {
             threshold *= 2;
             increaseTable();
         }
-        MyNode<K, V> newNode = new MyNode<>(key, value);
-        int index = getIndex(hash(key));
-
-        if (hashTable[index] == null) {
-            hashTable[index] = new LinkedList<>();
-            hashTable[index].add(newNode);
-            size++;
-            return null;
-        }
-        LinkedList<MyNode<K, V>> nodes = hashTable[index];
-        for (MyNode<K, V> node : nodes) {
-            if (isCollision(node.key, key)) {
-                collision(newNode, nodes);
-            }
-            if (Objects.equals(node.key, key)) {  // if key exist (Если данный ключ уже существует в HashMap, значение перезаписывается)
-                return node.setValue(value); // set new value, return oldValue (даже если значение одинаковое, оно все равно перезаписывается)
-            }
-        }
-        collision(newNode, nodes);
-        return null;
+        return add(key, value);
     }
 
     /**
@@ -263,16 +256,17 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         if (hashTable[index] == null) {
             return null;
         }
-        LinkedList<MyNode<K, V>> nodes = hashTable[index];
-        V oldElement = null;
-        for (MyNode<K, V> node : nodes) {
-            if (key.equals(node.key)) {
-                oldElement = node.value;
-                nodes.remove(node);
+        LinkedList<MyCouple<K, V>> couples = hashTable[index];
+        V oldElement;
+        for (MyCouple<K, V> couple : couples) {
+            if (key.equals(couple.key)) {
+                oldElement = couple.value;
+                couples.remove(couple);
                 size--;
+                return oldElement;
             }
         }
-        return oldElement;
+        return null;
     }
 
     @Override
@@ -300,10 +294,10 @@ public class CustomHashMap<K, V> implements Map<K, V> {
     public Set<K> keySet() {
         Set<K> keySet = new HashSet<>();
         if (size > 0) {
-            for (LinkedList<MyNode<K, V>> nodes : hashTable) {
-                if (nodes != null) {
-                    for (MyNode<K, V> node : nodes) {
-                        keySet.add(node.key);
+            for (LinkedList<MyCouple<K, V>> couples : hashTable) {
+                if (couples != null) {
+                    for (MyCouple<K, V> couple : couples) {
+                        keySet.add(couple.key);
                     }
                 }
             }
@@ -317,10 +311,10 @@ public class CustomHashMap<K, V> implements Map<K, V> {
     public Collection<V> values() {
         Collection<V> values = new ArrayList<>();
         if (size > 0) {
-            for (LinkedList<MyNode<K, V>> nodes : hashTable) {
-                if (nodes != null) {
-                    for (MyNode<K, V> node : nodes) {
-                        values.add(node.value);
+            for (LinkedList<MyCouple<K, V>> couples : hashTable) {
+                if (couples != null) {
+                    for (MyCouple<K, V> couple : couples) {
+                        values.add(couple.value);
                     }
                 }
             }
@@ -332,17 +326,17 @@ public class CustomHashMap<K, V> implements Map<K, V> {
     @NotNull
     @Override
     public Set<Entry<K, V>> entrySet() {
-        Set<Entry<K, V>> nodeSet = new HashSet<>();
+        Set<Entry<K, V>> set = new HashSet<>();
         if (size > 0) {
-            for (LinkedList<MyNode<K, V>> nodes : hashTable) {
-                if (nodes != null) {
-                    for (MyNode<K, V> node : nodes) {
-                        nodeSet.add(new MyNode<>(node.key, node.value));
+            for (LinkedList<MyCouple<K, V>> couples : hashTable) {
+                if (couples != null) {
+                    for (MyCouple<K, V> couple : couples) {
+                        set.add(new MyCouple<>(couple.key, couple.value));
                     }
                 }
             }
         }
-        return nodeSet;
+        return set;
     }
 
     @Override
@@ -353,10 +347,10 @@ public class CustomHashMap<K, V> implements Map<K, V> {
             return st.append("}").toString();
         }
 
-        for (LinkedList<MyNode<K, V>> nodes : hashTable) {
-            if (nodes != null) {
-                for (MyNode<K, V> node : nodes) {
-                    st.append(node.toString()).append(";");
+        for (LinkedList<MyCouple<K, V>> couples : hashTable) {
+            if (couples != null) {
+                for (MyCouple<K, V> couple : couples) {
+                    st.append(couple.toString()).append(";");
                 }
             }
         }

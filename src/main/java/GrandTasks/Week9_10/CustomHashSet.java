@@ -86,7 +86,7 @@ public class CustomHashSet<E> implements Set<E> {
 
     @Override
     public boolean remove(Object element) {
-        return map.remove(element) == null;
+        return map.remove(element) != null;
     }
 
     @Override
@@ -152,6 +152,4 @@ public class CustomHashSet<E> implements Set<E> {
         }
         return st.append(iterator.next()).append("}").toString();
     }
-
-
 }
