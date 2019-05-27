@@ -1,34 +1,40 @@
 package GrandTasks.Week2;
 
+import java.util.Scanner;
+
 // Программа принимает с клавиатуры число, и определяет, является ли это число степенью двойки
 public class Task11 {
 
     public static void main(String[] args) {
-        int inputNum = (int) new Task5().getDoubleFromInput("Введите число: ");
-        new Task11().isNumberPowerOfTwo1(inputNum);    // 1 вариант
-        new Task11().isNumberPowerOfTwo2(inputNum);    // 2 вариант
+        String exit = "";
+        while (!exit.equals("qqq")) {
+            int inputNum = (int) new Task5().getDoubleFromInput("Введите число: ");
+            boolean b1 = new Task11().isNumberPowerOfTwo1(inputNum);    // 1 вариант
+            boolean b2 = new Task11().isNumberPowerOfTwo2(inputNum);    // 2 вариант
+            boolean b3 = new Task11().isNumberPowerOfTwo3(inputNum);    // 3 вариант
+            System.out.println(b1 + " " + b2 + " " + b3);
+            exit = new Scanner(System.in).next();
+        }
     }
 
     boolean isNumberPowerOfTwo1(int inputNum) {
-        while (((inputNum % 2) == 0) && inputNum > 0) {
+        if (inputNum == 0) {
+            return false;
+        }
+        inputNum = Math.abs(inputNum);
+        while (((inputNum % 2) == 0)) {
             inputNum /= 2;
         }
-        if (inputNum == 1) {
-            System.out.println("YES");
-            return true;
-        }
-        System.out.println("NO");
-        return false;
+        return inputNum == 1;
     }
 
     boolean isNumberPowerOfTwo2(int inputNum) {
-        if ((inputNum & (-inputNum)) == inputNum && inputNum != 0) {
-            System.out.println("Ваше число " + inputNum + " является степенью двойки");
-            return true;
-        } else {
-            System.out.println("Число " + inputNum + " НЕ является степенью двойки");
-            return false;
-        }
+        inputNum = Math.abs(inputNum);
+        return (inputNum & (-inputNum)) == inputNum && inputNum != 0;
+    }
+
+    boolean isNumberPowerOfTwo3(int inputNum) {
+        return Integer.bitCount(Math.abs(inputNum)) == 1;
     }
 
     //region Для меня, для расчетов

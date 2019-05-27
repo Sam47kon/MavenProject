@@ -106,10 +106,12 @@ public class CustomHashSet1<E> implements Set<E> {
     }
 
 
-    class Itr implements Iterator<E> {
+    private class Itr implements Iterator<E> {
         int pos = 0;
-        int lastPos = -1;
+        int lastPosLL = 0;
+        int lastPosHT = 0;
         int nowIteratorPoint = itrPoint;
+        E oldElement;
 
         @Override
         public boolean hasNext() {
@@ -122,16 +124,41 @@ public class CustomHashSet1<E> implements Set<E> {
             if (pos >= size) {
                 throw new NoSuchElementException();
             }
-            lastPos = pos++;
 
-    // TODO вот здесь не могу догнать как
+            while (lastPosHT < hashTable.length) {
+                LinkedList<E> elements = hashTable[lastPosHT++];
+                if (elements != null) {
+                    if (elements.size() == 1) {
+                        pos++;
+                        lastPosLL = 0;
+                        return oldElement = elements.getFirst();
+                    } else {
+                        if (lastPosLL < elements.size()) {
+                            lastPosLL++;
+                            pos++;
+                            return oldElement = elements.get(lastPosLL);
+                        } else {
+                            lastPosLL = 0;
+                            pos++;
+                            return oldElement = elements.getLast();
+                        }
+                    }
+                }
+            }
 
             return null;
         }
 
         @Override
         public void remove() {
-
+            checkImmutabilityOfList();
+            if (oldElement == null) {
+                throw new IllegalStateException();
+            }
+            if (CustomHashSet1.this.remove(oldElement)) {
+                nowIteratorPoint++;
+                pos--;
+            } else throw new NullPointerException();
         }
 
         /**
@@ -308,11 +335,21 @@ public class CustomHashSet1<E> implements Set<E> {
 
     public String toString() {
         StringBuilder st = new StringBuilder();
-        Iterator<E> iterator = iterator();
         st.append("{");
-        for (int i = 0; i < size() - 1; i++) {
-            st.append(iterator.next()).append(", ");
+        if (size == 0) {
+            return st.append("}").toString();
         }
-        return st.append(iterator.next()).append("}").toString();
+
+        for (LinkedList<E> elements : hashTable) {
+            if (elements != null) {
+                for (E couple : elements) {
+                    st.append(couple.toString()).append(", ");
+                }
+            }
+        }
+        if (st.length() > 2) {
+            st.delete(st.length() - 2, st.length());
+        }
+        return st.append("}").toString();
     }
 }

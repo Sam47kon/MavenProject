@@ -18,12 +18,10 @@ public class Task7 {
     }
 
     BigInteger getFactorial(int inputNumber) {
-        BigInteger factor = BigInteger.valueOf(1); // факториал 0 будет 1, как и должно быть
-        BigInteger j;
+        BigInteger result = BigInteger.ONE; // факториал 0 будет 1, как и должно быть
         for (int i = 1; i <= inputNumber; i++) {
-            j = BigInteger.valueOf(i);
-            factor = factor.multiply(j);
+            result = result.multiply(BigInteger.valueOf(i));
         }
-        return factor;
+        return result;
     }
 }
