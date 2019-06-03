@@ -1,10 +1,10 @@
-package StepikTasks;
+package StepikTasks.Stepik3.S3_3;
 
 import java.util.Scanner;
 
-public class Stepik3_3_0 {
+public class Robot_v2 {
 
-    public static void moveRobot(Stepik3_3 robot, int toX, int toY) {
+    public static void moveRobot(Robot robot, int toX, int toY) {
         try {
             java.lang.reflect.Field field = robot.getClass().getDeclaredField("x");
             field.setAccessible(true);
@@ -20,7 +20,7 @@ public class Stepik3_3_0 {
     }
 
     public static void main(String[] args) {
-        Stepik3_3 robot = new Stepik3_3();
+        Robot robot = new Robot();
         Scanner scanner = new Scanner(System.in);
         while (true) {
             int x = scanner.nextInt();

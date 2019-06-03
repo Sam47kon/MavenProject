@@ -1,4 +1,4 @@
-package StepikTasks;
+package StepikTasks.Stepik2;
 
 import java.math.BigInteger;
 import java.util.Arrays;
