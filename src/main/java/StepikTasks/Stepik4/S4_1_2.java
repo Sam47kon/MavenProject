@@ -1,6 +1,6 @@
 package StepikTasks.Stepik4;
 
-public class Stepik4_1 {
+public class S4_1_2 {
 
     // Stepik 4_1_1
     private static double sqrt(double x) {

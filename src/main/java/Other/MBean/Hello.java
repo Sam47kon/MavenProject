@@ -1,4 +1,4 @@
-package GrandTasks.Week11_12.MBean;
+package Other.MBean;
 
 
 public class Hello implements HelloMBean {

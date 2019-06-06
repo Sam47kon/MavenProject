@@ -1,8 +1,8 @@
-package StepikTasks.Stepik5;
+package StepikTasks.Stepik4;
 
 import java.util.logging.*;
 
-public class S5_1 {
+public class S4_1 {
 
     private static void configureLogging() {
         Logger logger = Logger.getLogger("org.stepic.java");

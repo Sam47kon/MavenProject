@@ -1,4 +1,4 @@
-package StepikTasks.Stepik5.MailSystem;
+package StepikTasks.Stepik4.MailSystem;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

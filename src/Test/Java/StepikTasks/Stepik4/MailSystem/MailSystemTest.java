@@ -1,4 +1,4 @@
-package StepikTasks.Stepik5.MailSystem;
+package StepikTasks.Stepik4.MailSystem;
 
 import org.junit.jupiter.api.Test;
 
@@ -8,8 +8,8 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-import static StepikTasks.Stepik5.MailSystem.MailSystem.Package;
-import static StepikTasks.Stepik5.MailSystem.MailSystem.*;
+import static StepikTasks.Stepik4.MailSystem.MailSystem.Package;
+import static StepikTasks.Stepik4.MailSystem.MailSystem.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
