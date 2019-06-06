@@ -12,7 +12,11 @@ public class MailSystem {
     Интерфейс: сущность, которую можно отправить по почте.
     У такой сущности можно получить от кого и кому направляется письмо.
     */
+<<<<<<< HEAD
     public interface Sendable {
+=======
+    public static interface Sendable {
+>>>>>>> origin/master
         String getFrom();
 
         String getTo();
@@ -49,7 +53,12 @@ public class MailSystem {
 
             AbstractSendable that = (AbstractSendable) o;
             if (!from.equals(that.from)) return false;
+<<<<<<< HEAD
             return to.equals(that.to);
+=======
+            if (!to.equals(that.to)) return false;
+            return true;
+>>>>>>> origin/master
         }
     }
 
@@ -77,7 +86,12 @@ public class MailSystem {
 
             MailMessage that = (MailMessage) o;
 
+<<<<<<< HEAD
             return message != null ? message.equals(that.message) : that.message == null;
+=======
+            if (message != null ? !message.equals(that.message) : that.message != null) return false;
+            return true;
+>>>>>>> origin/master
         }
     }
 
@@ -104,7 +118,12 @@ public class MailSystem {
             if (!super.equals(o)) return false;
 
             MailPackage that = (MailPackage) o;
+<<<<<<< HEAD
             return content.equals(that.content);
+=======
+            if (!content.equals(that.content)) return false;
+            return true;
+>>>>>>> origin/master
         }
     }
 
@@ -136,7 +155,12 @@ public class MailSystem {
 
             Package aPackage = (Package) o;
             if (price != aPackage.price) return false;
+<<<<<<< HEAD
             return content.equals(aPackage.content);
+=======
+            if (!content.equals(aPackage.content)) return false;
+            return true;
+>>>>>>> origin/master
         }
     }
 
@@ -144,7 +168,11 @@ public class MailSystem {
     /*
     Интерфейс, который задает класс, который может каким-либо образом обработать почтовый объект.
     */
+<<<<<<< HEAD
     public interface MailService {
+=======
+    public static interface MailService {
+>>>>>>> origin/master
         Sendable processMail(Sendable mail);
     }
 
