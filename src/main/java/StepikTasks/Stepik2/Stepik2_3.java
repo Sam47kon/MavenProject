@@ -1,4 +1,4 @@
-package StepikTasks;
+package StepikTasks.Stepik2;
 
 public class Stepik2_3 {
 

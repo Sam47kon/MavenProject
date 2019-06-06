@@ -1,4 +1,4 @@
-package GrandTasks.Week11_12.MBean;
+package Other.MBean;
 
 import javax.management.*;
 import java.lang.management.ManagementFactory;

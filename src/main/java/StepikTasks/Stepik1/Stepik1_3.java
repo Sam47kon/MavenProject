@@ -1,4 +1,4 @@
-package StepikTasks;
+package StepikTasks.Stepik1;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

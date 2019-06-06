@@ -1,8 +1,8 @@
-package StepikTasks;
+package StepikTasks.Stepik3.S3_3;
 
 import java.util.Scanner;
 
-public class Stepik3_3 {
+public class Robot {
     public enum Direction {
         UP,
         DOWN,
@@ -10,10 +10,10 @@ public class Stepik3_3 {
         RIGHT
     }
 
-    Stepik3_3() {
+    Robot() {
     }
 
-    Stepik3_3(int x, int y, Direction direction) {
+    Robot(int x, int y, Direction direction) {
         this.x = x;
         this.y = y;
         this.direction = direction;
@@ -85,7 +85,7 @@ public class Stepik3_3 {
         }
     }
 
-    public static void moveRobot(Stepik3_3 robot, int toX, int toY) {
+    public static void moveRobot(Robot robot, int toX, int toY) {
         int dx = robot.getX() - toX;
         int dy = robot.getY() - toY;
 
@@ -112,7 +112,7 @@ public class Stepik3_3 {
 
 
     public static void main(String[] args) {
-        Stepik3_3 robot = new Stepik3_3();
+        Robot robot = new Robot();
         Scanner scanner = new Scanner(System.in);
         while (true) {
             int x = scanner.nextInt();

@@ -1,4 +1,4 @@
-package StepikTasks;
+package StepikTasks.Stepik2;
 
 // Задача: Реализуйте метод, возвращающий true, если среди четырех его аргументов ровно два истинны (любые). Во всех остальных случаях метод должен возвращать false.
 public class Stepik2_1 {
