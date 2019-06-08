@@ -35,10 +35,6 @@ public class ClassFile {
             }
         }
         System.out.println(Arrays.toString(strings));
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
     }
 
     private void getConfigPath() {
