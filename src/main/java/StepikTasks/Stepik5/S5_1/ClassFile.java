@@ -1,4 +1,4 @@
-package StepikTasks.Stepik5;
+package StepikTasks.Stepik5.S5_1;
 
 import java.io.File;
 import java.util.Arrays;
@@ -12,7 +12,6 @@ public class ClassFile {
 //        createAndDelete();
 //        moveFolder();
 //        new ClassFile().getConfigPath();
-
 
         File dir = new File(System.getProperty("user.dir"));
         String[] strings = new String[0];
