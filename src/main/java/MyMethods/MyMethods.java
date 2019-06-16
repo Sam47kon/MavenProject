@@ -1,12 +1,38 @@
 package MyMethods;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
 public class MyMethods {
+    public static final File FOLDER_DESKTOP = new File("C:\\Users\\Alina\\Desktop");
     private Scanner reader = new Scanner(System.in);
     private boolean ifInputErr = true;
+
+    public static double getRuntime(Runnable runnable) {
+        double startTime;
+        double stopTime;
+        startTime = System.nanoTime();
+        runnable.run();
+        stopTime = System.nanoTime();
+        return (stopTime - startTime) / 1_000_000;
+    }
+
+    public static double getRuntime_N_times(int count, Runnable runnable) {
+        double startTime;
+        double stopTime;
+        double[] results = new double[count];
+        double sum = 0;
+        for (int i = count - 1; i >= 0; i--) {
+            startTime = System.nanoTime();
+            runnable.run();
+            stopTime = System.nanoTime();
+            results[i] = stopTime - startTime;
+            sum += results[i];
+        }
+        return sum / count / 1_000_000;
+    }
 
     public static void getRunTime(double startTime, double stopTime, String s) {
         System.out.println(s + (stopTime - startTime) / 1000000 + " ms");

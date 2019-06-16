@@ -1,4 +1,4 @@
-import GrandTasks.Week5_6.CustomArrayListGeneric;
+package GrandTasks.Week5_6;
 
 import java.util.ArrayList;
 import java.util.Iterator;

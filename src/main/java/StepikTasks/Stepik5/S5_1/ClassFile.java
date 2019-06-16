@@ -12,7 +12,14 @@ public class ClassFile {
 //        createAndDelete();
 //        moveFolder();
 //        new ClassFile().getConfigPath();
+//        String[] strings = getFilesAndFoldersFromJava();
+//        System.out.println(Arrays.toString(strings));
 
+        System.out.println(Arrays.toString(getFoldersAndFilesNames(new File("http://spec-zone.ru/RU/Java/Docs/7/api/")))); // NullPointerException
+
+    }
+
+    private static String[] getFilesAndFoldersFromJava() {
         File dir = new File(System.getProperty("user.dir"));
         String[] strings = new String[0];
 
@@ -33,7 +40,23 @@ public class ClassFile {
                 }
             }
         }
-        System.out.println(Arrays.toString(strings));
+        return strings;
+    }
+
+    private static String[] getFoldersAndFilesNames(File dir) {
+        String[] dataBase = new String[dir.listFiles().length];
+        int i = dataBase.length - 1;
+        int j = 0;
+        for (File item : dir.listFiles()) {
+            if (item.exists()) {
+                if (item.isDirectory()) {
+                    dataBase[j++] = item.getName();
+                } else {
+                    dataBase[i--] = item.getName();
+                }
+            }
+        }
+        return dataBase;
     }
 
     private void getConfigPath() {
@@ -93,22 +116,6 @@ public class ClassFile {
         }
     }
 
-
-    private static String[] getFoldersAndFilesNames(File dir) {
-        String[] dataBase = new String[dir.listFiles().length];
-        int i = dataBase.length - 1;
-        int j = 0;
-        for (File item : dir.listFiles()) {
-            if (item.exists()) {
-                if (item.isDirectory()) {
-                    dataBase[j++] = item.getName();
-                } else {
-                    dataBase[i--] = item.getName();
-                }
-            }
-        }
-        return dataBase;
-    }
 
     private static void info() {
         File dir1 = new File("C:\\Users\\Alina\\Desktop\\Files");
