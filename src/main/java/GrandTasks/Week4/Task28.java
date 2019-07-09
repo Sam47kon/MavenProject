@@ -17,10 +17,7 @@ class Task28 {
             return RED;
         }
         int time = dataTime % 5;
-        if (time > 3 || time == 0) {
-            return RED;
-        }
-        return GREEN;
+        return time > 3 || time == 0 ? RED : GREEN;
     }
 }
 

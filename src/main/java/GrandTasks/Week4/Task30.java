@@ -26,4 +26,42 @@ class Task30 {
                 throw new ExceptionInInitializerError("В году только 12 месяцев!");
         }
     }
+
+    enum Season {
+        Winter,
+        Spring,
+        Summer,
+        Autumn
+    }
+
+    static String printSeason_v2(int dataMonth) {
+        switch (dataMonth) {
+            case 1:
+            case 2:
+            case 3:
+                return Season.Winter.toString();
+            case 4:
+            case 5:
+            case 6:
+                return Season.Spring.toString();
+            case 7:
+            case 8:
+            case 9:
+                return Season.Summer.toString();
+            case 10:
+            case 11:
+            case 12:
+                return Season.Autumn.toString();
+            default:
+                throw new ExceptionInInitializerError("В году только 12 месяцев!");
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(printSeason_v2(1));
+        System.out.println(printSeason_v2(3));
+        System.out.println(printSeason_v2(4));
+        System.out.println(printSeason_v2(7));
+        System.out.println(printSeason_v2(12));
+    }
 }

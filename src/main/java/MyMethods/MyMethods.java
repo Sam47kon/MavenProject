@@ -10,6 +10,7 @@ public class MyMethods {
     private Scanner reader = new Scanner(System.in);
     private boolean ifInputErr = true;
 
+    // getRuntime(() -> МЕТОД())
     public static double getRuntime(Runnable runnable) {
         double startTime;
         double stopTime;

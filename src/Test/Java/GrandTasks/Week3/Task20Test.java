@@ -20,7 +20,7 @@ class Task20Test {
         hour = -999;
         minute = -566;
         second = -954;
-        Assertions.assertEquals(275.05, new Task20().getAngle(hour, minute, second));
+        Assertions.assertEquals(287.05, new Task20().getAngle(hour, minute, second));
 
         hour = 4512;
         minute = 3540;

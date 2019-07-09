@@ -17,12 +17,6 @@ class Task28GYRv2 {
         }
 
         int time = dataTime % 6;
-        if (time > 3 || time == 0) {
-            return "RED";
-        }
-        if (time > 1) {
-            return "YELLOW";
-        }
-        return "GREEN";
+        return time > 3 || time == 0 ? "RED" : time > 1 ? "YELLOW" : "GREEN";
     }
 }

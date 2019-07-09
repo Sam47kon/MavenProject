@@ -12,13 +12,13 @@ class Task20 {
             hour -= 12;    // то переделаем hour на нужный промежуток (от 0 до 12)
         }
         while (minute < 0) {    // то же самое для minute (минутная стрелка)
-            minute += 12;
+            minute += 60;
         }
         while (minute >= 60) {
             minute -= 60;
         }
         while (second < 0) {    // то же самое для second (секундная стрелка)
-            second += 12;
+            second += 60;
         }
         while (second >= 60) {
             second -= 60;

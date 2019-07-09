@@ -17,8 +17,8 @@ public class  Task35 {
     int[] getSquaresOfPositiveIntegersLessThanTheValue(int dataValue) {
         int length = (int) Math.sqrt(dataValue);
         int[] numbers = new int[length];
-        for (int i = 1; i <= numbers.length; i++) {
-            numbers[i - 1] = (int) Math.pow(i, 2);
+        for (int i = 0; i <= numbers.length - 1; ) {
+            numbers[i] = (int) Math.pow(++i, 2);
         }
         return numbers;
     }

@@ -76,7 +76,7 @@ public class MergerArrays {    // метод слияния отсортиров
         return result;
     }
 
-    private static int[] merge3(int[] arr1, int[] arr2) {   //  слияние подробнее
+    private static int[] merge3(int[] arr1, int[] arr2) {   //  слияние подробнее НЕВЕРНЫЙ
         int[] result = new int[arr1.length + arr2.length];
         int indexArr1 = 0;
         int indexArr2 = 0;

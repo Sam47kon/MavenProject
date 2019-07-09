@@ -21,33 +21,36 @@ public class Task39MergeSortIterative {    // сортировка слияни�
         }
         if (arr.length > 1) {
             int mid = arr.length / 2;
-            int[] left = new int[mid];
-            System.arraycopy(arr, 0, left, 0, mid);
-            int[] right = new int[arr.length - mid];
-            System.arraycopy(arr, mid, right, 0, arr.length - mid);
-            mergeSortIterative(left);
-            mergeSortIterative(right);
-            int i = 0;
-            int j = 0;
+            int[] left_arr = new int[mid];
+            System.arraycopy(arr, 0, left_arr, 0, mid);
+
+            int[] right_arr = new int[arr.length - mid];
+            System.arraycopy(arr, mid, right_arr, 0, arr.length - mid);
+
+            mergeSortIterative(left_arr);
+            mergeSortIterative(right_arr);
+
+            int index_left = 0;
+            int index_right = 0;
             int k = 0;
-            while (i < left.length && j < right.length) {
-                if (left[i] < right[j]) {
-                    arr[k] = left[i];
-                    i++;
+            while (index_left < left_arr.length && index_right < right_arr.length) {
+                if (left_arr[index_left] < right_arr[index_right]) {
+                    arr[k] = left_arr[index_left];
+                    index_left++;
                 } else {
-                    arr[k] = right[j];
-                    j++;
+                    arr[k] = right_arr[index_right];
+                    index_right++;
                 }
                 k++;
             }
-            while (i < left.length) {
-                arr[k] = left[i];
-                i++;
+            while (index_left < left_arr.length) {
+                arr[k] = left_arr[index_left];
+                index_left++;
                 k++;
             }
-            while (j < right.length) {
-                arr[k] = right[j];
-                j++;
+            while (index_right < right_arr.length) {
+                arr[k] = right_arr[index_right];
+                index_right++;
                 k++;
             }
         }
