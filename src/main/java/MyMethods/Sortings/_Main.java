@@ -1,10 +1,9 @@
 package MyMethods.Sortings;
 
-import MyMethods.MyMethods;
-
-import java.util.Arrays;
-
 import static MyMethods.MyMethods.getRuntime;
+
+import MyMethods.MyMethods;
+import java.util.Arrays;
 
 public class _Main {
 
@@ -18,7 +17,6 @@ public class _Main {
 //
 //
         System.out.println(getRuntime(() -> new MergeSort_My().mergeSort(dataArr)) + "ms");
-        System.out.println(getRuntime(() -> new MergeSort_WithoutDuplicates_My().mergeSort(dataArr)) + "ms");
         System.out.println(getRuntime(() -> Arrays.sort(dataArr_Sort)) + "ms");
 
 
