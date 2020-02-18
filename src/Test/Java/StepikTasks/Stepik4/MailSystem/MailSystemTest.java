@@ -81,25 +81,6 @@ class MailSystemTest {
         assert (test.equals(result));
     }
 
-    class myFilter implements Filter {
-        public boolean compare = false;
-        private String findStr;
-        private Object[] arrStr;
-
-        public myFilter(String findStr, Object[] arrStr) {
-            this.findStr = findStr;
-            this.arrStr = arrStr;
-        }
-
-        @Override
-        public boolean isLoggable(LogRecord record) {
-            if (record.getMessage().equals(findStr)) {
-                compare = Arrays.equals(record.getParameters(), arrStr);
-            }
-            return false;
-        }
-    }
-
     @Test
     void testSpy_SpyCorrectLogRec1() {
         MailMessage test = new MailMessage(AUSTIN_POWERS, "NASA", "SOS");
@@ -153,6 +134,25 @@ class MailSystemTest {
                 new testMailService(), new testMailService(), new testMailService()
         }).processMail(test);
         assertEquals(4, Integer.parseInt(result.getMessage()));
+    }
+
+    class myFilter implements Filter {
+        public boolean compare = false;
+        private String findStr;
+        private Object[] arrStr;
+
+        public myFilter(String findStr, Object[] arrStr) {
+            this.findStr = findStr;
+            this.arrStr = arrStr;
+        }
+
+        @Override
+        public boolean isLoggable(LogRecord record) {
+            if (record.getMessage().equals(findStr)) {
+                compare = Arrays.equals(record.getParameters(), arrStr);
+            }
+            return false;
+        }
     }
 
     private class testMailService implements MailService {

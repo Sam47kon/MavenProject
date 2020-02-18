@@ -9,6 +9,7 @@ public class Robot {
 
     Robot() {
     }
+
     Robot(int x, int y, Direction direction) {
         this.x = x;
         this.y = y;

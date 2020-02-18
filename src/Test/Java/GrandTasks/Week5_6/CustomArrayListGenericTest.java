@@ -171,5 +171,5 @@ class CustomArrayListGenericTest {
         arr = myList.toArray();
         System.out.println("первоначальный массив arr = " + Arrays.toString(arr) + ". myList = " + addList.toString());
         System.out.println("myList.toArray(arr) " + Arrays.toString(addList.toArray(arr)));
-}
+    }
 }

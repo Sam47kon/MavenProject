@@ -1,6 +1,8 @@
 package GrandTasks.Week7_8;
 
-import JavaHeadFirstAndOther.Comparsion.ClassPerson.*;
+import JavaHeadFirstAndOther.Comparsion.ClassPerson.Person;
+import JavaHeadFirstAndOther.Comparsion.ClassPerson.PersonAgeComparator;
+import JavaHeadFirstAndOther.Comparsion.ClassPerson.PersonNameComparator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

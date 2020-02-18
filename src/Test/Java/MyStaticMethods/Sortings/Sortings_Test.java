@@ -22,7 +22,7 @@ class Sortings_Test {
     }
 
     @Test
-    void mergeSort(){
+    void mergeSort() {
         Assertions.assertArrayEquals(dataArr_Sort, new MergeSort_My().mergeSort(dataArr));
     }
 }

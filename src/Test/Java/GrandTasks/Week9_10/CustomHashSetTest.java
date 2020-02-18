@@ -9,13 +9,13 @@ import java.util.HashSet;
 import static MyStaticMethods.MyMethods.createRandomArrayWithSize;
 
 class CustomHashSetTest {
+    private static final Integer capacity = 1_000_000;
     private HashSet<Integer> libHashSet = new HashSet<>();
     private CustomHashSet<Integer> myHashSet = new CustomHashSet<>();
     private CustomHashSet1<Integer> myHashSet1 = new CustomHashSet1<>();
     private double startTime;
     private double stopTime;
     private double runTime;
-    private static final Integer capacity = 1_000_000;
 
     @BeforeEach
     void before() {

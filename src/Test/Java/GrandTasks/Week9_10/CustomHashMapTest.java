@@ -4,17 +4,20 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.TreeSet;
 
 import static MyStaticMethods.MyMethods.createRandomArrayWithSize;
 
 class CustomHashMapTest {
+    private static final Integer capacity = 1_000_000;
     private HashMap<Integer, Integer> libraryMap = new HashMap<>();
     private CustomHashMap<Integer, Integer> myMap = new CustomHashMap<>();
     private double startTime;
     private double stopTime;
     private double runTime;
-    private static final Integer capacity = 1_000_000;
 
     @BeforeEach
     void before() {
