@@ -9,6 +9,17 @@ public class CustomArrayList implements List {
     private Object[] dataElements = new Object[10];
     private int size = 0;
 
+    public static void main(String[] args) {
+        CustomArrayList myCustomList = new CustomArrayList();
+        myCustomList.add(1);
+        System.out.println(myCustomList.get(0));
+        myCustomList.add(2);
+        System.out.println(myCustomList.get(1));
+        myCustomList.add(3);
+        System.out.println(myCustomList.get(2));
+        System.out.println(myCustomList.toString());
+
+    }
 
     /**
      * Возвращает размер CustomArrayList (далее этот список)
@@ -18,7 +29,6 @@ public class CustomArrayList implements List {
         return size;
     }
 
-
     /**
      * Возвращает true, если далее этот список пустой
      */
@@ -26,7 +36,6 @@ public class CustomArrayList implements List {
     public boolean isEmpty() {
         return size == 0;
     }
-
 
     /**
      * Возвращает, true если этот список содержит указанный элемент.
@@ -44,14 +53,12 @@ public class CustomArrayList implements List {
         return false;
     }
 
-
     // Возвращает итератор для элементов в этом списке в правильной последовательности.
     @NotNull
     @Override
     public Iterator iterator() {
         throw new UnsupportedOperationException();
     }
-
 
     /**
      * Возвращает массив, содержащий все элементы в этом списке в правильной последовательности (от первого до последнего элемента).
@@ -61,7 +68,6 @@ public class CustomArrayList implements List {
     public Object[] toArray() {
         return Arrays.copyOf(dataElements, size);
     }
-
 
     /**
      * Добавляет указанный элемент в конец этого списка и возвращает true
@@ -78,7 +84,6 @@ public class CustomArrayList implements List {
         return true;
     }
 
-
     /**
      * Вставляет указанный элемент в указанную позицию в этом списке.
      *
@@ -92,7 +97,6 @@ public class CustomArrayList implements List {
         System.arraycopy(dataElements, index, dataElements, index + 1, size++ - index);
         dataElements[index] = newDataElement;
     }
-
 
     /**
      * Удаляет первое вхождение указанного элемента из этого списка, если он присутствует.
@@ -114,7 +118,6 @@ public class CustomArrayList implements List {
         return false;
     }
 
-
     /**
      * Удаляет элемент в указанной позиции в этом списке
      *
@@ -132,7 +135,6 @@ public class CustomArrayList implements List {
         size--;
         return oldElement;
     }
-
 
     /**
      * Добавляет все элементы в указанной коллекции в конец этого списка
@@ -169,7 +171,6 @@ public class CustomArrayList implements List {
         return true;
     }
 
-
     /**
      * Удаляет все элементы из этого списка.
      */
@@ -180,7 +181,6 @@ public class CustomArrayList implements List {
         }
         size = 0;
     }
-
 
     /**
      * Возвращает элемент в указанной позиции в этом списке
@@ -193,7 +193,6 @@ public class CustomArrayList implements List {
         checkIndexExistence(index);
         return dataElements[index];
     }
-
 
     /**
      * Заменяет элемент в указанной позиции в этом списке на указанный элемент, возвращает старый элемент
@@ -210,7 +209,6 @@ public class CustomArrayList implements List {
         return oldElement;
     }
 
-
     /**
      * Возвращает индекс первого вхождения указанного элемента в этом списке или -1, если этот список не содержит элемент.
      *
@@ -226,7 +224,6 @@ public class CustomArrayList implements List {
         }
         return -1;
     }
-
 
     /**
      * Возвращает индекс последнего вхождения указанного элемента в этом списке или -1, если этот список не содержит элемент.
@@ -268,7 +265,6 @@ public class CustomArrayList implements List {
         throw new UnsupportedOperationException();
     }
 
-
     /**
      * Удаляет из этого списка все его элементы, которые содержатся в указанной коллекции.
      *
@@ -300,7 +296,6 @@ public class CustomArrayList implements List {
         return true;
     }
 
-
     /**
      * Возвращает, true если этот список содержит все элементы указанной коллекции.
      *
@@ -324,7 +319,6 @@ public class CustomArrayList implements List {
         return amountOfElements == elementsOfTheCollection.length;
     }
 
-
     /**
      * Возвращает массив, содержащий все элементы в этом списке в правильной последовательности (от первого до последнего элемента);
      * тип времени выполнения возвращаемого массива является типом указанного массива.
@@ -344,7 +338,6 @@ public class CustomArrayList implements List {
         }
         return dataElements;
     }
-
 
     @Override
     public String toString() {
@@ -398,19 +391,6 @@ public class CustomArrayList implements List {
         if (dataElements.length > size * 1.5) {
             dataElements = Arrays.copyOf(dataElements, (int) (dataElements.length / 1.5) + 1);
         }
-    }
-
-
-    public static void main(String[] args) {
-        CustomArrayList myCustomList = new CustomArrayList();
-        myCustomList.add(1);
-        System.out.println(myCustomList.get(0));
-        myCustomList.add(2);
-        System.out.println(myCustomList.get(1));
-        myCustomList.add(3);
-        System.out.println(myCustomList.get(2));
-        System.out.println(myCustomList.toString());
-
     }
 
 // В аргументах arraycopy() передаётся 1 откуда массив,

@@ -7,30 +7,14 @@ import java.util.*;
 public class CustomLinkedListGeneric<T> implements List<T> {
 
     /**
-     * @param <T> тип
-     */
-    private static class MyNode<T> {
-        private T element;
-        private MyNode<T> next;
-        private MyNode<T> prev;
-
-        private MyNode(MyNode<T> prev, T element, MyNode<T> next) {
-            this.element = element;
-            this.next = next;
-            this.prev = prev;
-        }
-    }
-
-    /**
-     * @param size      - размер списка
-     * @param head      - ссылка на первый элемент (голова)
-     * @param tail      - ссылка на последний элемент (хвост)
+     * size      - размер списка
+     * head      - ссылка на первый элемент (голова)
+     * tail      - ссылка на последний элемент (хвост)
      */
     private int size = 0;
     private MyNode<T> head;
     private MyNode<T> tail;
     private int iteratorPoint = 0;
-
 
     /**
      * Возвращает размер CustomLinkedList (далее этот список)
@@ -106,22 +90,8 @@ public class CustomLinkedListGeneric<T> implements List<T> {
         if (index == size) {
             add(newElement);
         } else {
-            checkIndexExistence(index);
-            MyNode<T> tmp;
-            // чтобы не бежать по всем ссылкам, разделим на пополам
-            if (index < (size << 1)) {  // index <= size/2
-                tmp = head;
-                for (int i = 0; i < index; i++) {
-                    tmp = tmp.next;
-                }
-                insertElement(newElement, tmp);
-            } else {
-                tmp = tail;
-                for (int i = index - 1; i > 0; i--) {
-                    tmp = tmp.prev;
-                }
-                insertElement(newElement, tmp);
-            }
+            MyNode<T> node = getNode(index);
+            insertElement(newElement, node);
         }
     }
 
@@ -247,21 +217,8 @@ public class CustomLinkedListGeneric<T> implements List<T> {
      */
     @Override
     public T get(int index) {      // готово
-        checkIndexExistence(index);
-        MyNode<T> tmp;
-
-        if (index < (size << 1)) {  // index <= size/2
-            tmp = head;
-            for (int i = 0; i < index; i++) {
-                tmp = tmp.next;
-            }
-        } else {
-            tmp = tail;
-            for (int i = index - 1; i > 0; i--) {
-                tmp = tmp.prev;
-            }
-        }
-        return tmp.element;
+        MyNode<T> node = getNode(index);
+        return node.element;
     }
 
     /**
@@ -437,8 +394,6 @@ public class CustomLinkedListGeneric<T> implements List<T> {
         sb.append(tail.element).append("]");
         return sb.toString();
     }
-// -----------------------------------------------------------------------------------------------------------------
-// -----------------------------------------------------------------------------------------------------------------
 
     /**
      * Возвращает итератор для элементов в этом списке в правильной последовательности.
@@ -449,6 +404,8 @@ public class CustomLinkedListGeneric<T> implements List<T> {
         return new CustomIterator();
 
     }
+// -----------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------------
 
     @NotNull
     @Override
@@ -468,15 +425,15 @@ public class CustomLinkedListGeneric<T> implements List<T> {
         throw new UnsupportedOperationException();
     }
 
-// ---------------------------------------------------------------------------------------------------------------------
-// ---------------------------------------------------------------------------------------------------------------------
-
     public Object getFirstElement() {
         if (head == null) {
             throw new NoSuchElementException();
         }
         return head.element;
     }
+
+// ---------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------
 
     public Object getLastElement() {
         if (tail == null) {
@@ -543,6 +500,7 @@ public class CustomLinkedListGeneric<T> implements List<T> {
      */
     private MyNode<T> getNode(int index) {
         checkIndexExistence(index);
+        // чтобы не бежать по всем ссылкам, разделим на пополам
         MyNode<T> node;
         if (index < (size << 1)) {  // index <= size/2
             node = head;
@@ -595,6 +553,21 @@ public class CustomLinkedListGeneric<T> implements List<T> {
     private void checkIndexExistence(int index) {
         if (index >= size || index < 0) {
             throw new IndexOutOfBoundsException("Index: " + index + " not contained in this List with Size: " + size);
+        }
+    }
+
+    /**
+     * @param <T> тип
+     */
+    private static class MyNode<T> {
+        private T element;
+        private MyNode<T> next;
+        private MyNode<T> prev;
+
+        private MyNode(MyNode<T> prev, T element, MyNode<T> next) {
+            this.element = element;
+            this.next = next;
+            this.prev = prev;
         }
     }
 

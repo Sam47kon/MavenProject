@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 // 6.8. Дано число n. Из чисел 1, 4, 9, 16, 25, ... напечатать те, которые не превышают n
-public class  Task35 {
+public class Task35 {
 
     public static void main(String[] args) {
         System.out.println("Введите число: ");

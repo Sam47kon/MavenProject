@@ -1,11 +1,13 @@
 package GrandTasks.Week2;
 
+import MyStaticMethods.MyMethods;
+
 // Вводишь 10 чисел, программа возвращает их в отсортированном порядке
 public class Task13extraV2 {
     public static void main(String[] args) {
         double[] inputNumbers = new double[10];
         for (int i = 0; i < inputNumbers.length; ) {
-            inputNumbers[i] = new Task5().getDoubleFromInput("Введите " + ++i + " число");
+            inputNumbers[i] = MyMethods.getDoubleFromInput("Введите " + ++i + " число");
         }
         double time = System.nanoTime();
         double[] sortNumbers = new Task13extraV2().selectionSort(inputNumbers);    // 2 вариант сортировки

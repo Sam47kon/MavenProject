@@ -1,4 +1,4 @@
-package MyMethods.Sortings;
+package MyStaticMethods.Sortings;
 
 class MergeSort_My {
 

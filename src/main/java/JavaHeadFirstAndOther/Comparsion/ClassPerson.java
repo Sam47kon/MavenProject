@@ -7,6 +7,46 @@ import java.util.Objects;
 
 public class ClassPerson {
 
+    public static void main(String[] args) {
+        Person p1 = new Person("p", 18);
+        Person p2 = new Person("p", 18);
+        Person p3 = new Person("p3", 18);
+        Person p4 = new Person("p", 81);
+
+        System.out.println("p1:" + p1.hashCode());
+        System.out.println(p1.equals(p1));  // +
+        System.out.println(p1.equals(p2));  // +
+        System.out.println(p1.equals(p3));  // -
+        System.out.println(p1.equals(p4));  // -
+
+        System.out.println("p2:" + p2.hashCode());
+        System.out.println(p2.equals(p1));  // +
+        System.out.println(p2.equals(p2));  // +
+        System.out.println(p2.equals(p3));  // -
+        System.out.println(p2.equals(p4));  // -
+
+        System.out.println("p3: " + p3.hashCode());
+        System.out.println(p3.equals(p1));  // -
+        System.out.println(p3.equals(p2));  // -
+        System.out.println(p3.equals(p3));  // +
+        System.out.println(p3.equals(p4));  // -
+
+        System.out.println("p4: " + p4.hashCode());
+        System.out.println(p4.equals(p1));  // -
+        System.out.println(p4.equals(p2));  // -
+        System.out.println(p4.equals(p3));  // -
+        System.out.println(p4.equals(p4));  // +
+
+        System.out.println();
+        String str1 = "Sout";
+        String str2 = "Sout";
+        System.out.println(str1 == "Sout");
+        System.out.println(str1 == str2);
+
+        System.out.println(str1 == str2.intern());
+        System.out.println(str1.intern() == str2.intern());
+    }
+
     public static class Person implements Comparable<Person> {
         private String name;
         private int age;
@@ -54,7 +94,6 @@ public class ClassPerson {
         }
     }
 
-
     public static class PersonNameComparator implements Comparator<Person> {
         @Override
         public int compare(Person m1, Person m2) {
@@ -69,45 +108,5 @@ public class ClassPerson {
 //            или
             return Integer.compare(p1.getAge(), p2.getAge());
         }
-    }
-
-    public static void main(String[] args) {
-        Person p1 = new Person("p", 18);
-        Person p2 = new Person("p", 18);
-        Person p3 = new Person("p3", 18);
-        Person p4 = new Person("p", 81);
-
-        System.out.println("p1:" + p1.hashCode());
-        System.out.println(p1.equals(p1));  // +
-        System.out.println(p1.equals(p2));  // +
-        System.out.println(p1.equals(p3));  // -
-        System.out.println(p1.equals(p4));  // -
-
-        System.out.println("p2:" + p2.hashCode());
-        System.out.println(p2.equals(p1));  // +
-        System.out.println(p2.equals(p2));  // +
-        System.out.println(p2.equals(p3));  // -
-        System.out.println(p2.equals(p4));  // -
-
-        System.out.println("p3: " + p3.hashCode());
-        System.out.println(p3.equals(p1));  // -
-        System.out.println(p3.equals(p2));  // -
-        System.out.println(p3.equals(p3));  // +
-        System.out.println(p3.equals(p4));  // -
-
-        System.out.println("p4: " + p4.hashCode());
-        System.out.println(p4.equals(p1));  // -
-        System.out.println(p4.equals(p2));  // -
-        System.out.println(p4.equals(p3));  // -
-        System.out.println(p4.equals(p4));  // +
-
-        System.out.println();
-        String str1 = "Sout";
-        String str2 = "Sout";
-        System.out.println(str1 == "Sout");
-        System.out.println(str1 == str2);
-
-        System.out.println(str1 == str2.intern());
-        System.out.println(str1.intern() == str2.intern());
     }
 }

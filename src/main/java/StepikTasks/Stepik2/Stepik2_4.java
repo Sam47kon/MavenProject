@@ -20,6 +20,10 @@ public class Stepik2_4 {
                 "Лука Лукич: Господи боже! еще и с секретным предписаньем!"};
 
         doPrintTextPerRole(roles, textLines);
+        System.out.println("-----------------------------------------------------------------------------------------");
+        doMergeSortArrays(new int[]{1, 2, 3}, new int[]{3, 4, 5, 6});
+        System.out.println("-----------------------------------------------------------------------------------------");
+        doMergeSortArrays(new int[]{1, 2, 7}, new int[]{0, 4, 78});
     }
 
     private static BigInteger factorial(int value) {
@@ -31,9 +35,8 @@ public class Stepik2_4 {
     }
 
 
-    private static int[] mergeArrays(int[] a1, int[] a2) {
-        System.out.println("A1 =" + Arrays.toString(a1));
-        System.out.println("A2 =" + Arrays.toString(a2));
+    // слияние массивов
+    private static int[] mergeSortArrays(int[] a1, int[] a2) {
         int[] a3 = new int[a1.length + a2.length];
         int index1 = 0;
         int index2 = 0;
@@ -52,9 +55,11 @@ public class Stepik2_4 {
         return a3;
     }
 
-    private static void doMergeArrays(int[] a1, int[] a2) {
-        int[] a3 = mergeArrays(a1, a2);
-        System.out.println(Arrays.toString(a3));
+    private static void doMergeSortArrays(int[] a1, int[] a2) {
+        System.out.println("A1 =" + Arrays.toString(a1));
+        System.out.println("A2 =" + Arrays.toString(a2));
+        int[] a3 = mergeSortArrays(a1, a2);
+        System.out.println("MergeSort arr =" + Arrays.toString(a3));
     }
 
 
@@ -62,7 +67,7 @@ public class Stepik2_4 {
         StringBuilder sb = new StringBuilder();
         for (String role : roles) {
             sb.append(role).append(":\n");
-            for (int i = 0; i < textLines.length; i++) {
+            for (int i = 0; i < textLines.length; i++) { // чтобы избавиться от квадратичной сложности можно создать массив и после sb.append удалять из него добавленную строку
                 if (textLines[i].startsWith(role + ":")) {
                     sb.append(textLines[i].replaceFirst(role + ":", i + 1 + ")")).append("\n");
                 }
@@ -74,5 +79,4 @@ public class Stepik2_4 {
     private static void doPrintTextPerRole(String[] roles, String[] textLines) {
         System.out.println(printTextPerRole(roles, textLines));
     }
-
 }

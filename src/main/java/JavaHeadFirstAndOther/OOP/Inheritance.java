@@ -1,6 +1,13 @@
 package JavaHeadFirstAndOther.OOP;
 
 public class Inheritance { // наследование
+    public static void main(String[] args) {
+        MoneyBox myBox = new Inheritance().new MoneyBox(1, 2, 3, 99, 544);
+        int myBoxVol = myBox.getVolume();
+        System.out.println(myBox.getDescription()
+                + " Объем: " + myBoxVol + ", вес: " + myBox.weight + ", стоимость: " + myBox.cost);
+    }
+
     class Box {
         int width;
         int height;
@@ -49,12 +56,5 @@ public class Inheritance { // наследование
             //return super.getDescription();
             return "Коробка, имеющая вес и стоимость. ";
         }
-    }
-
-    public static void main(String[] args) {
-        MoneyBox myBox = new Inheritance().new MoneyBox(1, 2, 3, 99, 544);
-        int myBoxVol = myBox.getVolume();
-        System.out.println(myBox.getDescription()
-                + " Объем: " + myBoxVol + ", вес: " + myBox.weight + ", стоимость: " + myBox.cost);
     }
 }

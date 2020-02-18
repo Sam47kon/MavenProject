@@ -6,7 +6,8 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static MyMethods.MyMethods.*;
+import static MyStaticMethods.MyMethods.createRandomArrayWithSize;
+import static MyStaticMethods.MyMethods.getRuntime_N_times;
 
 public class S6_2_1 {
     static Set<Integer> set1 = new LinkedHashSet<>(Arrays.asList(createRandomArrayWithSize(1_000_000)));

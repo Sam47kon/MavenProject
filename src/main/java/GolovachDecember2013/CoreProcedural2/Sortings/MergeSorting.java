@@ -2,7 +2,7 @@ package GolovachDecember2013.CoreProcedural2.Sortings;
 
 import java.util.Arrays;
 
-import static GolovachDecember2013.CoreProcedural2.Sortings.RuntimeSortings.*;
+import static GolovachDecember2013.CoreProcedural2.Sortings.RuntimeSortings.ARR3;
 
 public class MergeSorting {
 
@@ -83,7 +83,7 @@ public class MergeSorting {
     /**
      * сортировка слиянием итеративно
      *
-     * @param arr        Массив для сортировки.
+     * @param arr Массив для сортировки.
      */
 
     private static void mergeSort2Iterative(int[] arr) {

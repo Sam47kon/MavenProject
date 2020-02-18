@@ -59,23 +59,6 @@ public class ClassFile {
         return dataBase;
     }
 
-    private void getConfigPath() {
-        String absolute = getClass().getProtectionDomain().getCodeSource().getLocation().toExternalForm();
-        absolute = absolute.substring(0, absolute.length() - 1);
-        absolute = absolute.substring(0, absolute.lastIndexOf("/") + 1);
-        String configPath = absolute + "config/file.properties";
-        String os = System.getProperty("os.name");
-        if (os.contains("Windows")) {
-            configPath = configPath.replace("/", "\\\\");
-            if (configPath.contains("file:\\\\")) {
-                configPath = configPath.replace("file:\\\\", "");
-            }
-        } else if (configPath.contains("file:")) {
-            configPath = configPath.replace("file:", "");
-        }
-        System.out.println("configPath = " + configPath);
-    }
-
     public static void moveFolder() {
         File dir = new File("C:\\Users\\Alina\\Desktop\\FolderWithFiles");
         dir.renameTo(new File("C:\\FolderWithFiles"));
@@ -115,7 +98,6 @@ public class ClassFile {
             }
         }
     }
-
 
     private static void info() {
         File dir1 = new File("C:\\Users\\Alina\\Desktop\\Files");
@@ -175,6 +157,23 @@ public class ClassFile {
 
         System.out.println("dir1.mkdir() = " + dir1.mkdir());
         System.out.println("dir1.renameTo(dir2) = " + dir1.renameTo(dir2));
+    }
+
+    private void getConfigPath() {
+        String absolute = getClass().getProtectionDomain().getCodeSource().getLocation().toExternalForm();
+        absolute = absolute.substring(0, absolute.length() - 1);
+        absolute = absolute.substring(0, absolute.lastIndexOf("/") + 1);
+        String configPath = absolute + "config/file.properties";
+        String os = System.getProperty("os.name");
+        if (os.contains("Windows")) {
+            configPath = configPath.replace("/", "\\\\");
+            if (configPath.contains("file:\\\\")) {
+                configPath = configPath.replace("file:\\\\", "");
+            }
+        } else if (configPath.contains("file:")) {
+            configPath = configPath.replace("file:", "");
+        }
+        System.out.println("configPath = " + configPath);
     }
 }
 

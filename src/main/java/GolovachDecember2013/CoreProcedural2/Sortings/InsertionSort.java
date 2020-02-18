@@ -2,7 +2,7 @@ package GolovachDecember2013.CoreProcedural2.Sortings;
 
 class InsertionSort {    // сотрировки вставками
 
-    static int [] insertionSort(int[] dataArr) {
+    static int[] insertionSort(int[] dataArr) {
         for (int barrier = 0; barrier < dataArr.length; barrier++) {
             int newElement = dataArr[barrier];
             int location = barrier - 1;

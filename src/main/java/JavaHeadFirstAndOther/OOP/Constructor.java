@@ -2,6 +2,26 @@ package JavaHeadFirstAndOther.OOP;
 
 public class Constructor {
 
+    public static void main(String[] args) {
+        Box box1 = new Constructor().new Box();
+        System.out.println(box1.getVolume());
+
+        Box box2Cube = new Constructor().new Box(3);
+        System.out.println(box2Cube.getVolume());
+
+        Box box3 = new Constructor().new Box(15, 41, 5);
+        System.out.println(box3.getVolume());
+
+        box1.setDim(2, 3, 4);
+        System.out.println(box1.getVolume());
+
+        Box box4 = new Constructor().new Box(box1);
+        System.out.println(box4.getVolume());
+        box4.setDim(3, 4, 5);
+        System.out.println(box4.getVolume());
+
+    }
+
     class Box {
         int width; // ширина коробки
         int height; // высота коробки
@@ -44,25 +64,5 @@ public class Constructor {
             height = h;
             depth = d;
         }
-    }
-
-    public static void main(String[] args) {
-        Box box1 = new Constructor().new Box();
-        System.out.println(box1.getVolume());
-
-        Box box2Cube = new Constructor().new Box(3);
-        System.out.println(box2Cube.getVolume());
-
-        Box box3 = new Constructor().new Box(15, 41, 5);
-        System.out.println(box3.getVolume());
-
-        box1.setDim(2, 3, 4);
-        System.out.println(box1.getVolume());
-
-        Box box4 = new Constructor().new Box(box1);
-        System.out.println(box4.getVolume());
-        box4.setDim(3, 4, 5);
-        System.out.println(box4.getVolume());
-
     }
 }

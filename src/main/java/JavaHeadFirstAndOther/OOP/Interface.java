@@ -1,54 +1,6 @@
 package JavaHeadFirstAndOther.OOP;
 
 public class Interface { // интерфейс
-    interface Animals1 {
-        int legs = 4;
-
-        int getLegs();
-
-        void setWeight(int weight);
-
-        int getWeight();
-
-        void setName(String name);
-
-        String getName();
-
-        void playVoice();
-    }
-
-    static class Cat1 implements Animals1 {
-
-        public int getLegs() {
-            return legs;
-        }
-
-        private int weight;
-
-        public void setWeight(int dataWeight) {
-            this.weight = dataWeight;
-        }
-
-        public int getWeight() {
-            return weight;
-        }
-
-        private String name;
-
-        public void setName(String dataName) {
-            this.name = dataName;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void playVoice() {
-            System.out.println("Meow");
-        }
-    }
-
-
     public static void main(String[] args) {
         Animals1 cat1 = new Cat1();
         cat1.setName("Vega");
@@ -74,5 +26,51 @@ public class Interface { // интерфейс
         System.out.println("Ног у первой кошки: " + cat2.getLegs());
         cat2.playVoice();   // outputs MEEEEOOOOUUUU
 
+    }
+
+    interface Animals1 {
+        int legs = 4;
+
+        int getLegs();
+
+        int getWeight();
+
+        void setWeight(int weight);
+
+        String getName();
+
+        void setName(String name);
+
+        void playVoice();
+    }
+
+    static class Cat1 implements Animals1 {
+
+        private int weight;
+        private String name;
+
+        public int getLegs() {
+            return legs;
+        }
+
+        public int getWeight() {
+            return weight;
+        }
+
+        public void setWeight(int dataWeight) {
+            this.weight = dataWeight;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String dataName) {
+            this.name = dataName;
+        }
+
+        public void playVoice() {
+            System.out.println("Meow");
+        }
     }
 }

@@ -1,4 +1,4 @@
-package MyMethods;
+package MyStaticMethods;
 
 import java.io.File;
 import java.util.Arrays;
@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 public class MyMethods {
     public static final File FOLDER_DESKTOP = new File("C:\\Users\\Alina\\Desktop");
-    private Scanner reader = new Scanner(System.in);
-    private boolean ifInputErr = true;
+    private static Scanner reader = new Scanner(System.in);
+    private static boolean ifInputErr = true;
 
     // getRuntime(() -> МЕТОД())
     public static double getRuntime(Runnable runnable) {
@@ -52,14 +52,16 @@ public class MyMethods {
     }
 
     public static void fillIntegerArray(Integer[] array) {
+        Random random = new Random();
         for (int i = 0; i < array.length; i++) {
-            array[i] = new Random().nextInt(array.length * 10);
+            array[i] = random.nextInt(array.length * 10);
         }
     }
 
     public static void fillStringArray(String[] array) {
+        Random random = new Random();
         for (int i = 0; i < array.length; i++) {
-            array[i] = Integer.toString(new Random().nextInt(array.length * 10));
+            array[i] = Integer.toString(random.nextInt(array.length * 10));
         }
     }
 
@@ -71,7 +73,7 @@ public class MyMethods {
     }
 
 
-    public double getDoubleFromInput(String text) { // метод ввода только числа
+    public static double getDoubleFromInput(String text) { // метод ввода только числа
         double number = 0;
         System.out.println(text);
         while (ifInputErr) {    // цикл заставляет вводить только числа, не выводя ошибку InputMismatchException

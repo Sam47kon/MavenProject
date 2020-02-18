@@ -3,25 +3,54 @@ package StepikTasks.Stepik3.S3_3;
 import java.util.Scanner;
 
 public class Robot {
-    public enum Direction {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT
-    }
+    private Direction direction = Direction.UP;
+    private int x = 0;
+    private int y = 0;
 
     Robot() {
     }
-
     Robot(int x, int y, Direction direction) {
         this.x = x;
         this.y = y;
         this.direction = direction;
     }
 
-    private Direction direction = Direction.UP;
-    private int x = 0;
-    private int y = 0;
+    public static void moveRobot(Robot robot, int toX, int toY) {
+        int dx = robot.getX() - toX;
+        int dy = robot.getY() - toY;
+
+        Direction dirX = dx > 0 ? Direction.LEFT : Direction.RIGHT;
+        Direction dirY = dy > 0 ? Direction.DOWN : Direction.UP;
+
+        dx = Math.abs(dx);
+        dy = Math.abs(dy);
+
+        while (robot.getDirection() != dirX) {
+            robot.turnRight();
+        }
+        while (dx-- > 0) {
+            robot.stepForward();
+        }
+
+        while (robot.getDirection() != dirY) {
+            robot.turnRight();
+        }
+        while (dy-- > 0) {
+            robot.stepForward();
+        }
+    }
+
+    public static void main(String[] args) {
+        Robot robot = new Robot();
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            int x = scanner.nextInt();
+            int y = scanner.nextInt();
+            System.out.println("Before: x = " + robot.getX() + ", y = " + robot.getY());
+            moveRobot(robot, x, y);
+            System.out.println("After: x = " + robot.getX() + ", y = " + robot.getY());
+        }
+    }
 
     public Direction getDirection() {
         return direction;
@@ -85,42 +114,12 @@ public class Robot {
         }
     }
 
-    public static void moveRobot(Robot robot, int toX, int toY) {
-        int dx = robot.getX() - toX;
-        int dy = robot.getY() - toY;
 
-        Direction dirX = dx > 0 ? Direction.LEFT : Direction.RIGHT;
-        Direction dirY = dy > 0 ? Direction.DOWN : Direction.UP;
-
-        dx = Math.abs(dx);
-        dy = Math.abs(dy);
-
-        while (robot.getDirection() != dirX) {
-            robot.turnRight();
-        }
-        while (dx-- > 0) {
-            robot.stepForward();
-        }
-
-        while (robot.getDirection() != dirY) {
-            robot.turnRight();
-        }
-        while (dy-- > 0) {
-            robot.stepForward();
-        }
-    }
-
-
-    public static void main(String[] args) {
-        Robot robot = new Robot();
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            int x = scanner.nextInt();
-            int y = scanner.nextInt();
-            System.out.println("Before: x = " + robot.getX() + ", y = " + robot.getY());
-            moveRobot(robot, x, y);
-            System.out.println("After: x = " + robot.getX() + ", y = " + robot.getY());
-        }
+    public enum Direction {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
     }
 }
 

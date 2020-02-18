@@ -1,65 +1,6 @@
 package JavaHeadFirstAndOther.OOP;
 
 public class Abstract { // абстракция
-    static abstract class Animals {
-        int countPlaySongs = 0;
-
-        final int legs = 4;
-
-        abstract int getLegs();
-
-        int weight;
-
-        abstract void setWeight(int weight);
-
-        abstract int getWeight();
-
-        String name;
-
-        abstract void setName(String name);
-
-        abstract String getName();
-
-
-        abstract void playVoice();
-    }
-
-    static class Cat extends Animals {
-
-        int getCountPlaySongs() {
-            return countPlaySongs;
-        }
-
-        int getLegs() {
-            return legs;
-        }
-
-
-        void setWeight(int dataWeight) {
-            this.weight = dataWeight;
-        }
-
-        int getWeight() {
-            return weight;
-        }
-
-
-        void setName(String dataName) {
-            this.name = dataName;
-        }
-
-        String getName() {
-            return name;
-        }
-
-
-        void playVoice() {
-            System.out.println("Meow");
-            countPlaySongs++;
-        }
-    }
-
-
     public static void main(String[] args) {
         Animals cat1 = new Cat();
         cat1.setName("Vega");
@@ -87,5 +28,56 @@ public class Abstract { // абстракция
 
         System.out.println(((Cat) cat1).getCountPlaySongs());
         System.out.println(((Cat) cat2).getCountPlaySongs());
+    }
+
+    static abstract class Animals {
+        final int legs = 4;
+        int countPlaySongs = 0;
+        int weight;
+        String name;
+
+        abstract int getLegs();
+
+        abstract int getWeight();
+
+        abstract void setWeight(int weight);
+
+        abstract String getName();
+
+        abstract void setName(String name);
+
+        abstract void playVoice();
+    }
+
+    static class Cat extends Animals {
+
+        int getCountPlaySongs() {
+            return countPlaySongs;
+        }
+
+        int getLegs() {
+            return legs;
+        }
+
+        int getWeight() {
+            return weight;
+        }
+
+        void setWeight(int dataWeight) {
+            this.weight = dataWeight;
+        }
+
+        String getName() {
+            return name;
+        }
+
+        void setName(String dataName) {
+            this.name = dataName;
+        }
+
+        void playVoice() {
+            System.out.println("Meow");
+            countPlaySongs++;
+        }
     }
 }

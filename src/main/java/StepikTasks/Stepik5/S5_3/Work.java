@@ -5,8 +5,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
-import static MyMethods.MyMethods.FOLDER_DESKTOP;
-import static MyMethods.MyMethods.getRuntime;
+import static MyStaticMethods.MyMethods.FOLDER_DESKTOP;
+import static MyStaticMethods.MyMethods.getRuntime;
 
 public class Work {
 

@@ -1,5 +1,7 @@
 package GrandTasks.Week2;
 
+import MyStaticMethods.MyMethods;
+
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.Set;
@@ -12,8 +14,8 @@ public class Task5 {
     private boolean ifInputErr = true;
 
     public static void main(String[] args) {
-        double number1 = new Task5().getDoubleFromInput("Введите 1 число: ");
-        double number2 = new Task5().getDoubleFromInput("Введите 2 число: ");
+        double number1 = MyMethods.getDoubleFromInput("Введите 1 число: ");
+        double number2 = MyMethods.getDoubleFromInput("Введите 2 число: ");
         String sign = new Task5().getSign();
 
         double decision = new Task5().useCalculator(number1, number2, sign);
@@ -37,22 +39,6 @@ public class Task5 {
             ifInputErr = false;
         }
         return sign;
-    }
-
-    public double getDoubleFromInput(String text) { // метод ввода только числа
-        double number = 0;
-        System.out.println(text);
-        while (ifInputErr) {    // цикл заставляет вводить только числа, не выводя ошибку InputMismatchException
-            if (reader.hasNextDouble()) {    // has имеет булевское значение
-                number = reader.nextDouble();
-            } else {
-                System.out.println("Нужно ввести число, а не текст! " + text);
-                reader.next();
-                continue;
-            }
-            ifInputErr = false;
-        }
-        return number;
     }
 
     double useCalculator(double number1, double number2, String sign) {

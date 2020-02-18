@@ -1,6 +1,7 @@
 package Other.MBean;
 
-import javax.management.*;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 import java.lang.management.ManagementFactory;
 
 public class SimpleAgent {

@@ -30,4 +30,4 @@ public class LogDemo {
             throw new IllegalStateException("Invalid phase of the Moon");
         }
     }
-    }
+}

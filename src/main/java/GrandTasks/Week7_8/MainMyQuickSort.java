@@ -1,6 +1,8 @@
 package GrandTasks.Week7_8;
 
-import JavaHeadFirstAndOther.Comparsion.ClassPerson.*;
+import JavaHeadFirstAndOther.Comparsion.ClassPerson.Person;
+import JavaHeadFirstAndOther.Comparsion.ClassPerson.PersonAgeComparator;
+import JavaHeadFirstAndOther.Comparsion.ClassPerson.PersonNameComparator;
 
 import java.util.Arrays;
 import java.util.Comparator;

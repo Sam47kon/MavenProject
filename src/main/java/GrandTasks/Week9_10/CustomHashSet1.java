@@ -6,11 +6,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class CustomHashSet1<E> implements Set<E> {
+    private static final Object obj = new Object();
+    final private double fillFactor;
     private int size;
     private LinkedList<E>[] hashTable;
-    private static final Object obj = new Object();
     private double threshold;   // порог размера
-    final private double fillFactor;
     private int itrPoint = 0;
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -105,78 +105,13 @@ public class CustomHashSet1<E> implements Set<E> {
         itrPoint++;
     }
 
-
-    private class Itr implements Iterator<E> {
-        int pos = 0;
-        int lastPosLL = 0;
-        int lastPosHT = 0;
-        int nowIteratorPoint = itrPoint;
-        E oldElement;
-
-        @Override
-        public boolean hasNext() {
-            return pos != size;
-        }
-
-        @Override
-        public E next() {
-            checkImmutabilityOfList();
-            if (pos >= size) {
-                throw new NoSuchElementException();
-            }
-
-            while (lastPosHT < hashTable.length) {
-                LinkedList<E> elements = hashTable[lastPosHT++];
-                if (elements != null) {
-                    if (elements.size() == 1) {
-                        pos++;
-                        lastPosLL = 0;
-                        return oldElement = elements.getFirst();
-                    } else {
-                        if (lastPosLL < elements.size()) {
-                            lastPosLL++;
-                            pos++;
-                            return oldElement = elements.get(lastPosLL);
-                        } else {
-                            lastPosLL = 0;
-                            pos++;
-                            return oldElement = elements.getLast();
-                        }
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        @Override
-        public void remove() {
-            checkImmutabilityOfList();
-            if (oldElement == null) {
-                throw new IllegalStateException();
-            }
-            if (CustomHashSet1.this.remove(oldElement)) {
-                nowIteratorPoint++;
-                pos--;
-            } else throw new NullPointerException();
-        }
-
-        /**
-         * Проверить неизменяемость листа во время работы итератора
-         */
-        final void checkImmutabilityOfList() {
-            if (itrPoint != nowIteratorPoint)
-                throw new ConcurrentModificationException();
-        }
-    }
-//----------------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------------------
-// override
-
     @Override
     public int size() {
         return size;
     }
+//----------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
+// override
 
     @Override
     public boolean isEmpty() {
@@ -332,7 +267,6 @@ public class CustomHashSet1<E> implements Set<E> {
         }
     }
 
-
     public String toString() {
         StringBuilder st = new StringBuilder();
         st.append("{");
@@ -351,5 +285,69 @@ public class CustomHashSet1<E> implements Set<E> {
             st.delete(st.length() - 2, st.length());
         }
         return st.append("}").toString();
+    }
+
+    private class Itr implements Iterator<E> {
+        int pos = 0;
+        int lastPosLL = 0;
+        int lastPosHT = 0;
+        int nowIteratorPoint = itrPoint;
+        E oldElement;
+
+        @Override
+        public boolean hasNext() {
+            return pos != size;
+        }
+
+        @Override
+        public E next() {
+            checkImmutabilityOfList();
+            if (pos >= size) {
+                throw new NoSuchElementException();
+            }
+
+            while (lastPosHT < hashTable.length) {
+                LinkedList<E> elements = hashTable[lastPosHT++];
+                if (elements != null) {
+                    if (elements.size() == 1) {
+                        pos++;
+                        lastPosLL = 0;
+                        return oldElement = elements.getFirst();
+                    } else {
+                        if (lastPosLL < elements.size()) {
+                            lastPosLL++;
+                            pos++;
+                            return oldElement = elements.get(lastPosLL);
+                        } else {
+                            lastPosLL = 0;
+                            pos++;
+                            return oldElement = elements.getLast();
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        @Override
+        public void remove() {
+            checkImmutabilityOfList();
+            if (oldElement == null) {
+                throw new IllegalStateException();
+            }
+            if (CustomHashSet1.this.remove(oldElement)) {
+                nowIteratorPoint++;
+                pos--;
+            } else throw new NullPointerException();
+        }
+
+        /**
+         * Проверить неизменяемость листа во время работы итератора
+         */
+        final void checkImmutabilityOfList() {
+            if (itrPoint != nowIteratorPoint)
+                throw new ConcurrentModificationException();
+        }
     }
 }

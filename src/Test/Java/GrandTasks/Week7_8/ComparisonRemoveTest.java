@@ -9,7 +9,6 @@ import java.util.List;
 class ComparisonRemoveTest {
     private List linkedList = new LinkedList();
     private List myListGeneric = new CustomLinkedListGeneric();
-    private List myList = new CustomLinkedList();
     private double startTime;
     private double stopTime;
 
@@ -30,15 +29,6 @@ class ComparisonRemoveTest {
         }
         stopTime = System.nanoTime();
         System.out.println("Time myListGeneric method add time= " + (stopTime - startTime) / 1000000 + " ms" + " size = " + myListGeneric.size());
-
-
-        startTime = System.nanoTime();
-        for (double i = 0; i < 10_000; i++) {
-            myList.add(i);
-        }
-        stopTime = System.nanoTime();
-        System.out.println("Time myList method add time= " + (stopTime - startTime) / 1000000 + " ms" + " size = " + myList.size());
-        System.out.println();
     }
 
     @Test
@@ -57,14 +47,6 @@ class ComparisonRemoveTest {
         }
         stopTime = System.nanoTime();
         System.out.println("Time myListGeneric method remove time= " + (stopTime - startTime) / 1000000 + " ms" + "size myListGeneric = " + myListGeneric.size());
-
-
-        startTime = System.nanoTime();
-        for (double i = 0; i < 10_000; i++) {
-            myList.remove(i);
-        }
-        stopTime = System.nanoTime();
-        System.out.println("Time myList method method remove time= " + (stopTime - startTime) / 1000000 + " ms" + "size myList = " + myList.size());
     }
 
     @Test
@@ -83,13 +65,5 @@ class ComparisonRemoveTest {
         }
         stopTime = System.nanoTime();
         System.out.println("Time myListGeneric method remove time= " + (stopTime - startTime) / 1000000 + " ms" + "size myListGeneric = " + myListGeneric.size());
-
-
-        startTime = System.nanoTime();
-        for (double i = 10_000; i >= 0; i--) {
-            myList.remove(i);
-        }
-        stopTime = System.nanoTime();
-        System.out.println("Time myList method remove time= " + (stopTime - startTime) / 1000000 + " ms" + "size myList = " + myList.size());
     }
 }

@@ -1,4 +1,4 @@
-package MyMethods;
+package MyStaticMethods;
 
 import java.util.Scanner;
 

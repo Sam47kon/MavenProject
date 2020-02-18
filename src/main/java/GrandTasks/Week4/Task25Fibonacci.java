@@ -3,7 +3,7 @@ package GrandTasks.Week4;
 import java.math.BigInteger;
 import java.util.Scanner;
 
-import static MyMethods.MyMethods.getRuntime;
+import static MyStaticMethods.MyMethods.getRuntime;
 
 
 //Программа принимает число n с клавиатуры, выводит Fn (n-ое число фибоначи. О числах фибоначи можно прочесть в википедии)

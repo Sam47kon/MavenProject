@@ -7,10 +7,10 @@ import java.util.*;
 
 //@SuppressWarnings("unchecked")
 public class CustomHashMap<K, V> implements Map<K, V> {
+    final private double fillFactor;
     private int size;
     private LinkedList<MyCouple<K, V>>[] hashTable;
     private double threshold;   // порог размера
-    final private double fillFactor;
 
     CustomHashMap() {
         hashTable = new LinkedList[16];
@@ -105,65 +105,14 @@ public class CustomHashMap<K, V> implements Map<K, V> {
         size++;
     }
 
-    class MyCouple<k, v> implements Map.Entry<k, v> {
-        k key;
-        int hash;
-        v value;
-
-        private MyCouple(k key, v value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        @Override
-        public k getKey() {
-            return key;
-        }
-
-        @Override
-        public v getValue() {
-            return value;
-        }
-
-        @Override
-        public v setValue(v newValue) { // возвращает старое значение, устанавливает новое
-            v oldValue = value;
-            value = newValue;
-            return oldValue;
-        }
-
-        @Override
-        public int hashCode() {
-            hash = 17 * 37 + key.hashCode();
-            return hash;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == this) {
-                return true;
-            }
-            if (obj instanceof Map.Entry) {
-                MyCouple<?, ?> couple = (MyCouple<?, ?>) obj; // unchecked
-                return Objects.equals(value, couple.value) && Objects.equals(key, couple.key);
-            }
-            return false;
-        }
-
-        @Override
-        public String toString() {
-            return key + "=" + value;
-        }
+    @Override
+    public int size() {
+        return size;
     }
 
 //----------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
 // Override Map
-
-    @Override
-    public int size() {
-        return size;
-    }
 
     @Override
     public boolean isEmpty() {
@@ -355,5 +304,56 @@ public class CustomHashMap<K, V> implements Map<K, V> {
             }
         }
         return st.append("}").toString();
+    }
+
+    class MyCouple<k, v> implements Map.Entry<k, v> {
+        k key;
+        int hash;
+        v value;
+
+        private MyCouple(k key, v value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public k getKey() {
+            return key;
+        }
+
+        @Override
+        public v getValue() {
+            return value;
+        }
+
+        @Override
+        public v setValue(v newValue) { // возвращает старое значение, устанавливает новое
+            v oldValue = value;
+            value = newValue;
+            return oldValue;
+        }
+
+        @Override
+        public int hashCode() {
+            hash = 17 * 37 + key.hashCode();
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (obj instanceof Map.Entry) {
+                MyCouple<?, ?> couple = (MyCouple<?, ?>) obj; // unchecked
+                return Objects.equals(value, couple.value) && Objects.equals(key, couple.key);
+            }
+            return false;
+        }
+
+        @Override
+        public String toString() {
+            return key + "=" + value;
+        }
     }
 }

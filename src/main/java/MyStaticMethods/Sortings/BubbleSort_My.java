@@ -1,4 +1,4 @@
-package MyMethods.Sortings;
+package MyStaticMethods.Sortings;
 
 import java.util.Arrays;
 

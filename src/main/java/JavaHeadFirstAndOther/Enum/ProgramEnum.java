@@ -1,5 +1,12 @@
 package JavaHeadFirstAndOther.Enum;
 
+enum Type {
+    SCIENCE,
+    BELLETRE,
+    PHANTASY,
+    SCIENCE_FICTION
+}
+
 public class ProgramEnum {
 
     public static void main(String[] args) {
@@ -36,11 +43,4 @@ class Book {
         this.name = name;
         this.author = author;
     }
-}
-
-enum Type {
-    SCIENCE,
-    BELLETRE,
-    PHANTASY,
-    SCIENCE_FICTION
 }

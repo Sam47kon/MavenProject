@@ -4,69 +4,6 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public class Solution {
-    public static abstract class Mail<T> {
-        private final String from;
-        private final String to;
-        private final T content;
-
-        public Mail(String from, String to, T content) {
-            this.from = from;
-            this.to = to;
-            this.content = content;
-        }
-
-        public String getFrom() {
-            return from;
-        }
-
-        public String getTo() {
-            return to;
-        }
-
-        public T getContent() {
-            return content;
-        }
-    }
-
-    public static class Salary extends Mail<Integer> {
-        public Salary(String from, String to, int money) {
-            super(from, to, money);
-        }
-    }
-
-    public static class MailMessage extends Mail<String> {
-        public MailMessage(String from, String to, String content) {
-            super(from, to, content);
-        }
-    }
-
-    public static class MailService<T> implements Consumer<Mail<T>> {
-        private LinkedHashMap<String, List<T>> mailbox;
-
-        public MailService() {
-            mailbox = new LinkedHashMap<String, List<T>>() {
-                @Override
-                public List<T> get(Object key) {
-                    return super.getOrDefault(key, Collections.emptyList());
-                }
-            };
-        }
-
-        public Map<String, List<T>> getMailBox() {
-            return mailbox;
-        }
-
-        @Override
-        public void accept(Mail<T> mail) {
-            String to = mail.getTo();
-            if (!mailbox.containsKey(to)) {
-                mailbox.put(to, new ArrayList<>());
-            }
-            mailbox.get(to).add(mail.getContent());
-        }
-    }
-
-
     public static void main(String[] args) {
 // Random variables
         String randomFrom = "..."; // Некоторая случайная строка. Можете выбрать ее самостоятельно.
@@ -143,5 +80,67 @@ public class Solution {
         assert salaries.get(salary1.getTo()).equals(Arrays.asList(1)) : "wrong salaries mailbox content (1)";
         assert salaries.get(salary2.getTo()).equals(Arrays.asList(Integer.MAX_VALUE)) : "wrong salaries mailbox content (2)";
         assert salaries.get(randomTo).equals(Arrays.asList(randomSalary)) : "wrong salaries mailbox content (3)";
+    }
+
+    public static abstract class Mail<T> {
+        private final String from;
+        private final String to;
+        private final T content;
+
+        public Mail(String from, String to, T content) {
+            this.from = from;
+            this.to = to;
+            this.content = content;
+        }
+
+        public String getFrom() {
+            return from;
+        }
+
+        public String getTo() {
+            return to;
+        }
+
+        public T getContent() {
+            return content;
+        }
+    }
+
+    public static class Salary extends Mail<Integer> {
+        public Salary(String from, String to, int money) {
+            super(from, to, money);
+        }
+    }
+
+    public static class MailMessage extends Mail<String> {
+        public MailMessage(String from, String to, String content) {
+            super(from, to, content);
+        }
+    }
+
+    public static class MailService<T> implements Consumer<Mail<T>> {
+        private LinkedHashMap<String, List<T>> mailbox;
+
+        public MailService() {
+            mailbox = new LinkedHashMap<String, List<T>>() {
+                @Override
+                public List<T> get(Object key) {
+                    return super.getOrDefault(key, Collections.emptyList());
+                }
+            };
+        }
+
+        public Map<String, List<T>> getMailBox() {
+            return mailbox;
+        }
+
+        @Override
+        public void accept(Mail<T> mail) {
+            String to = mail.getTo();
+            if (!mailbox.containsKey(to)) {
+                mailbox.put(to, new ArrayList<>());
+            }
+            mailbox.get(to).add(mail.getContent());
+        }
     }
 }

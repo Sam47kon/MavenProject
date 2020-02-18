@@ -1,6 +1,7 @@
 package StepikTasks.Stepik5.S5_2;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class S5_2_2 {
     public static void main(String[] args) throws IOException {

@@ -2,12 +2,12 @@ package StepikTasks.Stepik2;
 
 public class Stepik2_2 {
     public static void main(String[] args) {
-
+        System.out.println(Stepik2_2.charExpression(0, '\\'));
+        System.out.println(Stepik2_2.charExpression(1, '\\'));
     }
 
-    public static char charExpression(int a) {
-        int s = (int) '\\';
-        return (char) (s + a);
+    public static char charExpression(int a, char ch) {
+        return (char) (ch + a);
     }
 
     boolean isNumberPowerOfTwo1(int inputNum) {
@@ -29,5 +29,4 @@ public class Stepik2_2 {
     boolean isNumberPowerOfTwo3(int inputNum) {
         return Integer.bitCount(Math.abs(inputNum)) == 1;
     }
-
 }

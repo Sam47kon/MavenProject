@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 
-import static MyMethods.MyMethods.createRandomArrayWithSize;
+import static MyStaticMethods.MyMethods.createRandomArrayWithSize;
 
 class CustomHashSetTest {
     private HashSet<Integer> libHashSet = new HashSet<>();

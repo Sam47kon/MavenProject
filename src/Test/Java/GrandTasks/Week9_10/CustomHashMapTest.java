@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-import static MyMethods.MyMethods.createRandomArrayWithSize;
+import static MyStaticMethods.MyMethods.createRandomArrayWithSize;
 
 class CustomHashMapTest {
     private HashMap<Integer, Integer> libraryMap = new HashMap<>();

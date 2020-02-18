@@ -1,5 +1,7 @@
 package GrandTasks.Week2;
 
+import MyStaticMethods.MyMethods;
+
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -10,9 +12,9 @@ public class Task12 {
         System.out.println("Хотите решить квадратное уравнение типа: ax\u00B2+bx+c=0 ?");
         String exit = "restart";
         while (Objects.equals(exit, "restart")) {
-            double a = new Task5().getDoubleFromInput("Введите а: ");
-            double b = new Task5().getDoubleFromInput("Введите b: ");
-            double c = new Task5().getDoubleFromInput("Введите c: ");
+            double a = MyMethods.getDoubleFromInput("Введите а: ");
+            double b = MyMethods.getDoubleFromInput("Введите b: ");
+            double c = MyMethods.getDoubleFromInput("Введите c: ");
             System.out.println("Ваше уравнение имеет вид: " + a + " * x\u00B2 + " + b + " * x + " + c + " = 0");
 
             double discriminant;

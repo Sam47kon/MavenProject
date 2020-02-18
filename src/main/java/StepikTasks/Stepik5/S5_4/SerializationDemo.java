@@ -36,46 +36,6 @@ public class SerializationDemo {
         System.out.printf("%-15s %-30s\n", "Age", deserializedClient.getAgeInYears());
     }
 
-
-    public static class Client implements Serializable {
-        private long id;
-        private String name;
-        private LocalDate birthDate;
-        private transient int ageInYears;
-
-        public long getID() {
-            return id;
-        }
-
-        public void setID(long id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public LocalDate getBirthDate() {
-            return birthDate;
-        }
-
-        public void setBirthDate(LocalDate birthDate) {
-            this.birthDate = birthDate;
-        }
-
-        public int getAgeInYears() {
-            if (ageInYears == 0) {
-                ageInYears = birthDate.until(LocalDate.now()).getYears();
-            }
-            return ageInYears;
-        }
-    }
-
-
     private static void infoFromHabr() throws IOException, ClassNotFoundException { // https://habr.com/ru/post/431524/
         Home home = new Home("Vishnevaia 1");
         Person igor = new Person("Igor", 2, "Raphael", home);
@@ -113,6 +73,44 @@ public class SerializationDemo {
         System.out.println("Before Serialize: " + "\n" + igor + "\n" + renat);
         System.out.println("After Restored From Byte: " + "\n" + igorRestoredFromByte + "\n" + renatRestoredFromByte);
         System.out.println("After Restored: " + "\n" + igorRestored + "\n" + renatRestored);
+    }
+
+    public static class Client implements Serializable {
+        private long id;
+        private String name;
+        private LocalDate birthDate;
+        private transient int ageInYears;
+
+        public long getID() {
+            return id;
+        }
+
+        public void setID(long id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public LocalDate getBirthDate() {
+            return birthDate;
+        }
+
+        public void setBirthDate(LocalDate birthDate) {
+            this.birthDate = birthDate;
+        }
+
+        public int getAgeInYears() {
+            if (ageInYears == 0) {
+                ageInYears = birthDate.until(LocalDate.now()).getYears();
+            }
+            return ageInYears;
+        }
     }
 }
 

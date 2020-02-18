@@ -5,6 +5,28 @@ import java.util.Arrays;
 public class TemplateBuilder {    //шаблон Builder
 
 
+    public static void main(String[] args) {
+        GoodClass goodClass = new GoodClass.Builder(1, 2)
+                .optFieldOne(11)
+                .optFieldTwo(22)
+                .optFieldThird(23)
+                .optFieldFour(24)
+                .build();
+
+        System.out.println(goodClass.toString());
+
+        GoodClass myClass1 = new GoodClass.Builder(1, 2).build();
+        System.out.println(myClass1.toString());
+
+        GoodClass myClass2 = new GoodClass.Builder(11, 22)
+                .optFieldOne(111)
+                .optFieldTwo(222)
+                .optFieldThird(333)
+                .build();
+        System.out.println(myClass2.toString());
+
+    }
+
     static class GoodClass {
         private final int reqFieldOne;     // обязательный
         private final int reqFieldTwo;     // обязательный
@@ -12,6 +34,20 @@ public class TemplateBuilder {    //шаблон Builder
         private final int optFieldTwo;     // необязательный
         private final int optFieldThird;   // необязательный
         private final int optFieldFour;    // необязательный
+
+        private GoodClass(Builder builder) {
+            reqFieldOne = builder.reqFieldOne;
+            reqFieldTwo = builder.reqFieldTwo;
+            optFieldOne = builder.optFieldOne;
+            optFieldTwo = builder.optFieldTwo;
+            optFieldThird = builder.optFieldThird;
+            optFieldFour = builder.optFieldFour;
+        }
+
+        public String toString() {
+            int[] arr = {reqFieldOne, reqFieldTwo, optFieldOne, optFieldTwo, optFieldThird, optFieldFour};
+            return Arrays.toString(arr);
+        }
 
         static class Builder {
             // Обязательные параметры
@@ -53,41 +89,5 @@ public class TemplateBuilder {    //шаблон Builder
                 return new GoodClass(this);
             }
         }
-
-        private GoodClass(Builder builder) {
-            reqFieldOne = builder.reqFieldOne;
-            reqFieldTwo = builder.reqFieldTwo;
-            optFieldOne = builder.optFieldOne;
-            optFieldTwo = builder.optFieldTwo;
-            optFieldThird = builder.optFieldThird;
-            optFieldFour = builder.optFieldFour;
-        }
-
-        public String toString() {
-            int[] arr = {reqFieldOne, reqFieldTwo, optFieldOne, optFieldTwo, optFieldThird, optFieldFour};
-            return Arrays.toString(arr);
-        }
-    }
-
-    public static void main(String[] args) {
-        GoodClass goodClass = new GoodClass.Builder(1, 2)
-                .optFieldOne(11)
-                .optFieldTwo(22)
-                .optFieldThird(23)
-                .optFieldFour(24)
-                .build();
-
-        System.out.println(goodClass.toString());
-
-        GoodClass myClass1 = new GoodClass.Builder(1, 2).build();
-        System.out.println(myClass1.toString());
-
-        GoodClass myClass2 = new GoodClass.Builder(11, 22)
-                .optFieldOne(111)
-                .optFieldTwo(222)
-                .optFieldThird(333)
-                .build();
-        System.out.println(myClass2.toString());
-
     }
 }

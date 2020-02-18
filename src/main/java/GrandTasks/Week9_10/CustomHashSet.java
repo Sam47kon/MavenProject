@@ -2,11 +2,13 @@ package GrandTasks.Week9_10;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
 
 public class CustomHashSet<E> implements Set<E> {
-    private CustomHashMap<E, Object> map;
     private static final Object obj = new Object();
+    private CustomHashMap<E, Object> map;
 
 //----------------------------------------------------------------------------------------------------------------------
 // constructors

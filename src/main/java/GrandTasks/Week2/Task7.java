@@ -1,5 +1,7 @@
 package GrandTasks.Week2;
 
+import MyStaticMethods.MyMethods;
+
 import java.math.BigInteger;
 import java.util.Scanner;
 
@@ -9,7 +11,7 @@ public class Task7 {
     public static void main(String[] args) {
         String exit = "";
         while (!exit.equals("qqq")) {
-            int inputNumber = (int) new Task5().getDoubleFromInput("Введите число, и я его верну вам его факториал: ");
+            int inputNumber = (int) MyMethods.getDoubleFromInput("Введите число, и я его верну вам его факториал: ");
             BigInteger factorial = new Task7().getFactorial(inputNumber);
             System.out.println(factorial);
             System.out.println("enter qqq to exit");

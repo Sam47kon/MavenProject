@@ -7,12 +7,6 @@ import java.util.Scanner;
 // выходным (суббота и воскресенье) или рабочим, если 1 января — понедельник
 class Task29 {
 
-    public enum Days {
-        WORKING_DAY,
-        SATURDAY,
-        SUNDAY
-    }
-
     public static void main(String[] args) {
         int day = new Scanner(System.in).nextInt();
         Days toDay = new Task29().whyDay(day);
@@ -30,5 +24,11 @@ class Task29 {
             return Days.SATURDAY;
         }
         return Days.WORKING_DAY;
+    }
+
+    public enum Days {
+        WORKING_DAY,
+        SATURDAY,
+        SUNDAY
     }
 }

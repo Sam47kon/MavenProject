@@ -1,5 +1,7 @@
 package GrandTasks.Week3;
 
+import MyStaticMethods.MyMethods;
+
 // 2.31 В трехзначном числе x зачеркнули его вторую цифру. Когда к образованному
 // при этом двузначному числу справа приписали вторую цифру числа x, то получилось число n.
 // По заданному n найти число x (значение n вводится с клавиатуры, 100 ≤ n ≤ 999).
@@ -9,7 +11,7 @@ public class Task19 {
         int inputNumber;
         boolean falseNumber;
         do {
-            inputNumber = (int) new Task16().getDoubleFromInput("Введите число от 100 до 999");
+            inputNumber = (int) MyMethods.getDoubleFromInput("Введите число от 100 до 999");
             falseNumber = inputNumber <= 100 || inputNumber >= 999;
             if (falseNumber) {
                 System.out.println("Число от 100 до 999!!!");

@@ -1,9 +1,10 @@
-package MyMethods.Sortings;
+package MyStaticMethods.Sortings;
 
-import static MyMethods.MyMethods.getRuntime;
+import MyStaticMethods.MyMethods;
 
-import MyMethods.MyMethods;
 import java.util.Arrays;
+
+import static MyStaticMethods.MyMethods.getRuntime;
 
 public class _Main {
 

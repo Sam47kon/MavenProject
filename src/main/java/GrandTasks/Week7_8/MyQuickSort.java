@@ -14,12 +14,7 @@ public class MyQuickSort<T> {
      * @param array - массив
      */
     public void QuickSortDefault(T[] array) {
-        comparableQuickSort(array, 0, array.length - 1, new Comparator<T>() {
-            @Override
-            public int compare(T o1, T o2) {
-                return o1.hashCode() - o2.hashCode();   // тут реализую
-            }
-        });
+        comparableQuickSort(array, 0, array.length - 1, Comparator.comparingInt(Object::hashCode));
     }
 
     private void comparableQuickSort(T[] array, int start, int end, Comparator<T> comparator) {

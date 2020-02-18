@@ -1,5 +1,21 @@
 package JavaHeadFirstAndOther.OOP;
 
+interface AnimalsInterface {
+    int legs = 4;
+
+    int getLegs();
+
+    int getWeight();
+
+    void setWeight(int weight);
+
+    String getName();
+
+    void setName(String name);
+
+    void playVoice();
+}
+
 public class AbstractWithInterface { // абстракция+интерфейс
 
     public static void main(String[] args) {
@@ -34,53 +50,12 @@ public class AbstractWithInterface { // абстракция+интерфейс
     }
 }
 
-interface AnimalsInterface {
-    int legs = 4;
-
-    int getLegs();
-
-    void setWeight(int weight);
-
-    int getWeight();
-
-    void setName(String name);
-
-    String getName();
-
-    void playVoice();
-}
-
-
 abstract class Animals implements AnimalsInterface {
     static int countAnimals = 0;
     static int countPlaySongs = 0;
 
     private int weight;
     private String name;
-
-    public int getLegs() {
-        return legs;
-    }
-
-    public void setWeight(int dataWeight) {
-        this.weight = dataWeight;
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setName(String dataName) {
-        this.name = dataName;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    void printInfo() {
-        System.out.println("Это " + name + ". Вес: " + weight + ". Количество лап: " + legs);
-    }
 
     static void printCountAnimals() {
         System.out.println("Всего животных: " + countAnimals);
@@ -90,12 +65,36 @@ abstract class Animals implements AnimalsInterface {
         System.out.println("Всего звуков: " + countPlaySongs);
     }
 
-    void eat() {
-        System.out.println("Животное ест...");
-    }
-
     static void eat(Animals animals) {       // полиморфизм
         animals.eat();
+    }
+
+    public int getLegs() {
+        return legs;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int dataWeight) {
+        this.weight = dataWeight;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String dataName) {
+        this.name = dataName;
+    }
+
+    void printInfo() {
+        System.out.println("Это " + name + ". Вес: " + weight + ". Количество лап: " + legs);
+    }
+
+    void eat() {
+        System.out.println("Животное ест...");
     }
 
 }

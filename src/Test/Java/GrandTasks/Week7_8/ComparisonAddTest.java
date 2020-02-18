@@ -9,7 +9,6 @@ import java.util.List;
 class ComparisonAddTest {
     private List linkedList = new LinkedList();
     private List myListGeneric = new CustomLinkedListGeneric();
-    private List myList = new CustomLinkedList();
 
     private double startTime;
     private double stopTime;
@@ -31,14 +30,6 @@ class ComparisonAddTest {
         }
         stopTime = System.nanoTime();
         System.out.println("Time myListGeneric method add time= " + (stopTime - startTime) / 1000000 + " ms");
-
-
-        startTime = System.nanoTime();
-        for (int i = 0; i < 1_000_0000; i++) {
-            myList.add(0, i);
-        }
-        stopTime = System.nanoTime();
-        System.out.println("Time myList method add time= " + (stopTime - startTime) / 1000000 + " ms");
     }
 
     @Test
@@ -58,14 +49,6 @@ class ComparisonAddTest {
         }
         stopTime = System.nanoTime();
         System.out.println("Time myListGeneric method add time= " + (stopTime - startTime) / 1000000 + " ms");
-
-
-        startTime = System.nanoTime();
-        for (int i = 0; i < 10_000; i++) {
-            myList.add(myList.size() / 2, i);
-        }
-        stopTime = System.nanoTime();
-        System.out.println("Time myList method add time= " + (stopTime - startTime) / 1000000 + " ms");
     }
 
     @Test
@@ -85,13 +68,5 @@ class ComparisonAddTest {
         }
         stopTime = System.nanoTime();
         System.out.println("Time myListGeneric method add time= " + (stopTime - startTime) / 1000000 + " ms");
-
-
-        startTime = System.nanoTime();
-        for (int i = 0; i < 1_000_0000; i++) {
-            myList.add(myList.size(), i);
-        }
-        stopTime = System.nanoTime();
-        System.out.println("Time myList method add time= " + (stopTime - startTime) / 1000000 + " ms");
     }
 }

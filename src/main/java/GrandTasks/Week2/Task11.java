@@ -1,5 +1,7 @@
 package GrandTasks.Week2;
 
+import MyStaticMethods.MyMethods;
+
 import java.util.Scanner;
 
 // Программа принимает с клавиатуры число, и определяет, является ли это число степенью двойки
@@ -8,7 +10,7 @@ public class Task11 {
     public static void main(String[] args) {
         String exit = "";
         while (!exit.equals("qqq")) {
-            int inputNum = (int) new Task5().getDoubleFromInput("Введите число: ");
+            int inputNum = (int) MyMethods.getDoubleFromInput("Введите число: ");
             boolean b1 = new Task11().isNumberPowerOfTwo1(inputNum);    // 1 вариант
             boolean b2 = new Task11().isNumberPowerOfTwo2(inputNum);    // 2 вариант
             boolean b3 = new Task11().isNumberPowerOfTwo3(inputNum);    // 3 вариант
@@ -39,7 +41,7 @@ public class Task11 {
 
     //region Для меня, для расчетов
 //    public void printUsefulInfo() {
-//        int inputNum = (int) new Task5().getDoubleFromInput();
+//        int inputNum = (int) MyMethods.getDoubleFromInput();
 //        System.out.println("наше число " + inputNum);
 //        System.out.println(("наше число противоположное: " + ~(inputNum - 1)));    // эквивалентно -inputNumber
 //        System.out.println("двоичное число " + Integer.toBinaryString(inputNum));

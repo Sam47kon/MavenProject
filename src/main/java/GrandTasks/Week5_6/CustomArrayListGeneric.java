@@ -170,7 +170,7 @@ public class CustomArrayListGeneric<T> implements List<T> {
             dataElements[index] = null;
         }
         size = 0;
-        iteratorPoint=0;
+        iteratorPoint = 0;
     }
 
     /**
@@ -364,6 +364,38 @@ public class CustomArrayListGeneric<T> implements List<T> {
     }
 
     /**
+     * Проверяем существование поступающего индекса
+     *
+     * @param index - поступающий индекс
+     */
+    private void checkIndexExistence(int index) {
+        if (index >= size || index < 0) {
+            throw new IndexOutOfBoundsException("Index: " + index + " not contained in this List with Size: " + size);
+        }
+    }
+
+// -----------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Увеличиваем длину массива объектов в 1.5 раз
+     */
+    private void increaseDataElementsLength() {
+        if (dataElements.length == size) {
+            dataElements = Arrays.copyOf(dataElements, (int) (dataElements.length * 1.5));
+        }
+    }
+
+    /**
+     * Уменьшаем длину массива объектов в 1.5 раз
+     */
+    private void decreaseDataElementsLength() {
+        if (dataElements.length > size * 1.5) {
+            dataElements = Arrays.copyOf(dataElements, (int) (dataElements.length / 1.5) + 1);
+        }
+    }
+
+    /**
      * Итератор
      */
     private class CustomIterator implements Iterator<T> {
@@ -408,38 +440,6 @@ public class CustomArrayListGeneric<T> implements List<T> {
         final void checkImmutabilityOfList() {
             if (iteratorPoint != nowIteratorPoint)
                 throw new ConcurrentModificationException();
-        }
-    }
-
-// -----------------------------------------------------------------------------------------------------------------
-// -----------------------------------------------------------------------------------------------------------------
-
-    /**
-     * Проверяем существование поступающего индекса
-     *
-     * @param index - поступающий индекс
-     */
-    private void checkIndexExistence(int index) {
-        if (index >= size || index < 0) {
-            throw new IndexOutOfBoundsException("Index: " + index + " not contained in this List with Size: " + size);
-        }
-    }
-
-    /**
-     * Увеличиваем длину массива объектов в 1.5 раз
-     */
-    private void increaseDataElementsLength() {
-        if (dataElements.length == size) {
-            dataElements = Arrays.copyOf(dataElements, (int) (dataElements.length * 1.5));
-        }
-    }
-
-    /**
-     * Уменьшаем длину массива объектов в 1.5 раз
-     */
-    private void decreaseDataElementsLength() {
-        if (dataElements.length > size * 1.5) {
-            dataElements = Arrays.copyOf(dataElements, (int) (dataElements.length / 1.5) + 1);
         }
     }
 

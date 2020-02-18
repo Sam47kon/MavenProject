@@ -11,6 +11,15 @@ public final class ComplexNumber {
         this.im = im;
     }
 
+    public static void main(String[] args) {
+        ComplexNumber number1 = new ComplexNumber(1, 1);
+        ComplexNumber number2 = new ComplexNumber(1, 1);
+        System.out.println("number1.hashCode() = " + number1.hashCode());
+        System.out.println("number2.hashCode() = " + number2.hashCode());
+        System.out.println("number2.equals(number1) = " + number2.equals(number1));
+        System.out.println("number1.equals(number1) = " + number1.equals(number2));
+    }
+
     public double getRe() {
         return re;
     }
@@ -42,15 +51,5 @@ public final class ComplexNumber {
                     Objects.equals(complexNumber.im, this.im);
         }
         return false;
-    }
-
-
-    public static void main(String[] args) {
-        ComplexNumber number1 = new ComplexNumber(1, 1);
-        ComplexNumber number2 = new ComplexNumber(1, 1);
-        System.out.println("number1.hashCode() = " + number1.hashCode());
-        System.out.println("number2.hashCode() = " + number2.hashCode());
-        System.out.println("number2.equals(number1) = " + number2.equals(number1));
-        System.out.println("number1.equals(number1) = " + number1.equals(number2));
     }
 }

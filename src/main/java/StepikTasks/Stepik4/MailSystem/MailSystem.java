@@ -20,6 +20,14 @@ public class MailSystem {
 
 
     /*
+    Интерфейс, который задает класс, который может каким-либо образом обработать почтовый объект.
+    */
+    public interface MailService {
+
+        Sendable processMail(Sendable mail);
+    }
+
+    /*
     Абстрактный класс,который позволяет абстрагировать логику хранения
     источника и получателя письма в соответствующих полях класса.
     */
@@ -53,7 +61,6 @@ public class MailSystem {
         }
     }
 
-
     /*
     Письмо, у которого есть текст, который можно получить с помощью метода `getMessage`
     */
@@ -80,7 +87,6 @@ public class MailSystem {
         }
     }
 
-
     /*
     Посылка, содержимое которой можно получить с помощью метода `getContent`
     */
@@ -106,7 +112,6 @@ public class MailSystem {
             return content.equals(that.content);
         }
     }
-
 
     /*
     Класс, который задает посылку. У посылки есть текстовое описание содержимого и целочисленная ценность.
@@ -137,15 +142,6 @@ public class MailSystem {
             if (price != aPackage.price) return false;
             return content.equals(aPackage.content);
         }
-    }
-
-
-    /*
-    Интерфейс, который задает класс, который может каким-либо образом обработать почтовый объект.
-    */
-    public interface MailService {
-
-        Sendable processMail(Sendable mail);
     }
 
     /*
